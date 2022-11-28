@@ -16,15 +16,19 @@ const body = require('body-parser')
 module.exports={ 
 
 // render home page
-gethome:(req,res)=>{   
-    res.render('user/home')
+gethome:(req,res)=>{ 
+const user = req.session.user
+if(user){
 
+    customer = true
+    res.render('user/home',{customer})
+}else{
+    customer = false
+    res.render('user/home',{customer})
+}  
 },
-
-
 // render login 
  getlogin:(req,res)=>{
-    
     res.render('user/login')
 },
 // render signup
@@ -34,7 +38,6 @@ gethome:(req,res)=>{
 // user signup/send data to database
 
  postsignup: async(req,res)=>{
-       console.log('signup working');
     try{
         if(req.body.email){
             const userExists = await checkEmail(req.body.email)
@@ -49,24 +52,15 @@ gethome:(req,res)=>{
                     email: req.body.email,
                     password:hash  
                 })
-        
-                newUser.save().then((data)=>{
-                    console.log(data)
+                newUser.save().then(()=>{
+                   req.session.user = req.body.email
                     res.redirect('/')
                 })
-
             }
-        }
-       
-        
-       
-
+        } 
     }catch(error){
         console.log(error)
     }
-   
-
-   
 },
 
  postlogin: async(req,res)=>{
@@ -91,9 +85,9 @@ gethome:(req,res)=>{
     }catch(error){
         console.log(error);
     }
-
-   
+ },
+ userLogout: (req,res)=>{
+    req.session.destroy()
+    res.redirect('/')
  }
-
-
 }

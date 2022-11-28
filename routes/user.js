@@ -11,6 +11,7 @@ router.get('/login',userController.getlogin)
 router.get('/signup',userController.getsignup)
 router.post('/signup',userController.postsignup) 
 router.post('/login',userController.postlogin)
+router.get('/logout',userController.userLogout)
 
 
 

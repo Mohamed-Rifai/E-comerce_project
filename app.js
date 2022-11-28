@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const session = require('express-session')
 const userRoutes = require('./routes/user')
+const adminRoutes = require('./routes/admin')
 require('./model/database-connetion')
 
 // express app
@@ -14,7 +15,7 @@ app.set('views');
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.static(__dirname))
 app.use(session({
-    secret: "thisismysecretkey",
+    secret: "thisismysecretkey",  
     saveUninitialized: true,
     cookie: { maxAge: 6000000 },
     resave: false,
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 })
 // routes
 app.use('/',userRoutes)
+app.use('/admin',adminRoutes)
    
 // port setting
 app.listen(4000,(req,res)=>{
