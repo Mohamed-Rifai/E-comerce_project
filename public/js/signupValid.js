@@ -38,7 +38,7 @@ form.addEventListener('submit',(e)=>{
     }
 
     if(emailValue === ""){
-        setError(email,'Field is empty','emailError')
+        setError(email,'Field empty!!!','emailError')
         flag = 1
     }else if(!emailValidation(emailValue)){
         setError(email,'Email id is invalid','emailError')
@@ -48,7 +48,7 @@ form.addEventListener('submit',(e)=>{
     }
 
     if(passwordValue === ""){
-        setError(password,'Field is empty','passwordError')
+        setError(password,'Field empty!!!','passwordError')
         flag = 1
     }else if(passwordValue.length < 8){
         setError(password,'Password must atleast 8 characters','passwordError')
@@ -62,7 +62,13 @@ form.addEventListener('submit',(e)=>{
     }
     
     if(conPasswordValue === ""){
-        setError(confirmPassword,'This field is required','conpasswordError')
+        setError(confirmPassword,'Field empty!!!','conpasswordError')
+        flag = 1
+    }else if(conPasswordValue.length < 8){
+        setError(password,'','conpasswordError')
+        flag = 1
+    }else if(conPasswordValue.length > 14){
+        setError(password,'','conpasswordError')
         flag = 1
     }else if(conPasswordValue !== passwordValue ){
         setError(confirmPassword,'Password do not match','conpasswordError')

@@ -4,7 +4,14 @@ const bcrypt = require('bcrypt')
 const body = require('body-parser')
 
 
-
+ async function checkEmail(userEmail){
+    const userFound = await userSchema.findOne({ email: userEmail })
+    if(userFound){
+        return true
+    }else{
+        return false
+    }
+}
  
 module.exports={ 
 
@@ -17,7 +24,7 @@ gethome:(req,res)=>{
 
 // render login 
  getlogin:(req,res)=>{
-
+    
     res.render('user/login')
 },
 // render signup
@@ -29,19 +36,28 @@ gethome:(req,res)=>{
  postsignup: async(req,res)=>{
        console.log('signup working');
     try{
-        const hash = await bcrypt.hash(req.body.password,10)
-        const newUser = new userSchema({
-            name: req.body.name,
-            phone: req.body.phone,
-            email: req.body.email,
-            password:hash
-           
-        })
+        if(req.body.email){
+            const userExists = await checkEmail(req.body.email)
 
-        newUser.save().then((data)=>{
-            console.log(data)
-            res.redirect('/')
-        })
+            if(userExists == true){
+                res.redirect('/signup')
+            }else{
+                const hash = await bcrypt.hash(req.body.password,10)
+                const newUser = new userSchema({
+                    name: req.body.name,
+                    phone: req.body.phone,
+                    email: req.body.email,
+                    password:hash  
+                })
+        
+                newUser.save().then((data)=>{
+                    console.log(data)
+                    res.redirect('/')
+                })
+
+            }
+        }
+       
         
        
 
@@ -54,7 +70,29 @@ gethome:(req,res)=>{
 },
 
  postlogin: async(req,res)=>{
-    res.redirect('/')
+    const email = req.body.email
+    const password = req.body.password
+   const userData = await userSchema.findOne({ email: email })
+    console.log(userData);
+
+    try{
+        if(userData){
+            const passwordMatch = await bcrypt.compare(password,userData.password)
+            console.log(passwordMatch)
+            if(passwordMatch){
+                req.session.user = req.body.email
+                res.redirect('/')
+            }else{
+                res.render('user/login',{invalid:'Invalid password or email'})
+            }
+        }else{
+            res.render('user/login',{invalid:'Invalid password or email'})
+        }
+    }catch(error){
+        console.log(error);
+    }
+
+   
  }
 
 
