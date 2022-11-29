@@ -1,4 +1,5 @@
 <%- include('../layout/layout') %>
+<link rel="stylesheet" href="../public/stylesheets/style.css">
 <title>Admin Panel</title>
 <header>
         <nav class="navbar navbar-expand-lg navbar-light "  >
@@ -14,11 +15,11 @@
                   <a class="nav-link text-white" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="#">products</a>
+                  <a class="nav-link text-white" href="#">Products</a>
                 </li>
                
                 <li class="nav-item">
-                  <a class="nav-link  text-white" href="#">Cart</a>
+                  <a class="nav-link  text-white" href="#">Users</a>
                 </li>
               </ul>    
               <form class="form-inline my-2 my-lg-0">
@@ -29,15 +30,9 @@
                 <button class="btn btn-secondary dropdown-toggle btn-outline-dark text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Account
                 </button>
-                <% if(customer) { %>
                   <div class="dropdown-menu bg-transparent border-0 " aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item bg-transparent text-white " href="/logout"><button class="btn btn-outline-dark "> Logout</a></button>     
+                    <a class="dropdown-item bg-transparent text-white " href="/admin/logout"><button class="btn btn-outline-dark "> Logout</a></button>     
                 </div>
-                <%} else { %>
-                <div class="dropdown-menu bg-transparent border-0 " aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item bg-transparent text-white " href="/login"><button class="btn btn-outline-dark "> Login</a></button>
-                  </div>
-                <% } %>
               </div>
             </div>
           </nav>

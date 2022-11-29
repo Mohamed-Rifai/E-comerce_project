@@ -35,6 +35,10 @@ module.exports={
             res.render('admin/login',{invalid:'Invali email or password!!!'})
         }
 
+    },
+    adminLogout:(req,res)=>{
+        req.session.destroy()
+        res.redirect('/admin')
     }
 
 }
