@@ -15,7 +15,7 @@
                   <div class="col-md-6 col-lg-7 d-flex align-items-center">
                     <div class="card-body p-4 p-lg-5 text-black">
       
-                      <form action="/login" method="post">
+                      <form action="/admin/login" method="post">
       
                         <div class="d-flex align-items-center mb-3 pb-1">
                            
@@ -27,6 +27,9 @@
                         <div class="form-outline mb-4">
                           <label class="form-label" for="form2Example17">Email address</label>
                           <input type="email" id="email" name="email" class="form-control form-control-lg"  />
+                          <% if(locals.notEmail){%>
+                            <small class="text-danger"><%=notEmail%></small>
+                        <%}%>
                         </div>
       
                         <div class="form-outline mb-4">
