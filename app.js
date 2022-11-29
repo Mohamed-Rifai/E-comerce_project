@@ -3,7 +3,7 @@ const path = require('path')
 const session = require('express-session')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
-require('./model/database-connetion')
+require('./config/database-connetion')
 
 // express app
 const app = express()
@@ -33,6 +33,6 @@ app.use('/',userRoutes)
 app.use('/admin',adminRoutes)
    
 // port setting
-app.listen(4000,(req,res)=>{
-    console.log('Server listening to port 4000');
+app.listen(3000,(req,res)=>{
+    console.log('Server listening to port 3000');
 })
