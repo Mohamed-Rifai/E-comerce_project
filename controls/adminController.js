@@ -44,10 +44,9 @@ module.exports={
     },
     getAllUsers:async(req,res)=>{
         const admin = req.session.admin
-        console.log(admin);
+        
         if(admin){
             const users =await user.find()
-            console.log(users);
             res.render('admin/userDetails',{users})
         }else{
             res.redirect('/admin')
