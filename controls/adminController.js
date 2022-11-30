@@ -1,5 +1,7 @@
 const express = require('express')
+const body = require('body-parser')
 require('dotenv').config()
+const user = require('../model/user-schema')
 const aEmail = process.env.ADMIN_EMAIL
 const aPassword =process.env.ADMIN_PASSWORD
 
@@ -39,6 +41,18 @@ module.exports={
     adminLogout:(req,res)=>{
         req.session.destroy()
         res.redirect('/admin')
+    },
+    getAllUsers:async(req,res)=>{
+        const admin = req.session.admin
+        console.log(admin);
+        if(admin){
+            const users =await user.find()
+            console.log(users);
+            res.render('admin/userDetails',{users})
+        }else{
+            res.redirect('/admin')
+        }
+       
     }
 
 }

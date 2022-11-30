@@ -67,12 +67,10 @@ if(user){
     const email = req.body.email
     const password = req.body.password
    const userData = await userSchema.findOne({ email: email })
-    console.log(userData);
 
     try{
         if(userData){
             const passwordMatch = await bcrypt.compare(password,userData.password)
-            console.log(passwordMatch)
             if(passwordMatch){
                 req.session.user = req.body.email
                 res.redirect('/')

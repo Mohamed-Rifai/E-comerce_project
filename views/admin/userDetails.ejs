@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container-fluid ">
+    <div class="row flex-nowrap h-100 w-auto ">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 " style="background-color: #071c30;">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <a href="/admin" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-5 d-none d-sm-inline">Admin</span>
+          </a>
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+              <a href="/admin/dashboard" class="nav-link align-middle px-0">
+                <img src="/adminimages/pic1.jpg" alt="" style="width: 1rem" /><span
+                  class="ms-1 d-none d-sm-inline">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin/order" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic2.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Order</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/category" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic2.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">category</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/productdetails" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic3.jpg" alt="" style="width: 1rem" /><span
+                  class="ms-1 d-none d-sm-inline">Products</span></a>
+            </li>
+            <li>
+              <a href="/admin/addproducts" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic4.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Add Products</span></a>
+            </li>
+            <li>
+              <a href="/admin/userDetails" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic5.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Users</span>
+              </a>
+            </li>
+            
+          </ul>
+          <hr />
+          <ul class="nav nav-pills flex-column  mb-5 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+          <a href="/admin/logout" class="nav-link px-0 align-middle">
+            <img src="/adminimages/pic6.jpg" alt="" style="width: 1rem" />
+            <span class="ms-1 d-none d-sm-inline">Logout</span>
+          </a>
+        </li>
+    </ul>
+        </div>
+       
+      </div>
+     
+      <div class="col py-3">
+
+        <div class="d-flex align-items-center justify-content-center">
+          <h1 class="text-decoration-underline">User details</h1>
+        </div>
+        <table class="table mt-5" id="table">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">name</th>
+              <th scope="col">email</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Controlls</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <% let count=1 %>
+              <% users.forEach((user)=>{ %>
+                <tr>
+                  <td>
+                    <%= count %>
+                  </td>
+                  <td>
+                    <%=user.name %>
+                  </td>
+                  <td>
+                    <%=user.email %>
+                  </td>
+                  <td>
+                    <%=user.phone %>
+                  </td>
+                  <td>
+                    <% if(user.isBlocked===false) { %>
+                      <a href="/admin/blockuser/<%= user._id%>" class="btn btn-danger">Block</a>
+                      <% }else{ %>
+                        <a href="/admin/unblockuser/<%= user._id%>" class="btn btn-success">Unblock</a>
+                        <%}%>
+                  </td>
+                </tr>
+                <% count++ %>
+                  <% }) %>
+
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
