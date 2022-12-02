@@ -18,6 +18,7 @@ adminRoutes.get('/deleteProduct/:id',adminController.deleteProduct)
 adminRoutes.get('/category',adminController.getCategory)   
 adminRoutes.post('/addCategory',adminController.addCategory) 
 adminRoutes.post('/editCategory/:id',adminController.editCategory) 
+adminRoutes.get('/delete-category/:id',adminController.deleteCategory)
 
 
 

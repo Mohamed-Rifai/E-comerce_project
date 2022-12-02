@@ -78,14 +78,14 @@
               <input type="text" placeholder="Price per kg" name="price" id="price" class="form-control" />
             </div>
             <div class="form-outline flex-fill mb-0 mt-4">
-              <input type="text" placeholder="Category" name="category" id="category" class="form-control" />
-              <!-- <select class="form-select "   aria-label="Default select example">
+              <!-- <input type="text" placeholder="Category" name="category" id="category" class="form-control" /> -->
+              <select class="form-select "   aria-label="Default select example">
                 <option selected disabled>Category</option>
-              
-                <option value="hwollooo" ></option>
-             
+              <% category.forEach((categories)=>{ %>  
+                <option value="<%=categories.category_name %>" ><%=categories.category_name %></option>
+            <% }) %>
                 
-              </select> -->
+              </select>
             </div>
             <div class="form-outline flex-fill mb-0 mt-4">
               <input type="text" placeholder="Description" name="description" id="description" class="form-control" />

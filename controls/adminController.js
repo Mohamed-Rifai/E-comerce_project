@@ -67,8 +67,10 @@ module.exports={
         })
 
     },
-    addProduct: (req,res)=>{
-        res.render('admin/addProduct')
+    addProduct:async (req,res)=>{
+        const category = await categories.find()
+
+        res.render('admin/addProduct',{category})
     },
     productDetails:async(req,res)=>{
         const admin = req.session.admin
@@ -155,7 +157,7 @@ module.exports={
             const name = req.body.name
             const catgry = await categories.findOne({category_name:name})
             if(catgry){
-                console.log('naem already esists');
+                //must pass massage 
                 res.redirect('/admin/category')
             }else{
                 const category = new categories ({
@@ -175,17 +177,31 @@ module.exports={
 
     editCategory:async(req,res)=>{
         if(req.body.name){
+            const name = req.body.name
+            const findName = await categories.findOne({category_name:name})
+            if(!findName){
             const id = req.params.id
             await categories.updateOne({_id:id},{$set:{
                  category_name:req.body.name
              }})
-                 res.redirect('/admin/category')       
+                 res.redirect('/admin/category')  
+                }else{
+                    //must pass massage
+                    res.redirect('/admin/category')
+                }     
         }else{
-            
+            //must pass massage
             res.redirect('/admin/category')
-        }
+        }  
+    },
+    deleteCategory:async(req,res)=>{
+        const id = req.params.id
+        console.log(id);
+        await categories.deleteOne({_id:id})
+            res.redirect('/admin/category')
+    
        
-       
+
     }
 
 
