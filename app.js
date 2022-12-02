@@ -3,6 +3,7 @@ const path = require('path')
 const session = require('express-session')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
+const fileUpload = require('express-fileupload')
 require('./config/database-connetion')
 
 // express app
@@ -20,6 +21,7 @@ app.use(session({
     cookie: { maxAge: 6000000 },
     resave: false,
 }))
+app.use(fileUpload())
 //to privent store cache
 app.use((req, res, next) => {
     res.set(
@@ -35,4 +37,4 @@ app.use('/admin',adminRoutes)
 // port setting
 app.listen(3000,(req,res)=>{
     console.log('Server listening to port 3000');
-}) 
+})  

@@ -70,6 +70,7 @@ if(user){
 
     try{
         if(userData){
+            if(userData.isBlocked ===false){
             const passwordMatch = await bcrypt.compare(password,userData.password)
             if(passwordMatch){
                 req.session.user = req.body.email
@@ -77,6 +78,9 @@ if(user){
             }else{
                 res.render('user/login',{invalid:'Invalid password or email'})
             }
+        }else{
+            res.render('user/login',{blocked:"You can't login!!! "})
+        }
         }else{
             res.render('user/login',{invalid:'Invalid password or email'})
         }

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container-fluid" >
+    <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #080a0c">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-5 d-none d-sm-inline">Admin</span>
+          </a>
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <li class="nav-item">
+              <a href="/admin/dashbord" class="nav-link align-middle px-0">
+                <img src="/adminimages/pic1.jpg" alt="" style="width: 1rem" /><span
+                  class="ms-1 d-none d-sm-inline">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/order" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic2.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Order</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/category" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic2.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">category</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/productdetails" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic3.jpg" alt="" style="width: 1rem" /><span
+                  class="ms-1 d-none d-sm-inline">Products</span></a>
+            </li>
+            <li>
+              <a href="/admin/addproducts" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic4.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Add Products</span></a>
+            </li>
+            <li>
+              <a href="/admin/userDetails" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic5.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Users</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/adminLogout" class="nav-link px-0 align-middle">
+                <img src="/adminimages/pic6.jpg" alt="" style="width: 1rem" />
+                <span class="ms-1 d-none d-sm-inline">Logout</span>
+              </a>
+            </li>
+          </ul>
+          <hr />
+        </div>
+      </div>
+      <div class="col py-3">
+
+        <section>
+        <div class="d-flex align-items-center justify-content-center">
+          <h1 class="text-decoration-underline">Product details</h1>
+        </div>
+        <div class="container mt-5 table-responsive"> 
+        <table class="table mt-5" id="table">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Image</th>
+              <th scope="col">Actions</th>
+
+            </tr>
+          </thead>
+          <tbody>
+           <% let count=1 %>
+           <% product.forEach((products)=> { %>
+            <tr>
+                <td>
+                <%=count %>
+                </td>
+                <td>
+                 <%=products.name %>
+                </td>
+                <td>
+                 <%=products.price%>
+                </td>
+                <td>
+                  <%=products.category%>
+                </td>
+                <td>
+                  <%=products.description%>
+                </td>
+                <td>
+                  <%=products.stock%>
+                </td>
+                <td><img style="width:50px; height:50px" src="/admin-images/<%=products._id%>.jpg" alt=""></td>
+                <td>
+                  <a href="/admin/edit-product/<%=products._id%>" class="btn btn-success">Edit</a>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal-<%=products._id%>">
+                    Delete
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal-<%=products._id%>" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel>">Delete confirmation</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure you want to delete <%=products.name%>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <a href="/admin/deleteproduct"><button type="button"
+                              class="btn btn-danger">Delete</button></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          <% })%>
+               
+                  </td>
+                </tr>
+                
+          </tbody>
+        </table>
+        </div>
+      </section>
+      </div>
+    </div>
+  </div>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+</body>
+</html>

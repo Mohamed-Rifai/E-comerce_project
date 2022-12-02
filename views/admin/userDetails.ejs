@@ -43,7 +43,7 @@
                   class="ms-1 d-none d-sm-inline">Products</span></a>
             </li>
             <li>
-              <a href="/admin/addproducts" class="nav-link px-0 align-middle">
+              <a href="/admin/addProduct" class="nav-link px-0 align-middle">
                 <img src="/adminimages/pic4.jpg" alt="" style="width: 1rem" />
                 <span class="ms-1 d-none d-sm-inline">Add Products</span></a>
             </li>
@@ -102,9 +102,9 @@
                   </td>
                   <td>
                     <% if(user.isBlocked===false) { %>
-                      <a href="/admin/blockuser/<%= user._id%>" class="btn btn-danger">Block</a>
+                      <a href="/admin/blockUser/<%= user._id%>" class="btn btn-danger">Block</a>
                       <% }else{ %>
-                        <a href="/admin/unblockuser/<%= user._id%>" class="btn btn-success">Unblock</a>
+                        <a href="/admin/unBlockUser/<%= user._id%>" class="btn btn-success">Unblock</a>
                         <%}%>
                   </td>
                 </tr>
