@@ -1,0 +1,81 @@
+<!-- admin sidebar -->
+<%- include('../partials/admin-sidebar')%>
+<!-- end admin sidebar -->
+      <div class="col py-3">
+        <div class="d-flex align-items-center justify-content-center">
+          <h1 class="text-decoration-underline">Categories</h1>
+        </div>
+        
+        <form action="/admin/addCategory" method="post" id="form" class="mt-5">
+          <input type="text" name="name" placeholder="Add new category">
+          <button type="submit" class="btn btn-success" >Submit</button>
+        </form>
+            <small class="text-danger"><%=submitErr %></small>
+        <table class="table" id="table">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Category</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+              
+            </tr>
+          </thead>
+
+          <tbody>
+            <% count=1 %>
+              <% category.forEach((catg)=>{ %>
+                <tr>
+                  <td>
+                    <%= count %>
+                  </td>
+                  <td>
+                    <%= catg.category_name %>
+                  </td>
+                  <td>
+                    <form action="/admin/editCategory/<%=catg._id%>" method="post">
+                      <input placeholder="Edit category name" name="name" type="text" class="form-control w-50">
+                      <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </td>
+                <td>
+                   <!-- Button trigger modal -->
+                   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                   data-bs-target="#exampleModal">
+                   Delete
+                 </button>
+                 <!-- Modal -->
+                 <div class="modal fade" id="exampleModal" tabindex="-1"
+                   aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal-dialog">
+                     <div class="modal-content">
+                       <div class="modal-header">
+                         <h1 class="modal-title fs-5" id="exampleModalLabel">Delete confirmation</h1>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                       </div>
+                       <div class="modal-body">
+                         Are you sure you want to delete this category ?
+                       </div>
+                       <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         <a href="/admin/deleteCategory"><button type="button"
+                             class="btn btn-danger">Delete</button></a>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                </td>
+              </tr>
+             
+        <% count++ %>
+         <% }) %>
+        </tbody>   
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ const session = require('express-session')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
 const fileUpload = require('express-fileupload')
+require('dotenv').config()
 require('./config/database-connetion')
 
 // express app

@@ -1,4 +1,3 @@
-require('dotenv').config()
 const user = require('../model/user-schema')
 const products = require('../model/product-schema')
 const categories = require('../model/category-schema')
@@ -129,6 +128,65 @@ module.exports={
         }else{
             res.redirect('/admin/productDetails')
         }
+    },
+    deleteProduct:async(req,res)=>{
+        const id = req.params.id
+       await products.deleteOne({_id:id}).then(()=>{
+        res.redirect('/admin/productDetails')
+
+       })
+    },
+    getCategory:async(req,res)=>{
+      const admin = req.session.admin
+      if(admin){       
+            const category = await categories.find()
+            let submitErr = req.session.submitErr   
+            req.session.submitErr = ""  
+            res.render('admin/category',{category, submitErr})  
+        } else{
+            
+        res.redirect('/admin')
+      }
+  
+
+    },
+    addCategory:async (req,res)=>{
+        if(req.body.name){
+            const name = req.body.name
+            const catgry = await categories.findOne({category_name:name})
+            if(catgry){
+                console.log('naem already esists');
+                res.redirect('/admin/category')
+            }else{
+                const category = new categories ({
+                    category_name:req.body.name
+                })
+               
+                    await category.save()
+                    res.redirect('/admin/category')
+            }
+            }
+            else{
+            req.session.submitErr = "oops some data missing!!!"
+            res.redirect( '/admin/category')
+        }
+                 
+    },
+
+    editCategory:async(req,res)=>{
+        if(req.body.name){
+            const id = req.params.id
+            await categories.updateOne({_id:id},{$set:{
+                 category_name:req.body.name
+             }})
+                 res.redirect('/admin/category')       
+        }else{
+            
+            res.redirect('/admin/category')
+        }
+       
+       
     }
+
 
 }

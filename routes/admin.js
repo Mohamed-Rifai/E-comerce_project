@@ -13,7 +13,11 @@ adminRoutes.get('/addProduct',adminController.addProduct)
 adminRoutes.get('/productDetails',adminController.productDetails)
 adminRoutes.post('/postProduct',adminController.postProduct)   
 adminRoutes.get('/edit-product/:id',adminController.editProduct)  
-adminRoutes.post('/post-editProduct/:id',adminController.postEditProduct)         
+adminRoutes.post('/post-editProduct/:id',adminController.postEditProduct) 
+adminRoutes.get('/deleteProduct/:id',adminController.deleteProduct)   
+adminRoutes.get('/category',adminController.getCategory)   
+adminRoutes.post('/addCategory',adminController.addCategory) 
+adminRoutes.post('/editCategory/:id',adminController.editCategory) 
 
 
 
