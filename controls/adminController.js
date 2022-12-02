@@ -81,7 +81,7 @@ module.exports={
     },
     //products send to database
     postProduct:async(req,res)=>{
-        const image = req.files.pimage
+        const image = req.files.image
         console.log(image);
         const product = new products({ 
              name:req.body.name,
@@ -107,6 +107,28 @@ module.exports={
         const id = req.params.id
         const productData = await products.findOne({_id:id})
         res.render('admin/edit-product',{productData})
+    },
+    postEditProduct:async(req,res)=>{
+        const id = req.params.id
+        await products.updateOne({_id:id},{$set:{
+        name: req.body.name,
+        price: req.body.price,
+        category: req.body.category,
+        description: req.body.description,
+        stock: req.body.stock
+        }})
+        if(req?.files?.image){
+            const image = req.files.image
+            image.mv('./public/admin-images/'+id+'.jpg',(err)=>{
+                if(!err){
+                    res.redirect('/admin/productDetails')
+                }else{
+                    console.log(err)
+                }
+            })
+        }else{
+            res.redirect('/admin/productDetails')
+        }
     }
 
 }

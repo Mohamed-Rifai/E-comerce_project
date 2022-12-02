@@ -1,5 +1,4 @@
 const express = require('express')
-const { unBlockUser } = require('../controls/adminController')
 const adminRoutes = express()
 const adminController = require('../controls/adminController')
 
@@ -13,7 +12,8 @@ adminRoutes.get('/unBlockUser/:id',adminController.unBlockUser)
 adminRoutes.get('/addProduct',adminController.addProduct)    
 adminRoutes.get('/productDetails',adminController.productDetails)
 adminRoutes.post('/postProduct',adminController.postProduct)   
-adminRoutes.get('/edit-product/:id',adminController.editProduct)           
+adminRoutes.get('/edit-product/:id',adminController.editProduct)  
+adminRoutes.post('/post-editProduct/:id',adminController.postEditProduct)         
 
 
 
