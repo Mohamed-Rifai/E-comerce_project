@@ -97,17 +97,21 @@ module.exports={
         image.mv('./public/admin-images/'+productId+'.jpg',(err)=>{
             if(!err){
                 res.redirect('/admin/productDetails')
-            }else{
+            }else{ 
                 console.log(err)
             }
         } )
       
-      }
+      
+    }else{
+        res.redirect('/admin/addProduct')
+    }
     },
     editProduct:async(req,res)=>{
         const id = req.params.id
+        const category = await categories.find()
         const productData = await products.findOne({_id:id})
-        res.render('admin/edit-product',{productData})
+        res.render('admin/edit-product',{productData,category})
     },
     postEditProduct:async(req,res)=>{
         const id = req.params.id
@@ -133,10 +137,18 @@ module.exports={
     },
     deleteProduct:async(req,res)=>{
         const id = req.params.id
-       await products.deleteOne({_id:id}).then(()=>{
+       await products.updateOne({_id:id}, {$set: {delete:true}}).then(()=>{
         res.redirect('/admin/productDetails')
 
        })
+    },
+    restoreProduct:async (req,res)=>{
+
+        const id = req.params.id;
+        await products.updateOne({_id:id}, {$set: {delete:false } }).then(()=>{
+            res.redirect('/admin/productdetails')
+        })
+       
     },
     getCategory:async(req,res)=>{
       const admin = req.session.admin

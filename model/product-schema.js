@@ -20,7 +20,11 @@ const productSchema = new mongoose.Schema({
     stock:{
         type:Number,
         required:true
-    }
+    },
+    delete: {
+        type: Boolean,
+        default: false
+      }
 })
 
 

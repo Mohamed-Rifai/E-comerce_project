@@ -1,7 +1,7 @@
-const express = require('express')
 const userSchema = require('../model/user-schema')
 const bcrypt = require('bcrypt')
-const body = require('body-parser')
+const products = require('../model/product-schema')
+
 
 
  async function checkEmail(userEmail){
@@ -16,15 +16,16 @@ const body = require('body-parser')
 module.exports={ 
 
 // render home page
-gethome:(req,res)=>{ 
-const user = req.session.user
-if(user){
+gethome:async(req,res)=>{ 
+const session = req.session.user
+const product = await products.find({delete:false})
+if(session){
 
     customer = true
-    res.render('user/home',{customer})
+    res.render('user/home',{customer,product})
 }else{
     customer = false
-    res.render('user/home',{customer})
+    res.render('user/home',{customer,product})
 }  
 },
 // render login 
@@ -91,5 +92,14 @@ if(user){
  userLogout: (req,res)=>{
     req.session.destroy()
     res.redirect('/')
+ },
+
+ getShopPage:(req,res)=>{
+      res.render('user/shop')
+ },
+ productView:async(req,res)=>{
+    const id = req.params.id
+    const product = await products.findOne({_id:id})
+    res.render('user/product-view',{product})
  }
 }

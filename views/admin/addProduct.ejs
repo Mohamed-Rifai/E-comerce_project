@@ -79,10 +79,10 @@
             </div>
             <div class="form-outline flex-fill mb-0 mt-4">
               <!-- <input type="text" placeholder="Category" name="category" id="category" class="form-control" /> -->
-              <select class="form-select "   aria-label="Default select example">
-                <option selected disabled>Category</option>
+              <select class="form-select " name="category"  aria-label="Default select example">
+                <option selected disabled  >Category</option>
               <% category.forEach((categories)=>{ %>  
-                <option value="<%=categories.category_name %>" ><%=categories.category_name %></option>
+                <option value="<%=categories.category_name %>"  ><%=categories.category_name %></option>
             <% }) %>
                 
               </select>

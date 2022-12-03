@@ -36,77 +36,24 @@
   </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
+        <% product.forEach((products)=>{ %>
+        <div class="col-12  col-md-3">
           <div class="card m-4" style="width: 15rem;">
-            <img class="card-img-top " src="/images/dairysilk1.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
+            <img class="card-img-top " src="/admin-images/<%=products?._id%>.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">Diary milk Silk</h5>
-              <p class="card-text">Best silk combo forever 4 piece in one oder</p>
-           <h4 class="card-text text-danger">$15</h4>
-              <a href="#" class="btn btn-primary">Go to cart</a>
+              <h5 class="card-title"><%= products?.name %></h5>
+              <p class="card-text"><%= products?.category %></p>
+          
+           <h4 class="card-text text-danger">₹<%= products.price %></h4>
+           <% if(customer){ %>
+              <a href="/product-view/<%= products?._id %>" class="btn btn-primary">Buy now</a>
+              <% }else{ %>
+                <a href="/login" class="btn btn-danger">Buy now</a>
+                <% } %>
             </div>
           </div>
         </div>
-
-        <div class="col-md-3">
-          <div class="card m-4" style="width: 15rem;">
-            <img class="card-img-top " src="/images/dairysilk1.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Diary milk Silk</h5>
-              <p class="card-text">Best silk combo forever 4 piece in one oder</p>
-           <h4 class="card-text text-danger">$15</h4>
-              <a href="#" class="btn btn-primary">Go to cart</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card m-4" style="width: 15rem;">
-            <img class="card-img-top " src="/images/dairysilk1.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Diary milk Silk</h5>
-              <p class="card-text">Best silk combo forever 4 piece in one oder</p>
-           <h4 class="card-text text-danger">$15</h4>
-              <a href="#" class="btn btn-primary">Go to cart</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card m-4" style="width: 15rem;">
-            <img class="card-img-top " src="/images/dairysilk1.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Diary milk Silk</h5>
-              <p class="card-text">Best silk combo forever 4 piece in one oder</p>
-           <h4 class="card-text text-danger">$15</h4>
-              <a href="#" class="btn btn-primary">Go to cart</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card m-4" style="width: 15rem;">
-            <img class="card-img-top " src="/images/dairysilk1.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Diary milk Silk</h5>
-              <p class="card-text">Best silk combo forever 4 piece in one oder</p>
-           <h4 class="card-text text-danger">$15</h4>
-              <a href="#" class="btn btn-primary">Go to cart</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card m-4" style="width: 15rem;">
-            <img class="card-img-top " src="/images/dairysilk1.jpg" style="width:10rem;height:10rem;margin: auto;" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Diary milk Silk</h5>
-              <p class="card-text">Best silk combo forever 4 piece in one oder</p>
-           <h4 class="card-text text-danger">$15</h4>
-              <a href="#" class="btn btn-primary">Go to cart</a>
-            </div>
-          </div>
-        </div>
+     <% }) %>
 
       </div>
     </div>

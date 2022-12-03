@@ -12,6 +12,8 @@ router.get('/signup',userController.getsignup)
 router.post('/signup',userController.postsignup) 
 router.post('/login',userController.postlogin)
 router.get('/logout',userController.userLogout)
+router.get('/shop',userController.getShopPage)
+router.get('/product-view/:id',userController.productView)
 
 
 

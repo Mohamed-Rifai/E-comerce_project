@@ -1,0 +1,42 @@
+<%- include('../partials/user-header') %>
+
+<!-- <div class="breadcrumb-section breadcrumb-bg"> -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>See more Details</p>
+                    <h1>Single Product</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb section -->
+
+<!-- single product -->
+<div class="single-product mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="single-product-img">
+                    <img src="/admin-images/<%= product._id %>.jpg" style="width: 443px; height: 443px;" alt="">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="">
+                    <h3>This is a good fruit for healthtretrettergref dhdf</h3>
+                    <h2><%= product.name %></h2>
+                    <p class="text-danger"><%= product.price %></p>
+                    <p><%= product.description %></p>
+                    <div class="single-product-form">						
+                        <a href="/shop" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <p><strong>Category :</strong><%= product.category %></p>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/user-footer') %>
