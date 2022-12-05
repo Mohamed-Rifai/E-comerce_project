@@ -9,6 +9,9 @@
 		<h2>Sign Up</h2>
 		<p>Please fill in this form to create an account!</p>
 		<hr>
+		<% if(locals.err_message){ %>
+			<p class="text-danger"><%=err_message%></p>
+			 <% } %>
         <div class="form-group">
 			<div class="input-group">
 				<div class="input-group-prepend">

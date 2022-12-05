@@ -2,9 +2,9 @@ const express = require('express')
 const adminRoutes = express()
 const adminController = require('../controls/adminController')
 
-// // middleware
-// adminRoutes.use(express.json());
-// adminRoutes.use(express.urlencoded({ extended: true }));
+// middleware
+adminRoutes.use(express.json());
+adminRoutes.use(express.urlencoded({ extended: true }));
  
 
 adminRoutes.get('/',adminController.getAdminLogin)

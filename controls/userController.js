@@ -1,17 +1,22 @@
-const userSchema = require('../model/user-schema')
+const user = require('../model/user-schema')
 const bcrypt = require('bcrypt')
 const products = require('../model/product-schema')
+const mailer = require('../middleware/otpValidation')
 
 
+let name;
+let email;
+let phone;
+let password;
 
- async function checkEmail(userEmail){
-    const userFound = await userSchema.findOne({ email: userEmail })
-    if(userFound){
-        return true
-    }else{
-        return false
-    }
-}
+//  async function checkEmail(userEmail){
+//     const userFound = await userSchema.findOne({ email: userEmail })
+//     if(userFound){
+//         return true
+//     }else{
+//         return false
+//     }
+// }
  
 module.exports={ 
 
@@ -20,13 +25,11 @@ gethome:async(req,res)=>{
 const session = req.session.user
 const product = await products.find({delete:false})
 if(session){
-
-    customer = true
-    res.render('user/home',{customer,product})
+  customer = true
 }else{
     customer = false
-    res.render('user/home',{customer,product})
 }  
+  res.render('user/home',{customer,product})
 },
 // render login 
  getlogin:(req,res)=>{
@@ -39,35 +42,60 @@ if(session){
 // user signup/send data to database
 
  postsignup: async(req,res)=>{
-    try{
-        if(req.body.email){
-            const userExists = await checkEmail(req.body.email)
+ 
+    const hash = await bcrypt.hash(req.body.password,10)
 
-            if(userExists == true){
-                res.redirect('/signup')
-            }else{
-                const hash = await bcrypt.hash(req.body.password,10)
-                const newUser = new userSchema({
-                    name: req.body.name,
-                    phone: req.body.phone,
-                    email: req.body.email,
-                    password:hash  
-                })
-                newUser.save().then(()=>{
-                   req.session.user = req.body.email
-                    res.redirect('/')
-                })
-            }
-        } 
-    }catch(error){
-        console.log(error)
+    name = req.body.name
+    email = req.body.email
+    phone = req.body.phone
+    password = hash
+
+    const mailDetails = {
+        from : 'rifaeeckm@gmail.com',
+        to : email,
+        subject : 'Otp for cadbury',
+        html: `<p>Your OTP for registering in Cadbury is ${mailer.OTP}</p>`,
     }
+    const userData = await user.findOne({email : email})
+
+    if(userData){
+        res.render('user/signup',{err_message: 'User already exists'})
+    }else{
+        mailer.mailTransporter.sendMail(mailDetails,function(err){
+            if(err){
+                console.log(err);
+            }else{
+                res.redirect('/otpPage')
+            }
+        })
+    }
+ 
 },
+  getOtpPage : (req,res)=>{
+        res.render('user/otp')
+  },
+
+  postOtp: (req,res)=>{
+ const otp = req.body.otp
+   if(mailer.OTP === otp){
+     user.create({
+        name: name,
+        phone: phone,
+        email: email,
+        password: password
+     }).then(()=>{
+        res.redirect('/login')
+     })
+   }else{
+    res.render('user/otp',{invalid:'invalid otp'})
+   }
+
+  },
 
  postlogin: async(req,res)=>{
     const email = req.body.email
     const password = req.body.password
-   const userData = await userSchema.findOne({ email: email })
+   const userData = await user.findOne({ email: email })
 
     try{
         if(userData){

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/otpstyle.css">
+    <title>Document</title>
+</head>
+<body>
+    <div  class="container mt-5">
+    <div class="d-flex justify-content-center align-items-center container">
+        <form action="/otp" method="post">
+        <div class="card py-5 px-3 ">
+            <div class="d-flex align-items-center justify-content-center">
+                <h5 class="m-0 text-success">Email verification</h5>
+            </div>
+            
+            <h6 class="mobile-text mt-3">Enter the otp received in yout email</h6>
+            <div class="d-flex flex-row mt-4">
+                <input type="text" name="otp" id="otp" class="form-control" />
+            </div>
+        <% if(locals.invalid){ %>
+ <p class="text-danger"><%=invalid%></p>
+     <% } %>
+                       
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" value="Submit" class="btn btn-success btn-lg mt-3">Submit</button>
+              </div>
+            
+            <div class="text-center mt-0"><span class="d-block mobile-text">Thank you for joining our family</span>
+                <span class="font-weight-bold text-danger cursor">Cadbury</span></div>
+        </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
