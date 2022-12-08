@@ -1,0 +1,537 @@
+<%- include('../partials/user-header')%>
+<link rel="stylesheet" href="/public/stylesheets/cart.css">
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Fresh and Organic </p>
+                    <h1>Cart</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb section -->
+
+<!-- cart -->
+<div class="cart-section mt-150 mb-150">
+    <div class="container " style="height:100vh ;">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr class="table-head-row">
+                                <th class="product-remove">Remove</th>
+                                <th class="product-image">Product Image</th>
+                                <th class="product-name">Name</th>
+                                <th class="product-price">Price/kg</th>
+                                <th class="product-quantity">Quantity in kg</th>
+                                <th class="product-total">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <% productData.forEach((product)=>{ %>
+                                <tr class="table-body-row">
+                                    <td class="product-remove"><button
+                                            onclick="removeProduct('<%= product._id %>','<%= product.productDetail._id %>')">X</button>
+                                    </td>
+                                    <td class="product-image" ><img
+                                            src="/admin-images/<%= product.productDetail._id %>.jpg"  alt="" style="height:10vh;width:6vw;"></td>
+                                    <td class="product-name">
+                                        <%= product.productDetail.name %>
+                                    </td>
+                                    <td class="product-price">
+                                        <%= product.productDetail.price%> ₹
+                                    </td>
+                                    <td class="product-quantity">
+                                        <div class="container d-flex">
+                                            <button
+                                                class="cart-item-count  mr-3" 
+                                                onclick="changeQuantity('<%= product._id %>','<%= product.productDetail._id %>',-1)">-</button>
+                                            <p id="<%= product.productDetail._id %>" min="0" name="quantity"><%= product.productQuantity%></p>
+                                            
+                                            <button class="cart-item-count ml-3 mr-3"
+                                                onclick="changeQuantity('<%= product._id %>','<%= product.productDetail._id %>',1)">+</button>
+                                        </div>
+                                    </td>
+                                    <%  let a=product.productDetail.price%>
+                                        <% let b=product.productQuantity%>
+                                            <% let c=a*b %>
+                                                <td class="product-total">
+                                                    <%=c %> ₹
+                                                </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="total-section">
+                    <table class="total-table">
+                        <thead class="total-table-head">
+                            <tr class="table-total-row">
+                                <th>Total</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="total-data">
+                                <td><strong>Subtotal: </strong></td>
+                               
+                                    <td>
+                                        <p id="sum"><%=sum%> ₹</p>
+                                    </td>
+                                    
+                            </tr>
+                            <tr class="total-data">
+                                <td><strong>Shipping: </strong></td>
+                                <td>0 (free delivary)</td>
+                               
+                            </tr>
+                            <tr class="total-data">
+                                <td><strong>Total: </strong></td>
+                               
+                                    <td>
+                                        <p id="netamount"> <%=sum%> ₹</p>
+                                    </td>
+                                   
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="cart-buttons">
+                        <a href="/checkout" class="boxed-btn black">Check Out</a>
+                    </div>
+                </div>
+
+                <!-- <div class="coupon-section">
+                    <h3>Apply Coupon</h3>
+                    <div class="coupon-form-wrap">
+                        <form action="index.html">
+                            <p><input type="text" placeholder="Coupon"></p>
+                            <p><input type="submit" value="Apply"></p>
+                        </form>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end cart -->
+
+<!-- logo carousel -->
+<!-- end logo carousel -->
+
+<!-- footer -->
+<%- include('../partials/user-footer')%>
+    <!-- end footer -->
+    <section class="h-100 h-custom">
+        <div class="container h-100 py-5">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+      
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="h5">Shopping Bag</th>
+                      <th scope="col">Format</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                        <div class="d-flex align-items-center">
+                          <img src="https://i.imgur.com/2DsA49b.webp" class="img-fluid rounded-3"
+                            style="width: 120px;" alt="Book">
+                          <div class="flex-column ms-4">
+                            <p class="mb-2">Thinking, Fast and Slow</p>
+                            <p class="mb-0">Daniel Kahneman</p>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="align-middle">
+                        <p class="mb-0" style="font-weight: 500;">Digital</p>
+                      </td>
+                      <td class="align-middle">
+                        <div class="d-flex flex-row">
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            <i class="fas fa-minus"></i>
+                          </button>
+      
+                          <input id="form1" min="0" name="quantity" value="2" type="number"
+                            class="form-control form-control-sm" style="width: 50px;" />
+      
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="align-middle">
+                        <p class="mb-0" style="font-weight: 500;">$9.99</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="border-bottom-0">
+                        <div class="d-flex align-items-center">
+                          <img src="https://i.imgur.com/Oj1iQUX.webp" class="img-fluid rounded-3"
+                            style="width: 120px;" alt="Book">
+                          <div class="flex-column ms-4">
+                            <p class="mb-2">Homo Deus: A Brief History of Tomorrow</p>
+                            <p class="mb-0">Yuval Noah Harari</p>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="align-middle border-bottom-0">
+                        <p class="mb-0" style="font-weight: 500;">Paperback</p>
+                      </td>
+                      <td class="align-middle border-bottom-0">
+                        <div class="d-flex flex-row">
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            <i class="fas fa-minus"></i>
+                          </button>
+      
+                          <input id="form1" min="0" name="quantity" value="1" type="number"
+                            class="form-control form-control-sm" style="width: 50px;" />
+      
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="align-middle border-bottom-0">
+                        <p class="mb-0" style="font-weight: 500;">$13.50</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+      
+              <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;">
+                <div class="card-body p-4">
+      
+                  <div class="row">
+                    <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0">
+                      <form>
+                        <div class="d-flex flex-row pb-3">
+                          <div class="d-flex align-items-center pe-2">
+                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1v"
+                              value="" aria-label="..." checked />
+                          </div>
+                          <div class="rounded border w-100 p-3">
+                            <p class="d-flex align-items-center mb-0">
+                              <i class="fab fa-cc-mastercard fa-2x text-dark pe-2"></i>Credit
+                              Card
+                            </p>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row pb-3">
+                          <div class="d-flex align-items-center pe-2">
+                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel2v"
+                              value="" aria-label="..." />
+                          </div>
+                          <div class="rounded border w-100 p-3">
+                            <p class="d-flex align-items-center mb-0">
+                              <i class="fab fa-cc-visa fa-2x fa-lg text-dark pe-2"></i>Debit Card
+                            </p>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row">
+                          <div class="d-flex align-items-center pe-2">
+                            <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel3v"
+                              value="" aria-label="..." />
+                          </div>
+                          <div class="rounded border w-100 p-3">
+                            <p class="d-flex align-items-center mb-0">
+                              <i class="fab fa-cc-paypal fa-2x fa-lg text-dark pe-2"></i>PayPal
+                            </p>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-6">
+                      <div class="row">
+                        <div class="col-12 col-xl-6">
+                          <div class="form-outline mb-4 mb-xl-5">
+                            <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                              placeholder="John Smith" />
+                            <label class="form-label" for="typeName">Name on card</label>
+                          </div>
+      
+                          <div class="form-outline mb-4 mb-xl-5">
+                            <input type="text" id="typeExp" class="form-control form-control-lg" placeholder="MM/YY"
+                              size="7" id="exp" minlength="7" maxlength="7" />
+                            <label class="form-label" for="typeExp">Expiration</label>
+                          </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                          <div class="form-outline mb-4 mb-xl-5">
+                            <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                              placeholder="1111 2222 3333 4444" minlength="19" maxlength="19" />
+                            <label class="form-label" for="typeText">Card Number</label>
+                          </div>
+      
+                          <div class="form-outline mb-4 mb-xl-5">
+                            <input type="password" id="typeText" class="form-control form-control-lg"
+                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                            <label class="form-label" for="typeText">Cvv</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-xl-3">
+                      <div class="d-flex justify-content-between" style="font-weight: 500;">
+                        <p class="mb-2">Subtotal</p>
+                        <p class="mb-2">$23.49</p>
+                      </div>
+      
+                      <div class="d-flex justify-content-between" style="font-weight: 500;">
+                        <p class="mb-0">Shipping</p>
+                        <p class="mb-0">$2.99</p>
+                      </div>
+      
+                      <hr class="my-4">
+      
+                      <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                        <p class="mb-2">Total (tax included)</p>
+                        <p class="mb-2">$26.48</p>
+                      </div>
+      
+                      <button type="button" class="btn btn-primary btn-block btn-lg">
+                        <div class="d-flex justify-content-between">
+                          <span>Checkout</span>
+                          <span>$26.48</span>
+                        </div>
+                      </button>
+      
+                    </div>
+                  </div>
+      
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="h-100 gradient-custom">
+        <div class="container py-5">
+          <div class="row d-flex justify-content-center my-4">
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h5 class="mb-0">Cart - 2 items</h5>
+                </div>
+                <div class="card-body">
+                  <!-- Single item -->
+                  <div class="row">
+                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                      <!-- Image -->
+                      <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
+                          class="w-100" alt="Blue Jeans Jacket" />
+                        <a href="#!">
+                          <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                        </a>
+                      </div>
+                      <!-- Image -->
+                    </div>
+      
+                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                      <!-- Data -->
+                      <p><strong>Blue denim shirt</strong></p>
+                      <p>Color: blue</p>
+                      <p>Size: M</p>
+                      <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                        title="Remove item">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                        title="Move to the wish list">
+                        <i class="fas fa-heart"></i>
+                      </button>
+                      <!-- Data -->
+                    </div>
+      
+                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                      <!-- Quantity -->
+                      <div class="d-flex mb-4" style="max-width: 300px">
+                        <button class="btn btn-primary px-3 me-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                          <i class="fas fa-minus"></i>
+                        </button>
+      
+                        <div class="form-outline">
+                          <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                          <label class="form-label" for="form1">Quantity</label>
+                        </div>
+      
+                        <button class="btn btn-primary px-3 ms-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <!-- Quantity -->
+      
+                      <!-- Price -->
+                      <p class="text-start text-md-center">
+                        <strong>$17.99</strong>
+                      </p>
+                      <!-- Price -->
+                    </div>
+                  </div>
+                  <!-- Single item -->
+      
+                  <hr class="my-4" />
+      
+                  <!-- Single item -->
+                  <div class="row">
+                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                      <!-- Image -->
+                      <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/13a.webp"
+                          class="w-100" />
+                        <a href="#!">
+                          <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                        </a>
+                      </div>
+                      <!-- Image -->
+                    </div>
+      
+                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                      <!-- Data -->
+                      <p><strong>Red hoodie</strong></p>
+                      <p>Color: red</p>
+                      <p>Size: M</p>
+      
+                      <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                        title="Remove item">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                        title="Move to the wish list">
+                        <i class="fas fa-heart"></i>
+                      </button>
+                      <!-- Data -->
+                    </div>
+      
+                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                      <!-- Quantity -->
+                      <div class="d-flex mb-4" style="max-width: 300px">
+                        <button class="btn btn-primary px-3 me-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                          <i class="fas fa-minus"></i>
+                        </button>
+      
+                        <div class="form-outline">
+                          <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                          <label class="form-label" for="form1">Quantity</label>
+                        </div>
+      
+                        <button class="btn btn-primary px-3 ms-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <!-- Quantity -->
+      
+                      <!-- Price -->
+                      <p class="text-start text-md-center">
+                        <strong>$17.99</strong>
+                      </p>
+                      <!-- Price -->
+                    </div>
+                  </div>
+                  <!-- Single item -->
+                </div>
+              </div>
+              <div class="card mb-4">
+                <div class="card-body">
+                  <p><strong>Expected shipping delivery</strong></p>
+                  <p class="mb-0">12.10.2020 - 14.10.2020</p>
+                </div>
+              </div>
+              <div class="card mb-4 mb-lg-0">
+                <div class="card-body">
+                  <p><strong>We accept</strong></p>
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                    alt="Visa" />
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                    alt="American Express" />
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                    alt="Mastercard" />
+                  <img class="me-2" width="45px"
+                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
+                    alt="PayPal acceptance mark" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h5 class="mb-0">Summary</h5>
+                </div>
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                      Products
+                      <span>$53.98</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                      Shipping
+                      <span>Gratis</span>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <div>
+                        <strong>Total amount</strong>
+                        <strong>
+                          <p class="mb-0">(including VAT)</p>
+                        </strong>
+                      </div>
+                      <span><strong>$53.98</strong></span>
+                    </li>
+                  </ul>
+      
+                  <button type="button" class="btn btn-primary btn-lg btn-block">
+                    Go to checkout
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <!-- ajax request -->
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="/public/js/ajaxrequest.js"></script>
+
+    <!-- <script>
+        function tottal()
+    </script> -->
+
+
+
+    </body>
+
+    </html>
+
+

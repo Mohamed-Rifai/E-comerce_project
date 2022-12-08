@@ -25,12 +25,12 @@
             </div>
             <div class="col-md-7">
                 <div class="">
-                    <h3>This is a good fruit for healthtretrettergref dhdf</h3>
+                    <h3></h3>
                     <h2><%= product.name %></h2>
-                    <p class="text-danger"><%= product.price %></p>
+                    <p class="text-danger">₹<%= product.price %></p>
                     <p><%= product.description %></p>
                     <div class="single-product-form">						
-                        <a href="/shop" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="/cart/<%= product._id %>" class=""><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                         <p><strong>Category :</strong><%= product.category %></p>
                     </div>
                 

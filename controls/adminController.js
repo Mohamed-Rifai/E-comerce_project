@@ -83,7 +83,6 @@ module.exports={
     //products send to database
     postProduct:async(req,res)=>{
         const image = req.files.image
-        console.log(image);
         const product = new products({ 
              name:req.body.name,
              price:req.body.price,

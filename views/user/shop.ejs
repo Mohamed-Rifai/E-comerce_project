@@ -2,11 +2,11 @@
 <!-- breadcrumb-section -->
 
 
-<div class="breadcrumb-section breadcrumb-bg">
+<div class="bg-info ">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="breadcrumb-text">
+                <div class="text-info">
                     <p>Fresh and Organic</p>
                     <h1>Shop</h1>
                 </div>
@@ -17,7 +17,7 @@
 <!-- end breadcrumb section -->
 
 <!-- products -->
-<div class="product-section mt-150 mb-150">
+<div class="product-section mt-150 mb-150 bg-info">
     <div class="container">
 
         <div class="row">
@@ -35,19 +35,20 @@
 
         <div class="row product-lists">
 
-            
-            <div class="col-lg-4 col-md-6 text-center strawberry">
+            <% product.forEach((products)=>{ %>
+            <div class="col-lg-4 col-md-6 text-center my-3">
                 <div class="single-product-item">
                     <div class="product-image">
-                        <a href="/product-view"><img style="width:300px; height:225px" src="/images/dairysilk1.jpg" alt=""></a>
+                        <a href="/product-view/<%=products._id%>"><img style="width:300px; height:225px" src="/admin-images/<%=products._id%>.jpg" alt=""></a>
                         
                     </div>
-                    <h3>bonb</h3>
-                    <p class="product-price"><span>Per Kg</span> 500₹ </p>
-                    <a href="/product-view" class="btn btn-success">Buy now</a>
+                    <p class=""><%= products?.name %></p>
+                    <p class="product-price"> <%= products?.price %>₹  </p>
+                    <!-- <p class="product-price"><span>Per Kg</span> 500₹ </p> -->
+                    <a href="/product-view/<%=products._id%>" class="btn btn-success">Buy now</a>
                 </div>
             </div>
-
+       <% }) %>
 
         <div class="row">
             <div class="col-lg-12 text-center">
