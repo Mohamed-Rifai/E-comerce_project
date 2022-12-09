@@ -24,7 +24,7 @@ if(session){
 }else{
     customer = false
 }  
-  res.render('user/home',{customer,product})
+  res.render('user/home',{customer,product,countInCart,session})
 },
 // render login 
  getlogin:(req,res)=>{
@@ -119,7 +119,7 @@ if(session){
   
  getShopPage:async(req,res)=>{
     let product = await products.find({delete: false})
-      res.render('user/shop',{product})
+      res.render('user/shop',{product,countInCart})
  },
  productView:async(req,res)=>{
     const id = req.params.id
@@ -326,7 +326,47 @@ removeProduct: async (req, res) => {
     res.json({ status: true, productData });
   },
 
- 
+  viewProfile:async (req,res)=>{
 
+    const session = req.session.user
+    let userData = await user.findOne({ email : session})
+   res.render('user/profile',{userData,countInCart})
+ },
+
+  editProfile:async (req,res)=>{
+
+    const session = req.session.user
+    let userData = await user.findOne({ email : session})
+    res.render('user/edit-profile',{userData,countInCart})
+  },
+
+  postEditProfile: (req,res)=>{
+
+    const session = req.session.user
+    user.updateOne(
+      {email : session},
+      {
+        $set: {
+
+          name: req.body.name,
+          phone:req.body.phone,
+          addressDetails:[
+            {
+              housename:req.body.housename,
+              area:req.body.area,
+              landmark:req.body.landmark,
+              district:req.body.district,
+              state:req.body.state,
+              postoffice:req.body.postoffice,
+              pin:req.body.pin
+            }
+          ]
+        }
+      }
+      )
+      res.redirect('/viewProfile')
+  },
+
+  
 
 }

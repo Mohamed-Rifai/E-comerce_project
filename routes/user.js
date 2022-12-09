@@ -19,10 +19,11 @@ router.get('/shop',verifyLogin.verifyLoginUser, userController.getShopPage)
 router.get('/product-view/:id',verifyLogin.verifyLoginUser ,userController.productView) 
 router.get('/cart/:id',userController.addToCart)
 router.get('/viewCart',verifyLogin.verifyLoginUser,userController.viewCart)
-// router.post('/changeQuantity',userController.changeQuantity)
 router.post('/removeProduct',userController.removeProduct)
 router.post('/changeQuantity',userController.changeQuantity,userController.totalAmount)
-
+router.get('/viewProfile',userController.viewProfile)
+router.get('/editProfile',userController.editProfile) 
+router.post('/postEditProfile',userController.postEditProfile)
 
 
 
