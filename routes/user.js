@@ -24,6 +24,7 @@ router.post('/changeQuantity',userController.changeQuantity,userController.total
 router.get('/viewProfile',userController.viewProfile)
 router.get('/editProfile',userController.editProfile) 
 router.post('/postEditProfile',userController.postEditProfile)
+router.get('/checkout',userController.getCheckOutPage)
 
 
 

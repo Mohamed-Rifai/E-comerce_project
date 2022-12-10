@@ -91,7 +91,16 @@
                       <h6 class="mb-0">Address</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Bay Area, San Francisco, CA
+                      State : <%= userData?.addressDetails[0]?.state %> <br>
+                      District : <%= userData?.addressDetails[0]?.district %><br>
+                      Area : <%= userData?.addressDetails[0]?.area %><br>
+                     Local Address:<%= userData.addressDetails[0]?.housename %> <br>
+                    Post Office : <%= userData?.addressDetails[0]?.postoffice %>,&nbsp; 
+                    Pin Code : <%= userData?.addressDetails[0]?.pin %> <br> 
+                    Landmark : <%= userData?.addressDetails[0]?.landmark%>
+                    
+                    
+                    
                     </div>
                   </div>
                   <hr>

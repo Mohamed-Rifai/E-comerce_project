@@ -1,0 +1,312 @@
+<%- include('../partials/user-header') %>
+
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Fresh and Organic</p>
+                    <h1>Check Out Product</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb section -->
+
+<!-- check out section -->
+<div class="checkout-section mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-lg-8">
+                <div class="checkout-accordion-wrap">
+                    <div class="accordion" id="accordionExample">
+                      <div class="card single-accordion">
+                        <div class="card-header" id="headingOne">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              Billing Address
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                          <div class="card-body">
+                            <div class="billing-address-form">
+                                <form action="index.html">
+                                    <p><input type="text" placeholder="Name"></p>
+                                    <p><input type="email" placeholder="Email"></p>
+                                    <p><input type="text" placeholder="Address"></p>
+                                    <p><input type="tel" placeholder="Phone"></p>
+                                    <p><textarea name="bill" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card single-accordion">
+                        <div class="card-header" id="headingTwo">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              Shipping Address
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                          <div class="card-body">
+                            <div class="shipping-address-form">
+                                <p>Your shipping address form is here.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card single-accordion">
+                        <div class="card-header" id="headingThree">
+                          <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              Card Details
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                          <div class="card-body">
+                            <div class="card-details">
+                                <p>Your card details goes here.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-md-8 order-md-1">
+                <section>
+                    <div class="container">
+                        <form id="placeOrder">
+                            <label class="col-xs-3 control-label">Select Shipping Address</label>
+
+                            <select class="form-select mt-2" required name="address" style="width: 20rem">
+                                <% userData.addressDetails.forEach((address)=>{%>
+                                    <option name="address">
+                                        <%= address.housename %>,<%= address.postoffice%>,<%= address.landmark %>,<%=address.area %>,<%= address.district %>,<%= address.pin %>,<%=address.state %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                            
+
+                            <div class="d-block my-3">
+                                <div class="custom-control custom-radio">
+                                    <input id="credit" name="paymentMethod" type="radio" value="COD"
+                                        class="custom-control-input" checked required />
+                                    <label class="custom-control-label" for="credit">COD</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="debit" name="paymentMethod" type="radio" value="Online"
+                                        class="custom-control-input" required />
+                                    <label class="custom-control-label" for="debit">Online</label>
+                                </div>
+
+                                <button type="submit" value="submit" class="btn btn-secondary mt-5">
+                                    Place order
+                                </button>
+
+                            </div>
+                        </form>
+
+
+
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                            Add new address
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                            Add new Address
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="/addNewAddress" method="post">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="recipient-name"
+                                                    class="col-form-label">Housename:</label>
+                                                <input required type="text" class="form-control" id="housename"
+                                                    name="housename" />
+                                                <p id="houseError" style="color: red"></p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Area:</label>
+                                                <input required type="text" class="form-control" id="area"
+                                                    name="area" />
+                                                <p id="areaError" style="color: red"></p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Landmark:</label>
+                                                <input required type="text" class="form-control" id="landmark"
+                                                    name="landmark" />
+                                                <p id="landmarkError" style="color: red"></p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="firstName">District</label>
+                                                        <input required type="text" class="form-control"
+                                                            id="district" name="district" />
+                                                        <p id="stateError" style="color: red"></p>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="lastName">State</label>
+                                                        <input required type="text" class="form-control" id="state"
+                                                            name="state" />
+                                                        <p id="pincodeError" style="color: red"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="firstName">Post office</label>
+                                                        <input required type="text" class="form-control"
+                                                            id="postoffice" name="postoffice" />
+                                                        <p id="stateError" style="color: red"></p>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="lastName">Pincode</label>
+                                                        <input required type="text" class="form-control" id="pin"
+                                                            name="pin" />
+                                                        <p id="pincodeError" style="color: red"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" value="submit" class="btn btn-primary">
+                                                Add
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+
+            <!-- <div class="col-md-4">
+                <div class="card mb-4">
+                  <div class="card-header py-3">
+                    <h5 class="mb-0">Summary</h5>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                        Products
+                        <span>$53.98</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Shipping
+                        <span>Gratis</span>
+                      </li>
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                        <div>
+                          <strong>Total amount</strong>
+                          <strong>
+                            <p class="mb-0">(including VAT)</p>
+                          </strong>
+                        </div>
+                        <span><strong>$53.98</strong></span>
+                      </li>
+                    </ul>
+        
+                    <button type="button" class="btn btn-primary btn-lg btn-block">
+                      Go to checkout
+                    </button>
+                  </div>
+                </div> 1
+              </div> -->
+
+            <div class="col-lg-4">
+                <div class="order-details-wrap" >    
+                    <table class="order-details">
+                        <thead>
+                            <tr>
+                                <th>Your order Details</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="order-details-body">
+                            <tr>
+                                <td>Product</td>
+                                <td>Total</td>
+                            </tr>
+                           
+                            <% productData.forEach((product)=>{%>
+                                <tr>
+                                    <td>
+                                        <%= product.productDetail.name %> (<%= product.productQuantity%>kg)
+                                    </td>
+                                    <% var a=product.productDetail.price%>
+                                        <% var b=product.productQuantity%>
+                                            <% var c=a*b %>
+                                                <td>
+                                                    <%= c %> ₹
+                                                </td>
+                                </tr>
+                                <% }) %>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>
+                                            <%=sum%> ₹
+                                        </td>
+
+                                    </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  
+
+    <!-- bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        $("#placeOrder").submit((e) => {
+            e.preventDefault();
+            $.ajax({
+                url: '/placeOrder',
+                method: 'post',
+                data: $('#placeOrder').serialize(),
+                success: (resposnse) => {
+                    if (resposnse.success) {
+                        location.href = "/orderSuccess";
+                    }else{
+                        location.href = "/viewCart";
+                    }
+                }
+            })
+        })
+    </script>
+
+    </body>
+
+    </html>

@@ -6,7 +6,7 @@ const adminController = require('../controls/adminController')
 adminRoutes.use(express.json());
 adminRoutes.use(express.urlencoded({ extended: true }));
  
-
+  
 adminRoutes.get('/',adminController.getAdminLogin)
 adminRoutes.get('/home',adminController.getAdminHome)
 adminRoutes.post('/login',adminController.postAdminLogin)

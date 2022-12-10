@@ -9,7 +9,7 @@ require('./config/database-connetion')
 
 // express app
 const app = express()
-
+ 
 //view engine setup
 app.set("view engine", "ejs");
 app.set('views');  

@@ -1,42 +1,53 @@
 <%- include('../partials/user-header') %>
+<link rel="stylesheet" href="/public/stylesheets/product-view.css"> 
 
-<!-- <div class="breadcrumb-section breadcrumb-bg"> -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="breadcrumb-text">
-                    <p>See more Details</p>
-                    <h1>Single Product</h1>
-                </div>
+<div class="container py-4 my-4 mx-auto d-flex flex-column">
+    <div class="header">
+        <div class="row r1">
+            <div class="col-md-9 abc">
+                <h1><%= product.name %></h1>
+               
             </div>
+           
+            <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+            <p class="text-right para">Based on 250 Review</p>
         </div>
     </div>
-</div>
-<!-- end breadcrumb section -->
-
-<!-- single product -->
-<div class="single-product mt-150 mb-150">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="single-product-img">
-                    <img src="/admin-images/<%= product._id %>.jpg" style="width: 443px; height: 443px;" alt="">
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="">
-                    <h3></h3>
-                    <h2><%= product.name %></h2>
-                    <p class="text-danger">₹<%= product.price %></p>
+    <div class="container-body mt-4">
+        <div class="row r3">
+            <div class="col-md-5 p-0 klo">
+                <ul>                 
+                    <p><strong>Category :</strong><%= product.category %></p>
                     <p><%= product.description %></p>
-                    <div class="single-product-form">						
-                        <a href="/cart/<%= product._id %>" class=""><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                        <p><strong>Category :</strong><%= product.category %></p>
-                    </div>
+                    <li><h5 class="text-danger">Price:<%= product.price %>₹</h5></li>
+                    <li>100% Quality</li>
+                    <li>Free Shipping</li>
+                    <li>Easy Returns</li>
+                    <li>Normal Delivery : 4-5 Days</li>
+                    <li>Express Delivery : 2-3 Days</li>
+                </ul>
                 
-                </div>
             </div>
+            <div class="col-md-7"> <img src="/admin-images/<%= product._id %>.jpg" width="50%" height="65%"> </div>
+        </div>
+    </div>
+    <div class="footer d-flex flex-column mt-5">
+        <div class="row r4">
+            <div class="col-md-2 myt des"><a href="#">Description</a></div>
+            <div class="col-md-2 myt "><a href="#">Review</a></div>
+            
+            <div class="col-md-2 myt "><button type="button" class="btn btn-outline-warning "><a href="/cart/<%= product._id %>">Add to cart</a></button></div>
         </div>
     </div>
 </div>
+
+
+
+
 <%- include('../partials/user-footer') %>
+
+<!-- ------------------------------------------------------------------- -->
+
+
+
+

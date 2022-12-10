@@ -138,16 +138,19 @@ if(session){
     };
    const userData = await user.findOne({email : session})
    const userCart = await cart.findOne({userId : userData._id})
+
    if(userCart) {
+  
     let proExist = userCart.product.findIndex(
         (product) => product.productId == id
     );
+    
     if(proExist != -1){
-        await cart.aggregate([
-            { 
-                $unwind: "$product"
-            },
-        ]);
+        // await cart.aggregate([
+        //     { 
+        //         $unwind: "$product"
+        //     },
+        // ]);
         await cart.updateOne(
             {userId : userData._id, "product.productId":objId},
             {$inc : { "product.$.quantity": 1 } }  
@@ -164,7 +167,6 @@ if(session){
     }
 
    }else{
-
     const newCart = new cart ({
         userId: userData._id,
         product: [
@@ -182,7 +184,6 @@ if(session){
  viewCart :async(req,res)=>{
     const session = req.session.user
     const userData = await user.findOne({ email : session })
-   
     const productData = await cart
     .aggregate([
       {
@@ -232,14 +233,10 @@ res.render('user/cart',{productData,sum,countInCart})
  
 },
 
-//    changeQuantity:(req,res)=>{
-//      const data = req.body
-//      const objId = mongoose.Types.ObjectId(data.product)
-//  },
+
 
 removeProduct: async (req, res) => {
     const data = req.body;
-    console.log(data);
     // const objId = mongoose.Types.ObjectId(data.product);
     // console.log(objId);
     await cart.aggregate([
@@ -330,7 +327,7 @@ removeProduct: async (req, res) => {
 
     const session = req.session.user
     let userData = await user.findOne({ email : session})
-   res.render('user/profile',{userData,countInCart})
+   res.render('user/profile',{userData,countInCart,customer})
  },
 
   editProfile:async (req,res)=>{
@@ -340,10 +337,10 @@ removeProduct: async (req, res) => {
     res.render('user/edit-profile',{userData,countInCart})
   },
 
-  postEditProfile: (req,res)=>{
+  postEditProfile:async (req,res)=>{
 
     const session = req.session.user
-    user.updateOne(
+     await user.updateOne(
       {email : session},
       {
         $set: {
@@ -363,9 +360,60 @@ removeProduct: async (req, res) => {
           ]
         }
       }
-      )
+      ) 
       res.redirect('/viewProfile')
   },
+
+   getCheckOutPage:async(req,res)=>{
+    let session = req.session.user;
+    const userData = await user.findOne({ email: session });
+    const productData = await cart
+      .aggregate([
+        {
+          $match: { userId: userData.id },
+        },
+        {
+          $unwind: "$product",
+        },
+        {
+          $project: {
+            productItem: "$product.productId",
+            productQuantity: "$product.quantity",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "productItem",
+            foreignField: "_id",
+            as: "productDetail",
+          },
+        },
+        {
+          $project: {
+            productItem: 1,
+            productQuantity: 1,
+            productDetail: { $arrayElemAt: ["$productDetail", 0] },
+          },
+        },
+        {
+          $addFields: {
+            productPrice: {
+              $multiply: ["$productQuantity", "$productDetail.price"]
+            }
+          }
+        }
+      ])
+      .exec();
+    const sum = productData.reduce((accumulator, object) => {
+      return accumulator + object.productPrice;
+    }, 0);
+
+
+    res.render("user/checkout", { productData, sum, countInCart, userData });
+
+
+   }
 
   
 
