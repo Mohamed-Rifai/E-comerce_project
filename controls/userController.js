@@ -1,9 +1,12 @@
-const user = require('../model/user-schema')
+const user = require('../model/user-schema')          
 const bcrypt = require('bcrypt')
 const products = require('../model/product-schema')
 const mailer = require('../middleware/otpValidation')
 const cart = require('../model/cart-schema')
+const order = require('../model/order-schema')
 const mongoose = require('mongoose')
+const moment = require('moment')
+moment().format();
 
 let name;
 let email;
@@ -355,11 +358,11 @@ removeProduct: async (req, res) => {
               district:req.body.district,
               state:req.body.state,
               postoffice:req.body.postoffice,
-              pin:req.body.pin
-            }
-          ]
-        }
-      }
+              pin:req.body.pin,
+            },
+          ],
+        },
+      },
       ) 
       res.redirect('/viewProfile')
   },
@@ -370,7 +373,7 @@ removeProduct: async (req, res) => {
     const productData = await cart
       .aggregate([
         {
-          $match: { userId: userData.id },
+          $match: { userId: userData.id }, 
         },
         {
           $unwind: "$product",
@@ -413,7 +416,110 @@ removeProduct: async (req, res) => {
     res.render("user/checkout", { productData, sum, countInCart, userData });
 
 
-   }
+   },
+
+   addNewAddress: async (req, res) => {
+    const session = req.session.user
+    const addObj = {
+
+      housename: req.body.housename,
+      area: req.body.area,
+      landmark: req.body.landmark,
+      district: req.body.district,
+      state: req.body.state,
+      postoffice: req.body.postoffice,
+      pin: req.body.pin
+
+    }
+
+    await user.updateOne({ email: session }, { $push: { addressDetails: addObj } })
+    res.redirect('/checkout')
+  },
+
+
+   placeOrder :async (req,res)=>{
+      
+    const session = req.session.user;
+    const userData = await user.findOne({ email: session })
+    const cartData = await cart.findOne({ userId: userData._id });
+    const status = req.body.paymentMethod === "COD" ? "placed" : "pending";
+
+    if (cartData) {
+
+      const productData = await cart
+        .aggregate([
+          {
+            $match: { userId: userData.id },
+          },
+          {
+            $unwind: "$product",
+          },
+          {
+            $project: {
+              productItem: "$product.productId",
+              productQuantity: "$product.quantity",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "productItem",
+              foreignField: "_id",
+              as: "productDetail",
+            },
+          },
+          {
+            $project: {
+              productItem: 1,
+              productQuantity: 1,
+              productDetail: { $arrayElemAt: ["$productDetail", 0] },
+            },
+          },
+          {
+            $addFields: {
+              productPrice: {
+                $multiply: ["$productQuantity", "$productDetail.price"]
+              }
+            }
+          }
+        ])
+        .exec();
+      const sum = productData.reduce((accumulator, object) => {
+        return accumulator + object.productPrice;
+      }, 0);
+
+      const orderData = await order.create({
+        userId: userData._id,
+        name: userData.name,
+        phonenumber: userData.phonenumber,
+        address: req.body.address,
+        orderItems: cartData.product,
+        totalAmount: sum,
+        paymentMethod: req.body.paymentMethod,
+        orderStatus: status,
+        orderDate: moment().format("MMM Do YY"),
+        deliveryDate: moment().add(3, "days").format("MMM Do YY")
+      })
+
+
+      await cart.deleteOne({ userId: userData._id });
+      if (req.body.paymentMethod === "COD") {
+        res.json({ success: true });
+      }
+
+    } else {
+
+      res.redirect("/viewCart");
+    }
+
+
+  },
+  orderSuccess :(req,res)=>{
+    res.render('user/order-success')
+  }
+
+
+   
 
   
 
