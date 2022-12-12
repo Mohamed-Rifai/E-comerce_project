@@ -1,0 +1,66 @@
+
+
+<%- include('../partials/user-header') %>
+
+<section class="bg-light " style="height: 100vh;">
+ 
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+          <div class="bg-white m-5" style="height: 30vh;width: 30vw; ">
+<h4 class=" ml-5"><b>Order Details</b></h4>
+<h6 class="text-decoration-underline ml-3 "><strong> Delivery address for this order</strong></h6>
+<% let phone='Ph:' %>
+<div class="ml-3">
+    <p><%=productData[0].name %>,<br><%=productData[0].address %>,<br><%=phone %> <%=productData[0].phonenumber %></p>
+</div>
+          </div>
+            </div> 
+
+        </div>
+        <table class="table bg-white">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Ordered quantity</th>
+                <th scope="col">Price/kg</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% productData.forEach((order)=>{ %>
+                    <tr>
+                        <td><img style="height: 10vh; width:auto;" src="/public/admin-images/<%=order.productDetail._id %>.jpg"
+                            class="img-fluid" alt="" /></td>
+                        <td>
+                            <%= order.productDetail.name %>
+                        </td>
+                        <td>
+                            <%= order.productDetail.category%>
+                        </td>
+                        <td>
+                            <%= order.productQuantity %> kg
+                        </td>
+                        
+                        <% var a=order.productQuantity%>
+                        <% var b=order.productDetail.price%>
+                          <% var c=a*b %>
+                            
+                              <td>
+                                <%=order.productDetail.price%> ₹
+                              </td>
+                              <td>
+                                <%=c %> ₹ ( for <%= order.productQuantity%> kg )
+                              </td>
+                      </tr>
+              <%  }) %> 
+                
+            </tbody>
+          </table><tr>
+    </div>
+   
+
+</section>
+<%- include('../partials/user-footer')%> 

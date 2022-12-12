@@ -4,6 +4,7 @@ const products = require('../model/product-schema')
 const mailer = require('../middleware/otpValidation')
 const cart = require('../model/cart-schema')
 const order = require('../model/order-schema')
+const categories = require('../model/category-schema')
 const mongoose = require('mongoose')
 const moment = require('moment')
 moment().format();
@@ -326,6 +327,9 @@ removeProduct: async (req, res) => {
     res.json({ status: true, productData });
   },
 
+
+  
+
   viewProfile:async (req,res)=>{
 
     const session = req.session.user
@@ -442,14 +446,14 @@ removeProduct: async (req, res) => {
     const session = req.session.user;
     const userData = await user.findOne({ email: session })
     const cartData = await cart.findOne({ userId: userData._id });
+    const userId = userData._id.toString()
     const status = req.body.paymentMethod === "COD" ? "placed" : "pending";
 
     if (cartData) {
-
       const productData = await cart
         .aggregate([
           {
-            $match: { userId: userData.id },
+            $match: { userId: userId },
           },
           {
             $unwind: "$product",
@@ -491,7 +495,7 @@ removeProduct: async (req, res) => {
       const orderData = await order.create({
         userId: userData._id,
         name: userData.name,
-        phonenumber: userData.phonenumber,
+        phonenumber: userData.phone,
         address: req.body.address,
         orderItems: cartData.product,
         totalAmount: sum,
@@ -515,8 +519,83 @@ removeProduct: async (req, res) => {
 
   },
   orderSuccess :(req,res)=>{
-    res.render('user/order-success')
+    res.render('user/order-success',{countInCart})
+  },
+
+  orderDetails: async (req, res) => {
+
+    const session = req.session.user
+    const userData = await user.findOne({ email: session });
+    order.find({ userId: userData._id }).sort({ createdAt: -1 }).then((orderDetails) => {
+      const orderLength = orderDetails.length
+      res.render('user/order-details', { orderLength,orderDetails, countInCart })
+    })
+
+
+  },
+
+  orderedProduct:async (req,res) =>{
+    const id = req.params.id
+    const objId = mongoose.Types.ObjectId(id)
+    console.log(objId);
+    const productData = await order.aggregate([
+           {
+            $match:{_id : objId}
+           },
+           {
+           $unwind: "$orderItems"
+           },
+           {
+            $project:{
+              productItem: "$orderItems.productId",
+              productQuantity: "$orderItems.quantity",
+              address: 1,
+              name : 1,
+              phonenumber: 1
+            }
+           },
+           {
+            $lookup: {
+              from: "products",
+              localField: "productItem",
+              foreignField: "_id",
+              as: "productDetail",
+            },
+           },
+
+           {
+            $project: {
+              productItem: 1,
+              productQuantity: 1,
+              name: 1,
+              phonenumber: 1,
+              address: 1,
+              productDetail: { $arrayElemAt: ["$productDetail", 0] },
+            }
+          },
+          // {
+          //   $lookup: {
+          //     from: 'categories',
+          //     localField: 'productDetail.category',
+          //     foreignField: "_id",
+          //     as: "category_name"
+          //   }
+          // },
+          // {
+          //   $unwind: "$category_name"
+          // },
+           
+    ])
+    console.log(productData);
+    res.render('user/orderd-product',{productData,countInCart})
+  },
+
+  cancelOrder:async (req,res)=>{  
+    const data = req.params.id
+    await order.updateOne({ _id : data},{$set:{ orderStatus :"cancelled"}})
+    res.redirect('/orderDetails')
   }
+
 
 
    

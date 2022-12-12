@@ -14,7 +14,7 @@ const orderSchema = new Schema(
         },
         phonenumber: {
             type: Number,
-            // required: true,
+            required: true,
         },
         address:{
             type: String,

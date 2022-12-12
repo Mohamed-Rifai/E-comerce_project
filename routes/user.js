@@ -17,7 +17,7 @@ router.post('/login',userController.postlogin)
 router.get('/logout',userController.userLogout)
 router.get('/shop',verifyLogin.verifyLoginUser, userController.getShopPage)
 router.get('/product-view/:id',verifyLogin.verifyLoginUser ,userController.productView) 
-router.get('/cart/:id',userController.addToCart)
+router.get('/cart/:id',verifyLogin.verifyLoginUser,userController.addToCart)
 router.get('/viewCart',verifyLogin.verifyLoginUser,userController.viewCart)
 router.post('/removeProduct',userController.removeProduct)
 router.post('/changeQuantity',userController.changeQuantity,userController.totalAmount)
@@ -28,7 +28,10 @@ router.get('/checkout',verifyLogin.verifyLoginUser,userController.getCheckOutPag
 router.post('/addNewAddress',userController.addNewAddress)
 router.post('/placeOrder',userController.placeOrder)
 router.get('/orderSuccess',verifyLogin.verifyLoginUser,userController.orderSuccess)
-
+router.get("/orderDetails", verifyLogin.verifyLoginUser, userController.orderDetails);
+router.get('/orderedProduct/:id',verifyLogin.verifyLoginUser,userController.orderedProduct)
+router.get('/cancelOrder/:id',userController.cancelOrder)
+router.get('/viewWishList',verifyLogin.verifyLoginUser) 
 
 
 module.exports=router

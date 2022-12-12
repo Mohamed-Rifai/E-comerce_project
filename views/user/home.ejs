@@ -48,6 +48,7 @@
            <h4 class="card-text text-danger">₹<%= products.price %></h4>
            <% if(customer){ %>
               <a href="/product-view/<%= products?._id %>" class="btn btn-primary">Buy now</a>
+              <a class="btn btn-danger" href=""><i class='fa fa-heart'> <sub>+</sub></i></a>
               <% }else{ %>
                 <a href="/login" class="btn btn-danger">Buy now</a>
                 <% } %>
@@ -57,6 +58,8 @@
      <% }) %>
     </div>
   </div>
+
+  
      
      <section style="background-color: #eee;">
       <div class="text-center container py-5">
@@ -256,4 +259,5 @@
    
 
 
+    
    

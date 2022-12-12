@@ -1,0 +1,115 @@
+<%- include('../partials/user-header')%>
+<section class="bg-light " style="height: 100vh;">
+
+  <% if (orderLength  >0) { %>
+    
+    <div class=" p-5 ">
+      <h2 class="text-center">Order Details</h2>
+  </div>
+  
+  <div class="container ">
+      <div class="row">
+          <table class="table bg-white">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Order date</th>
+                      <th scope="col">Payment method</th>
+                      <th scope="col">Payment status</th>
+                      <th scope="col">Order status</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Delivery date</th>
+                      <th scope="col">Controlls</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%let count=1%> 
+                <% orderDetails.forEach((order)=>{ %>
+  
+                  <tr>
+                    <th scope="row"><%= count %> </th>
+                    <td><%= order.orderDate %> </td>
+                    <td><%= order.paymentMethod %> </td>
+                    <td><%= order.paymentStatus %> </td>
+                    <td><%= order.orderStatus %> </td>
+                    <td><%= order.totalAmount %> </td>
+                    <td><%= order.deliveryDate %> </td>
+  
+                    <td>
+                      <!-- Button trigger modal -->
+                      <% if(order.orderStatus=='placed' || order.orderStatus=='pending' || order.orderStatus=='Shipped' ){ %> 
+                         <!-- Button trigger modal -->
+                      <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal-<%=order._id%>">
+                      <img src="/images/cancel.png" style="width: 20px; height: auto;" alt=""> 
+                      </button>
+                    
+                           <% } %> 
+  
+                   
+                           <!-- <img src="/images/cancel.png" style="width: 20px; height: auto;" alt=""></i>  -->
+    
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal-<%=order._id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+        <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close"> <img src="/images/cancel.png" style="width: 20px; height: auto;" alt=""> </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to cancel this order ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="/cancelOrder/<%=order._id%>"><button type="button"
+          class="btn btn-danger">Cancel</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+  
+                  <a href="/orderedProduct/<%= order._id %> "><img src="/images/icons8-view-64.png" class=" ml-2" style="width: 25px; height: auto;" alt=""></a>
+                    </td>
+  
+                  </tr>
+                 <% count++ %> 
+              <% }) %> 
+               
+              </tbody>
+            </table>
+      </div>
+  </div>
+</section>
+  <%- include('../partials/user-footer')%> 
+
+  <% } else { %>
+
+    <div class="container-fluid " >
+      <div class="row">
+      
+       <div class="col-md-12 mt-5">
+       
+           
+       
+         <div class="card-body cart ">
+             <div class="col-sm-12 empty-cart-cls text-center mt-5">
+               <img src="/images/bag.svg" width="130" height="130" class="img-fluid mb-4 mr-3 ">
+               <h3><strong>NO MORE ORDERS!!!</strong></h3>
+               <h4>Add something to make me happy :)</h4>
+               <a href="/shop" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+               
+             
+             </div>
+         </div>
+     </div>
+         
+       
+       </div>
+      
+      </div>
+     
+
+<%  } %>
+
