@@ -2,8 +2,9 @@
     <%- include('../layout/layout') %>
     <link rel="stylesheet" href="../public/stylesheets/style.css">
     <title>Choco world</title>
-    <header>
-            <nav class="navbar navbar-expand-lg navbar-light "  >
+   <header style="width: 100%;position: fixed; z-index: 10;">
+    <div >
+            <nav class="navbar navbar-expand-lg navbar-light " style=""  >
                 <img src="https://www.cadbury.co.uk/~/media/cadburydev/uk/images/common/logo.png " class="ml-5" alt="">
                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +43,13 @@
                    <span class="badge rounded-pill badge-notification bg-danger mb-4"><%=countInCart %> </span>
                   <% } %>
                  <% } %>
+
+                 <% if (customer) { %>
+                  <a href="/viewWishList"> <i class='fa fa-heart ml-4' style='color: white'  aria-hidden="true"> </i></a>
+                    <% if (locals.countWishlist) { %>
+                   <span class="badge rounded-pill badge-notification bg-danger mb-4"><%=countWishlist %> </span>
+                  <% } %>
+                 <% } %>
                  
                       <ul class="navbar-nav">
                         <li class="nav-item dropdown ml-5">
@@ -68,5 +76,6 @@
                   </div>
                 </div>
               </nav>
+            </div>
     </header>
    

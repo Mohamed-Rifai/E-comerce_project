@@ -1,12 +1,15 @@
 body {
     background: #d3dadc;
-    font-family: Arial, Helvetica, sans-serif
+    font-family: Arial, Helvetica, sans-serif;
+  
+   
 }
 
 .container {
     background: #fff !important;
     border: none;
-    border-radius: none
+    border-radius: none;
+    
 }
 
 .abc {

@@ -213,6 +213,9 @@ module.exports={
     
        
 
+    },
+    example:(req,res)=>{
+        res.render('admin/example')
     }
 
 

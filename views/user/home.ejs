@@ -3,7 +3,7 @@
 <%- include('../partials/user-header') %>
 
 
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="margin-top: 72px;">
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img class="d-block " src="/images/dairymilk1.jpg" alt="First slide" style="width:100vw;height:75vh;">
@@ -48,7 +48,7 @@
            <h4 class="card-text text-danger">₹<%= products.price %></h4>
            <% if(customer){ %>
               <a href="/product-view/<%= products?._id %>" class="btn btn-primary">Buy now</a>
-              <a class="btn btn-danger" href=""><i class='fa fa-heart'> <sub>+</sub></i></a>
+              <a class="btn btn-danger" href="/add-to-wishlist/<%= products?._id %> "><i class='fa fa-heart'> <sub>+</sub></i></a>
               <% }else{ %>
                 <a href="/login" class="btn btn-danger">Buy now</a>
                 <% } %>

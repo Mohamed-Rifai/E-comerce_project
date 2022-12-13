@@ -1,0 +1,81 @@
+<%- include('../partials/user-header')%>
+ <% if (countWishlist !== 0) { %>
+  
+ 
+<section class=" " style="height: 100vh;background-color: rgb(229, 234, 232);">
+   
+    <div class="container py-3" style="margin-top: 70px;background-color:rgb(229, 234, 232);">
+        <h1 class="text-center">Wish List</h1>
+    </div>
+
+    <div class="container">
+    <table class="table">
+        <thead class="table-light">
+            <tr class="table-head-row">
+            <th class="product-remove">Remove</th>
+            <th class="product-image">Product Image</th>
+            <th class="product-name">Name</th>
+            <th class="product-price">Price/kg</th>
+            <th class="product-quantity">Add to cart</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% wishlistData.forEach((product)=>{ %>
+
+                <tr class="table-body-row">
+                    <td class="product-remove">
+                       <button onclick="removeFromWishlist('<%= product._id %>','<%= product.productDetail._id %>')" class="btn mt-5"><img src="/images/delete.png" style="width: 25px; height: auto;" alt=""></i> </button> 
+                </td>
+                <td class="product-image">
+                   <img src="/admin-images/<%=product.productDetail._id%>.jpg" style="width: 10vw; height: auto;" alt="">
+                </td>
+                <td class="product-name ">
+                   <h6 class="mt-5"> <%= product.productDetail.name %> </h6>
+                </td>
+                <td class="product-price">
+                    <h6 class="mt-5"> <%= product.productDetail.price%> </h6>
+                </td>
+                <td class="product-quantity">
+                  <a class="btn mt-5" href="/cart/<%= product.productDetail._id %>"><img src="/images/icons8-cart-64.png" style="width: 25px; height: auto;" alt=""> <sub>+</sub></a>
+                    
+                </td>
+                </tr>
+
+         <%  }) %> 
+            
+        </tbody>
+      </table>
+    </div>
+</section>
+
+<%- include('../partials/user-footer')%> 
+
+<% }else{ %>
+
+    <div class="container-fluid  " style="height: 75vh; margin-top: 80px;">
+        <div class="row">
+        
+         <div class="col-md-12 mt-5">
+         
+             
+         
+           <div class="card-body cart ">
+               <div class="col-sm-12 empty-cart-cls text-center mt-5">
+                 <img src="/images/wishlist-online-gift.webp" width="350" height="350" class="img-fluid mb-4 mr-3 ">
+                 <h3><strong>Your Wish List is Empty</strong></h3>
+                 <h4>Choose your favorite Products </h4>
+                 <a href="/shop" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                 
+               
+               </div>
+           </div>
+       </div>
+           
+         
+         </div>
+        
+        </div>
+       
+       
+
+    <% } %> 

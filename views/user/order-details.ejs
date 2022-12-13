@@ -1,5 +1,5 @@
 <%- include('../partials/user-header')%>
-<section class="bg-light " style="height: 100vh;">
+<section class="bg-light " style="height: 100vh;margin-top: 90px;">
 
   <% if (orderLength  >0) { %>
     
@@ -43,9 +43,11 @@
                       <img src="/images/cancel.png" style="width: 20px; height: auto;" alt=""> 
                       </button>
                     
-                           <% } %> 
-  
-                   
+                           <% }else { %> 
+                            
+                            <img src="/images/delete.png" class="mx-3" style="width: 25px; height: auto;" alt="">
+                         
+                   <% } %> 
                            <!-- <img src="/images/cancel.png" style="width: 20px; height: auto;" alt=""></i>  -->
     
 

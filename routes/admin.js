@@ -25,7 +25,7 @@ adminRoutes.get('/category',adminController.getCategory)
 adminRoutes.post('/addCategory',adminController.addCategory) 
 adminRoutes.post('/editCategory/:id',adminController.editCategory) 
 adminRoutes.get('/delete-category/:id',adminController.deleteCategory)
-
+adminRoutes.get('/example',adminController.example)
 
 
 module.exports  = adminRoutes

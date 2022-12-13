@@ -17,6 +17,9 @@ router.post('/login',userController.postlogin)
 router.get('/logout',userController.userLogout)
 router.get('/shop',verifyLogin.verifyLoginUser, userController.getShopPage)
 router.get('/product-view/:id',verifyLogin.verifyLoginUser ,userController.productView) 
+router.get('/add-to-wishlist/:id',verifyLogin.verifyLoginUser,userController.addToWishList)
+router.get('/viewWishList',verifyLogin.verifyLoginUser,userController.viewWishList) 
+router.post('/wishlist-remove',verifyLogin.verifyLoginUser,userController.removeFromWishlist)
 router.get('/cart/:id',verifyLogin.verifyLoginUser,userController.addToCart)
 router.get('/viewCart',verifyLogin.verifyLoginUser,userController.viewCart)
 router.post('/removeProduct',userController.removeProduct)
@@ -31,7 +34,6 @@ router.get('/orderSuccess',verifyLogin.verifyLoginUser,userController.orderSucce
 router.get("/orderDetails", verifyLogin.verifyLoginUser, userController.orderDetails);
 router.get('/orderedProduct/:id',verifyLogin.verifyLoginUser,userController.orderedProduct)
 router.get('/cancelOrder/:id',userController.cancelOrder)
-router.get('/viewWishList',verifyLogin.verifyLoginUser) 
 
 
 module.exports=router

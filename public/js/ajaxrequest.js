@@ -32,3 +32,27 @@ function removeProduct(cartId, productId) {
         }
     })
   }
+
+  function removeFromWishlist(wishlistId,productId){
+    console.log('fuction working');
+   $.ajax({
+    url: "/wishlist-remove",
+    method: "post",
+    data : {
+      wishlistId,
+      productId,
+    },
+    success : ()=>{
+      Swal.fire({
+        title: "Product removed from wishlist!",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then( ()=> {
+        location.reload();
+      })
+
+    }
+
+   })
+
+  }

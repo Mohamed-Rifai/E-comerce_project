@@ -5,6 +5,7 @@ const mailer = require('../middleware/otpValidation')
 const cart = require('../model/cart-schema')
 const order = require('../model/order-schema')
 const categories = require('../model/category-schema')
+const wishlist = require('../model/wishlist')
 const mongoose = require('mongoose')
 const moment = require('moment')
 moment().format();
@@ -14,6 +15,7 @@ let email;
 let phone;
 let password;
 let countInCart;
+let countWishlist;
 
 
  
@@ -129,6 +131,105 @@ if(session){
     const id = req.params.id
     const product = await products.findOne({_id:id})
     res.render('user/product-view',{product})
+ },
+ addToWishList:async(req,res)=>{
+    const id = req.params.id
+    const objId = mongoose.Types.ObjectId(id)
+    const session = req.session.user
+
+  let proObj = {
+  productId :objId
+  }
+   const userData = await user.findOne({ email : session })
+   const userWishlist = await wishlist.findOne({ userId : userData._id})
+   console.log(userData);
+  console.log(userWishlist);
+  if(userWishlist){
+
+      let proExist = userWishlist.product.findIndex(
+        (product)=> product.productId == id 
+        );
+       if(proExist !== -1){
+       res.redirect('/viewWishList')
+       }else{
+        
+        wishlist.updateOne(
+          { userId : userData._id},{ $push:{ product : proObj }}
+        ).then(()=>{
+          res.redirect('/viewWishList')
+        })
+       }
+
+ }else{
+console.log('create collection');
+  const newWishlist = new wishlist({
+    userId : userData._id,
+    product : [
+      {
+        productId:objId
+      },
+    ]
+  });
+  newWishlist.save().then(()=>{
+    console.log('whishlist created');
+    res.redirect('/viewWishList')
+  })
+ }
+
+ },
+ viewWishList :async(req,res)=>{
+   const session = req.session.user
+   const userData = await user.findOne({email : session})
+   const userId = userData._id
+  
+   const wishlistData = await wishlist
+   .aggregate([
+    {
+      $match: { userId : userId}
+    },
+    {
+      $unwind: "$product"
+    },
+    {
+      $project : {
+        productItem : "$product.productId",
+      }
+    },
+    {
+      $lookup : {
+        from:"products",
+        localField:"productItem",
+        foreignField:"_id",
+        as:"productDetail"
+      }
+    },
+    {
+      $project:{
+        productItem:1,
+        productDetail: { $arrayElemAt:["$productDetail",0]}
+      }
+    }
+   ]);
+    countWishlist = wishlistData.length
+    res.render('user/wishlistpage', {wishlistData,countWishlist,countInCart})
+ },
+
+ removeFromWishlist:async(req,res)=>{
+      const data = req.body
+      const objId = mongoose.Types.ObjectId(data.productId)
+     await wishlist.aggregate([
+           {
+            $unwind : "$product"
+           },
+     ]);
+     await wishlist.updateOne(
+      {_id : data.wishlistId,"product.productId" : objId},
+      {$pull: { product: { productId : objId}}}
+     )
+     .then(()=>{
+      res.json({ status : true})
+     })
+
  },
 
 
