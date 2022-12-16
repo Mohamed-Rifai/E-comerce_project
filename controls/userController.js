@@ -363,6 +363,7 @@ removeProduct: async (req, res) => {
   },
   changeQuantity : (req,res,next)=>{   
     const data = req.body
+    console.log(data);
     const objId = mongoose.Types.ObjectId(data.product)
 
     if(data.count == -1 && data.quantity == 1){

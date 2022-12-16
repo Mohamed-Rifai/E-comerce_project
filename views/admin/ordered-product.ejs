@@ -15,15 +15,39 @@
           </tr>
         </thead>
         <tbody >
-         <td >helllooo</td>
-         <td >helllooo</td>
-         <td >helllooo</td>
-         <td >helllooo</td>
-         <td >helllooo</td>
-         <td >helllooo</td>
+          <%productData.forEach(order => { %>
+            <tr>
+              <td ><img src="/admin-images/<%=order.productDetail._id%>.jpg"  alt="" style="width: 100px;"></td>
+         <td ><%= order.productDetail.name %> </td>
+         <td ><%= order.category_name.category_name %> </td>
+         <td ><%= order.productQuantity %> </td>
+         <td ><%= order.productDetail.price %> </td>
+
+         <% var a= order.productQuantity %>
+         <% var b= order.productDetail.price %>
+        <% var c=a*b %> 
+         <td >$<%= c %>(for <%= order.productQuantity %>kg ) </td>
+
+              </tr> 
+        <%  }) %> 
+
+       
+         
+         
+     
         </tbody>
       </table>
+      <div class="card m-5" style="width: 20rem;">
+        <div class="card-body">
+          <h5 class="card-title" style="text-decoration: underline;">Delivery Address</h5>
+          <% let phone='Ph:' %> 
+          <p class="card-text"><%= productData[0].name %>  </p><br>
+          <p class="card-text "><%= productData[0].address %>,<br><%= phone %><%= productData[0].phonenumber %>    </p><br>
+          
+        </div>
+      </div>
 </div>
+
 
 </div>
 </div>

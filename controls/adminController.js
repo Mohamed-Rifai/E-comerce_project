@@ -248,7 +248,7 @@ module.exports={
     },
 
     getOrderedProduct :async (req,res)=>{
-      
+      console.log('its working getOrderd Product');
         const id = req.params.id
         const objId = mongoose.Types.ObjectId(id)
 
@@ -267,10 +267,57 @@ module.exports={
                     name:1,
                     phonenumber:1
                 }
-            }
-        ])
-        res.render('admin/ordered-product') 
+            },
+            {
+                $lookup:{
+                    from:"products",
+                    localField:"productItem",
+                    foreignField:"_id",
+                    as:"productDetail"
+                }
+            },
+            {
+                $project: {
+                    productItem: 1,
+                    productQuantity: 1,
+                    address: 1,
+                    name: 1,
+                    phonenumber: 1,
+                    productDetail: { $arrayElemAt: ["$productDetail", 0] },
+                }
+            },
 
+            {
+                $lookup:{
+                    from: "categories",
+                    localField:"productDetail.category",
+                    foreignField:"_id",
+                    as: "category_name"
+                }
+            },
+            {
+                $unwind: "$category_name"
+            }
+
+        ])
+        console.log(productData);
+        res.render('admin/ordered-product',{productData}) 
+
+    },
+
+    orderStatusChange :async (req,res)=>{
+         const id = req.params.id
+         const data = req.body
+         await order.updateOne(
+            { _id:id},
+            {
+                $set:{
+                    orderStatus: data.orderStatus,
+                    paymentStatus:data.paymentStatus
+                }
+            }
+         )
+         res.redirect('/admin//orders')
     }
 
    

@@ -28,5 +28,6 @@ adminRoutes.post('/editCategory/:id',adminController.editCategory)
 adminRoutes.get('/delete-category/:id',verifyLogin.verifyLoginAdmin,adminController.deleteCategory)
 adminRoutes.get('/orders',verifyLogin.verifyLoginAdmin,adminController.getOrders)
 adminRoutes.get('/orderedProduct/:id',verifyLogin.verifyLoginAdmin,adminController.getOrderedProduct)
+adminRoutes.post('/orderStatusChange/:id',verifyLogin.verifyLoginAdmin,adminController.orderStatusChange)
 
 module.exports  = adminRoutes
