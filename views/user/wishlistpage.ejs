@@ -2,13 +2,13 @@
  <% if (countWishlist !== 0) { %>
   
  
-<section class=" " style="height: 100vh;background-color: rgb(229, 234, 232);">
+<section class=" " style="background-color: rgb(229, 234, 232);">
    
     <div class="container py-3" style="margin-top: 70px;background-color:rgb(229, 234, 232);">
         <h1 class="text-center">Wish List</h1>
     </div>
 
-    <div class="container">
+    <div class="container" style="height: 100vh;">
     <table class="table">
         <thead class="table-light">
             <tr class="table-head-row">
@@ -36,7 +36,7 @@
                     <h6 class="mt-5"> <%= product.productDetail.price%> </h6>
                 </td>
                 <td class="product-quantity">
-                  <a class="btn mt-5" href="/cart/<%= product.productDetail._id %>"><img src="/images/icons8-cart-64.png" style="width: 25px; height: auto;" alt=""> <sub>+</sub></a>
+                  <button class="btn mt-5" onclick="addToCart('<%= product.productDetail._id %>')"><img src="/images/icons8-cart-64.png" style="width: 25px; height: auto;" alt=""> <sub>+</sub></button>
                     
                 </td>
                 </tr>

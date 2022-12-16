@@ -7,7 +7,7 @@ const wishlistschema = new Schema(
             type:ObjectId,
             required:true
         },
-        product : [
+        product : [ 
             {
                 productId: {
                     type :ObjectId,
@@ -18,4 +18,4 @@ const wishlistschema = new Schema(
     }
 )
 
-module.exports =  mongoose.model('wishlist',wishlistschema)
+module.exports =  mongoose.model('wishlist',wishlistschema) 

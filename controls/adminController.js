@@ -1,6 +1,10 @@
 const user = require('../model/user-schema')
 const products = require('../model/product-schema')
 const categories = require('../model/category-schema')
+const order = require('../model/order-schema')
+const mongoose = require('mongoose')
+const moment = require('moment')
+moment().format();
 
 
 
@@ -42,14 +46,10 @@ module.exports={
         res.redirect('/admin')
     },
     getAllUsers:async(req,res)=>{
-        const admin = req.session.admin
         
-        if(admin){
             const users =await user.find()
             res.render('admin/userDetails',{users})
-        }else{
-            res.redirect('/admin')
-        }
+       
        
     },
     blockUser:async(req,res)=>{
@@ -73,20 +73,21 @@ module.exports={
         res.render('admin/addProduct',{category})
     },
     productDetails:async(req,res)=>{
-        const admin = req.session.admin
-        if(admin){
-            const product = await products.find()
-            res.render('admin/productDetails',{product})
-        }
+
+            let product = await products.find().populate('category')
+            res.render("admin/productdetails", { product })
        
     },
-    //products send to database
+   
     postProduct:async(req,res)=>{
-        const image = req.files.image
+
+        let categoryId = req.body.category
+
+        const image = req?.files?.image
         const product = new products({ 
              name:req.body.name,
              price:req.body.price,
-             category:req.body.category,
+             category:categoryId,
              description:req.body.description, 
              stock:req.body.stock
         })
@@ -150,25 +151,24 @@ module.exports={
        
     },
     getCategory:async(req,res)=>{
-      const admin = req.session.admin
-      if(admin){       
+      
             const category = await categories.find()
-            let submitErr = req.session.submitErr   
-            req.session.submitErr = ""  
-            res.render('admin/category',{category, submitErr})  
-        } else{
+           
             
-        res.redirect('/admin')
-      }
-  
+            const categoryExist = req.session.categoryExist
+            req.session.categoryExist = ""
 
+            const  editCategoryExists = req.session.editCategoryExists
+            req.session.editCategoryExists = ""
+            res.render('admin/category',{category,categoryExist,editCategoryExists})  
+        
     },
     addCategory:async (req,res)=>{
         if(req.body.name){
             const name = req.body.name
-            const catgry = await categories.findOne({category_name:name})
-            if(catgry){
-                //must pass massage 
+            const category = await categories.findOne({category_name:name})
+            if(category){
+                req.session.categoryExist = 'Category already Exist'
                 res.redirect('/admin/category')
             }else{
                 const category = new categories ({
@@ -180,7 +180,7 @@ module.exports={
             }
             }
             else{
-            req.session.submitErr = "oops some data missing!!!"
+            
             res.redirect( '/admin/category')
         }
                  
@@ -197,11 +197,11 @@ module.exports={
              }})
                  res.redirect('/admin/category')  
                 }else{
-                    //must pass massage
+                    req.session.editCategoryExists = 'Already Exist'
                     res.redirect('/admin/category')
                 }     
         }else{
-            //must pass massage
+           
             res.redirect('/admin/category')
         }  
     },
@@ -214,9 +214,46 @@ module.exports={
        
 
     },
-    example:(req,res)=>{
-        res.render('admin/example')
+
+    getOrders :async (req,res)=>{
+
+      const orderDetails = await  order.aggregate([
+
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "orderItems.productId",
+                    foreignField: "_id",
+                    as: "product",
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "userId",
+                    foreignField: "_id",
+                    as: "user",
+                },
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+
+        ])
+            console.log(orderDetails);
+            res.render("admin/orders",{orderDetails});
+       
+    },
+
+    getOrderedProduct : (req,res)=>{
+    
+        res.render('admin/ordered-product') 
+
     }
+
+   
 
 
 }

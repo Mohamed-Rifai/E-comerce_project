@@ -40,14 +40,14 @@
                  <% if (customer) { %>
                   <a href="/viewCart"> <i class="fa fa-shopping-cart text-white " aria-hidden="true"> </i></a>
                     <% if (locals.countInCart) { %>
-                   <span class="badge rounded-pill badge-notification bg-danger mb-4"><%=countInCart %> </span>
+                  <sup> <span class="badge rounded-pill badge-notification bg-danger "><%=countInCart %> </span></sup>
                   <% } %>
                  <% } %>
 
                  <% if (customer) { %>
                   <a href="/viewWishList"> <i class='fa fa-heart ml-4' style='color: white'  aria-hidden="true"> </i></a>
                     <% if (locals.countWishlist) { %>
-                   <span class="badge rounded-pill badge-notification bg-danger mb-4"><%=countWishlist %> </span>
+                      <sup>  <span class="badge rounded-pill badge-notification bg-danger "><%=countWishlist %> </span></sup>
                   <% } %>
                  <% } %>
                  

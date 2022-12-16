@@ -17,18 +17,17 @@
         <div class="row r3">
             <div class="col-md-5 p-0 klo">
                 <ul>                 
-                    <p><strong>Category :</strong><%= product.category %></p>
+                    <p><strong>Category :</strong><%= product.category.category_name %></p>
                     <p><%= product.description %></p>
                     <li><h5 class="text-danger">Price:<%= product.price %>₹</h5></li>
-                    <li>100% Quality</li>
-                    <li>Free Shipping</li>
-                    <li>Easy Returns</li>
-                    <li>Normal Delivery : 4-5 Days</li>
-                    <li>Express Delivery : 2-3 Days</li>
+                    <li>100% Quality <br>
+                  <small>(Free Delivery)</small>
+                </li>
+                   
                 </ul>
                 
             </div>
-            <div class="col-md-7"> <img src="/admin-images/<%= product._id %>.jpg" width="50%" height="65%"> </div>
+            <div class="col-md-7"> <img src="/admin-images/<%= product._id %>.jpg" width="50%" > </div>
         </div>
     </div>
     <div class="footer d-flex flex-column mt-5">
@@ -36,7 +35,7 @@
             <div class="col-md-2 myt des"><a href="#">Description</a></div>
             <div class="col-md-2 myt "><a href="#">Review</a></div>
             
-            <div class="col-md-2 myt "><button type="button" class="btn btn-outline-warning "><a href="/cart/<%= product._id %>">Add to cart</a></button></div>
+            <div class="col-md-2 myt "><button type="button" onclick="addToCart('<%= product._id %>')" class="btn btn-outline-warning ">Add to cart</button></div>
         </div>
     </div>
 </div>

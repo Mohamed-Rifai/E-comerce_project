@@ -73,7 +73,7 @@ form.addEventListener('submit',(e)=>{
     }else if(conPasswordValue !== passwordValue ){
         setError(confirmPassword,'Password do not match','conpasswordError')
         flag = 1 
-    }else{
+    }else{ 
         setSuccess(confirmPassword,'conpasswordError')
         flag = 0
     }

@@ -21,26 +21,26 @@ let countWishlist;
  
 module.exports={ 
 
-// render home page
+
 gethome:async(req,res)=>{ 
-const session = req.session.user
-const product = await products.find({delete:false})
+    const session = req.session.user
+    const product = await products.find({delete:false}).populate('category')
 if(session){
   customer = true
 }else{
     customer = false
 }  
-  res.render('user/home',{customer,product,countInCart,session})
+  res.render('user/home',{customer,product,countInCart,session,countWishlist})
 },
-// render login 
+
  getlogin:(req,res)=>{
     res.render('user/login')
 },
-// render signup
+
  getsignup:(req,res)=>{
     res.render('user/signup')
 },
-// user signup/send data to database
+
 
  postsignup: async(req,res)=>{
  
@@ -124,15 +124,18 @@ if(session){
  },
   
  getShopPage:async(req,res)=>{
-    let product = await products.find({delete: false})
-      res.render('user/shop',{product,countInCart})
+    let category = await categories.find()
+    let product = await products.find({delete: false}).populate('category')
+
+      res.render('user/shop',{product,countInCart,category,countWishlist})
  },
  productView:async(req,res)=>{
     const id = req.params.id
-    const product = await products.findOne({_id:id})
-    res.render('user/product-view',{product})
+    const product = await products.findOne({_id:id}).populate('category')
+    res.render('user/product-view',{product,countInCart,countWishlist})
  },
  addToWishList:async(req,res)=>{
+
     const id = req.params.id
     const objId = mongoose.Types.ObjectId(id)
     const session = req.session.user
@@ -234,6 +237,7 @@ console.log('create collection');
 
 
  addToCart:async(req,res)=>{
+  console.log('its working addto cart');
     const id = req.params.id
     const objId = mongoose.Types.ObjectId(id)
     const session = req.session.user;
@@ -248,7 +252,7 @@ console.log('create collection');
   
     let proExist = userCart.product.findIndex(
         (product) => product.productId == id
-    );
+    ); 
     
     if(proExist != -1){
         // await cart.aggregate([
@@ -333,8 +337,8 @@ console.log('create collection');
 
 countInCart = productData.length
 
-
-res.render('user/cart',{productData,sum,countInCart})
+console.log(productData);
+res.render('user/cart',{productData,sum,countInCart,countWishlist})
  
 },
 
@@ -344,11 +348,11 @@ removeProduct: async (req, res) => {
     const data = req.body;
     // const objId = mongoose.Types.ObjectId(data.product);
     // console.log(objId);
-    await cart.aggregate([
-      {
-        $unwind: "$product"
-      }
-    ])
+    // await cart.aggregate([
+    //   {
+    //     $unwind: "$product"
+    //   }
+    // ])
     await cart
       .updateOne(
         { _id: data.cart, "product.productId": data.product },
@@ -361,19 +365,25 @@ removeProduct: async (req, res) => {
   changeQuantity : (req,res,next)=>{   
     const data = req.body
     const objId = mongoose.Types.ObjectId(data.product)
-    cart.aggregate([
-        {
-            $unwind : "$product"
-        }
-    ]).then((data)=>{
-        console.log(data);
-     })
-   cart.updateOne(
-    { _id: data.cart, "product.productId":objId},
-    { $inc:{"product.$.quantity": data.count }}
-   ).then(()=>{
-    next()
-   })
+
+    if(data.count == -1 && data.quantity == 1){
+         cart.updateOne(
+          {_id : data.cart, "product.productId":objId},
+          {$pull : { product : { productId:objId }}}
+         )
+         .then(()=>{
+         res.json({quantity:true})
+         })
+    }else{
+      cart.updateOne(
+        { _id: data.cart, "product.productId":objId},
+        { $inc:{"product.$.quantity": data.count }}
+       ).then(()=>{
+        next()
+       })
+    }
+    
+   
     
   },
   totalAmount: async (req, res) => {

@@ -7,10 +7,11 @@
         </div>
         
         <form action="/admin/addCategory" method="post" id="form" class="mt-5">
-          <input type="text" name="name" placeholder="Add new category">
+          <input type="text" name="name" placeholder="Add new category" required>
           <button type="submit" class="btn btn-success" >Submit</button>
         </form>
-            <small class="text-danger"><%=submitErr %></small>
+            <small class="text-danger"><%= categoryExist %> </small>
+
         <table class="table" id="table">
           <thead>
             <tr>
@@ -34,7 +35,7 @@
                   </td>
                   <td>
                     <form action="/admin/editCategory/<%=catg._id%>" method="post">
-                      <input placeholder="Edit category name" name="name" type="text" class="form-control w-50">
+                      <input placeholder="Edit category name" name="name" type="text"  class="form-control w-50 " required>
                       <button type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </td>
