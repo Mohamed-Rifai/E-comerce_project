@@ -37,8 +37,8 @@ function removeProduct(cartId, productId) {
         success: (response)=>{ 
           if(response.status){
             document.getElementById(productId).innerHTML = quantity + count;
-            // document.getElementById("sum").innerText = response.productData[0].total+"₹"
-            // document.getElementById("netamount").innerText = response.productData[0].total+"₹"
+            document.getElementById("sum").innerHTML ="₹"+ response.productData[0].total
+            document.getElementById("netamount").innerHTML ="₹"+ response.productData[0].total
             console.log(response);
           } 
           if(response.quantity){

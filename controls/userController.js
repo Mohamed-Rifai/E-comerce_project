@@ -237,7 +237,6 @@ console.log('create collection');
 
 
  addToCart:async(req,res)=>{
-  console.log('its working addto cart');
     const id = req.params.id
     const objId = mongoose.Types.ObjectId(id)
     const session = req.session.user;
@@ -336,7 +335,7 @@ console.log('create collection');
     },0)
 
 countInCart = productData.length
-
+console.log(sum);
 console.log(productData);
 res.render('user/cart',{productData,sum,countInCart,countWishlist})
  

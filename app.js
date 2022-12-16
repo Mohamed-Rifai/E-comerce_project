@@ -36,6 +36,6 @@ app.use('/',userRoutes)
 app.use('/admin',adminRoutes)
    
 // port setting
-app.listen(5000,(req,res)=>{
+app.listen(3000,(req,res)=>{
     console.log('Server listening to port 3000');
 })  

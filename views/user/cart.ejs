@@ -84,7 +84,7 @@
             <div class="card" style="width: 18rem; margin: 10%; margin-right: 10%;">
             <div class="col-lg-12">
                 <!-- <h4 class="text-warning "> place order</h4><br> -->     
-                <div class="total-section my-5">
+                <div class="total-section ">
                     
                     <table class="total-table">
                         
@@ -101,7 +101,7 @@
                                 <td><strong>Subtotal: </strong></td>
                                
                                     <td>
-                                        <p id="sum"> ₹</p>
+                                        <p id="sum">₹ <%= sum %> </p>
                                     </td>
                                     
                             </tr>
@@ -111,11 +111,12 @@
                                
                             </tr>
                             <tr class="total-data">
-                                <td><strong>Total: </strong></td>
+                                <td><strong>Total: </strong> </td>
                                
                                     <td>
-                                        <p id="netamount">  ₹</p>
+                                        <p id="netamount"> ₹ <%= sum %>   </p>
                                     </td>
+                               
                                    
                             </tr>
                         </tbody>

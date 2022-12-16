@@ -242,13 +242,33 @@ module.exports={
             },
 
         ])
-            console.log(orderDetails);
+            
             res.render("admin/orders",{orderDetails});
        
     },
 
-    getOrderedProduct : (req,res)=>{
-    
+    getOrderedProduct :async (req,res)=>{
+      
+        const id = req.params.id
+        const objId = mongoose.Types.ObjectId(id)
+
+        const productData = await order.aggregate([
+            {
+                $match:{_id: objId}
+            },
+            {
+                $unwind: "$orderItems",
+            },
+            {
+                $project:{
+                    productItem : "$orderItems.productId",
+                    productQuantity : "$orderItems.quantity",
+                    address:1,
+                    name:1,
+                    phonenumber:1
+                }
+            }
+        ])
         res.render('admin/ordered-product') 
 
     }
