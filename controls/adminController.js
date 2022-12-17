@@ -2,6 +2,7 @@ const user = require('../model/user-schema')
 const products = require('../model/product-schema')
 const categories = require('../model/category-schema')
 const order = require('../model/order-schema')
+const coupon= require('../model/coupon')
 const mongoose = require('mongoose')
 const moment = require('moment')
 moment().format();
@@ -208,12 +209,92 @@ module.exports={
     deleteCategory:async(req,res)=>{
         const id = req.params.id
         console.log(id);
-        await categories.deleteOne({_id:id})
-            res.redirect('/admin/category')
+        await categories.updateOne({_id:id},{$set: {delete:true}})
+            res.redirect('/admin/category')    
+
+    },
+
+    restoreCategory:async(req,res)=>{
+        const id = req.params.id
+        await categories.updateOne({_id:id},{$set: {delete:false}})
+        res.redirect('/admin/category');
+    },
+
+   getCouponPage :async (req,res)=>{
+  
+    const couponData = await coupon.find()
+console.log(couponData);
+    res.render('admin/coupon',{couponData})
+   },
+
+    addCoupon : (req,res)=>{
+        try{
+
+            const data = req.body
+            const dis = parseInt(data.discount)
+            const maxLimit = parseInt(data.maxLimit)
+            const discount = dis/100
+      
+            coupon.create({
+              couponName:data.couponName,
+              discount  :discount,
+              maxLimit  :maxLimit,
+              expirationTime:data.expirationTime
+      
+            }).then((data)=>{
+              console.log(data);
+              res.redirect('/admin/coupon')
+
+            })
+
+        }catch{
+            console.error()
+
+        }
+      
+    },
+
+    deleteCoupon :async (req,res)=>{
     
+        const id = req.params.id
+        await coupon.updateOne({_id:id}, {$set: { delete : true}})
+        res.redirect('/admin/coupon')
+    },
+
+    restoreCoupon:async(req,res)=>{
+
+        const id = req.params.id
+        await coupon.updateOne({_id : id},{$set: {delete : false}})
+        res.redirect('/admin/coupon')
+    },
+
+    editCoupon:(req,res)=>{
+
+        try{
+
+            const id = req.params.id
+            const data = req.body
+
+            coupon.updateOne({_id:id},
+                {
+                    couponName: data.couponName,
+                    discount  : data.discount/100,
+                    maxLimit  : data.maxLimit,
+                    expirationTime: data.expirationTime
+                })
+                .then(()=>{
+                    res.redirect('/admin/coupon')
+                })
+
+        }catch{
+            console.error()
+        }
        
 
     },
+
+
+
 
     getOrders :async (req,res)=>{
 

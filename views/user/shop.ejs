@@ -2,67 +2,76 @@
 <!-- breadcrumb-section -->
 
 
-<div class="bg-info ">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="text-info">
-                    <p>Fresh and Organic</p>
-                    <h1>Shop</h1>
-                </div>
-            </div>
+<div class="container " style="height: 100%;margin-top: 100px;">
+    <h1>shop with us</h1>
+    <div class="row mr-2 mt-3">
+        <div class="col-6 col-md-3 " >
+    <!-- <table class="table table-striped table-hover text-center">
+        <thead>
+            <tr>
+              
+             <h6> <th scope="col">Items</th></h6>
+             
+            </tr>
+          </thead>
+          <tbody>
+            <a href="#"><tr>
+             
+              
+              <td>* All</td>
+            </tr></a>
+            <tr>
+              
+              
+              <td>@fat</td>
+            </tr>
+            <tr>
+             
+             
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+      </table> -->
+
+      <div style="width: 300px;height:300px;  background-color: aqua;">
+
+        <div style="width: 100%;height: 40px;padding:5px; background-color: rgb(79, 73, 73);">
+               <h5 class="text-center text-white ">Items</h3>
+
+               <ul class="pt-5">
+                        <% category.forEach(category => { %>
+                            <a href="/category-wise/<%= category._id %> " style="text-decoration: none;"><li class="" > <h5><%= category.category_name %> </h6></li></a>
+                        <% }) %> 
+             
+               </ul>
+               
         </div>
+      </div>
+      
+
     </div>
-</div>
-<!-- end breadcrumb section -->
+    <!-- <div class="row"> -->
+    <!-- <div class="col-4 col-md-9"> -->
 
-<!-- products -->
-<div class="product-section mt-150 mb-150 bg-info">
-    <div class="container">
+   
+    <!-- </div> -->
+<!-- </div> -->
+<% product.forEach(product => { %>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-filters">
-                    <ul>
-                        <li class="active" data-filter="*">All</li>
-                        <li data-filter=".strawberry">Strawberry</li>
-                        <li data-filter=".berry">Berry</li>
-                        <li data-filter=".lemon">Lemon</li>
-                    </ul>
-                </div>
-            </div>
+    <div class="card m-3" style="width: 18rem;">
+        <img src="/admin-images/<%= product._id %>.jpg " class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%= product.name %> </h5>
+          <p class="card-text"><strong>Category : </strong><%= product.category.category_name %> </p>
+          <p class="card-text text-danger"><b> ₹ <%= product.price %></b> </p>
+           <a href="/product-view/<%= product._id %>" class="btn btn-primary">Buy now</a>
+           <a class="btn btn-danger" href="/add-to-wishlist/<%= product._id %> "><i class='fa fa-heart'> <sub>+</sub></i></a>
         </div>
+      </div>
 
-        <div class="row product-lists">
-
-            <% product.forEach((products)=>{ %>
-            <div class="col-lg-4 col-md-6 text-center my-3">
-                <div class="single-product-item">
-                    <div class="product-image">
-                        <a href="/product-view/<%=products._id%>"><img style="width:300px; height:225px" src="/admin-images/<%=products._id%>.jpg" alt=""></a>
-                        
-                    </div>
-                    <p class=""><%= products?.name %></p>
-                    <p class="product-price"> <%= products?.price %>₹  </p>
-                    <!-- <p class="product-price"><span>Per Kg</span> 500₹ </p> -->
-                    <a href="/product-view/<%=products._id%>" class="btn btn-success">Buy now</a>
-                </div>
-            </div>
-       <% }) %>
-
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="pagination-wrap">
-                    <ul>
-                        <li><a href="#">Prev</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a class="active" href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">Next</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+      <% }) %> 
+        
+   
     </div>
 </div>
 

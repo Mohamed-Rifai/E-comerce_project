@@ -129,6 +129,17 @@ if(session){
 
       res.render('user/shop',{product,countInCart,category,countWishlist})
  },
+
+ getCategoryWisePage:async(req,res)=>{
+     
+  const id = req.params.id
+  const category = await categories.find()
+  const product = await products.find({category : id}).populate('category')
+  console.log(category);
+  console.log('hello this is your bonbm');
+  console.log(product);
+  res.render('user/shop',{product,category,countInCart,countWishlist})
+ },
  productView:async(req,res)=>{
     const id = req.params.id
     const product = await products.findOne({_id:id}).populate('category')
