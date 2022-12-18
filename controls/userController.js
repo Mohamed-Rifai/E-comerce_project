@@ -6,6 +6,7 @@ const cart = require('../model/cart-schema')
 const order = require('../model/order-schema')
 const categories = require('../model/category-schema')
 const wishlist = require('../model/wishlist')
+const coupon = require('../model/coupon')
 const mongoose = require('mongoose')
 const moment = require('moment')
 moment().format();
@@ -17,6 +18,33 @@ let password;
 let countInCart;
 let countWishlist;
 
+
+function checkCoupon(data,id){
+  return new Promise((resolve)=>{
+    if(data.coupon){
+      coupon.find(
+        {couponName: data.coupon},
+        {users: { $elemMatch : { userId:id}}}
+      )
+      .then((exist)=>{
+        console.log(exist);
+        if(exist[0].users.length){
+          console.log('inside if function');
+          console.log(exist[0].users.length);
+          resolve(true)
+
+        }else{
+          console.log('else working check coupon');
+          coupon.find({ couponName: data.coupon}).then((discount)=>{
+            resolve(discount)
+          })
+        }
+      })
+    }else{
+      resolve(false)
+    }
+  })
+}
 
  
 module.exports={ 
@@ -564,18 +592,58 @@ removeProduct: async (req, res) => {
 
 
    placeOrder :async (req,res)=>{
-      
+     
+    let invalid;
+    let couponDeleted;
+    const data = req.body
+
     const session = req.session.user;
     const userData = await user.findOne({ email: session })
     const cartData = await cart.findOne({ userId: userData._id });
-    const userId = userData._id.toString()
+    const objId = mongoose.Types.ObjectId(userData._id)
+
+  if(data.coupon){
+   
+    invalid = await coupon.findOne({ couponName:data.coupon })
+   
+    if(invalid?.delete == true){
+
+      couponDeleted =true
+    } 
+  }else{
+    invalid = 0;
+  }
+
+  if(invalid == null){
+
+    res.json({ invalid: true });
+  }
+  else if(couponDeleted){
+
+    res.json({couponDeleted:true})
+  }
+  else{
+
+    const discount = await checkCoupon(data,objId)
+    console.log('hello this is your discount information');
+    console.log(discount);
+    console.log('again you find your coupen data')
+    if(discount == true){
+      res.json({ coupon : true})
+    }
+   
+
+    
+  }
+
+
     const status = req.body.paymentMethod === "COD" ? "placed" : "pending";
 
     if (cartData) {
       const productData = await cart
         .aggregate([
           {
-            $match: { userId: userId },
+            $match: { userId: userData._id },
           },
           {
             $unwind: "$product",
@@ -630,7 +698,7 @@ removeProduct: async (req, res) => {
 
       await cart.deleteOne({ userId: userData._id });
       if (req.body.paymentMethod === "COD") {
-        res.json({ success: true });
+        // res.json({ success: true });
       }
 
     } else {

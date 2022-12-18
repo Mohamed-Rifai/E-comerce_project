@@ -106,14 +106,14 @@
                                     <label class="custom-control-label" for="debit">.  .   Online</label>
                                 </div>
 
-                               <form >
+                              
                                     <div class="card mt-3" style="width: 25rem;">
                                     <div class="card-body">
-                                    <form>
+                                   
                                     <div class="form-group"> <label>Have coupon?</label>
-                                    <div class="input-group" style="width: 20rem;"> <input type="text" class="form-control coupon" name="" placeholder="Coupon code" > <span class=""> <button class="btn btn-primary btn-apply coupon">Apply</button> </span> </div>
+                                    <div class="input-group" style="width: 20rem;"> <input type="text" class="form-control coupon" name="coupon" placeholder="Coupon code" >  </div>
                                     </div>
-                                    </form>
+                                   
                                     </div>
                                     </div>
                                    
@@ -308,13 +308,48 @@
                 url: '/placeOrder',
                 method: 'post',
                 data: $('#placeOrder').serialize(),
-                success: (resposnse) => {
-                    if (resposnse.success) {
-                        location.href = "/orderSuccess";
-                    }else{
-                        location.href = "/viewCart";
-                    }
+                success: (response) => {
+
+                    if (response.invalid) {
+                        console.log('response available');
+							Swal.fire({
+								title: "Invalid Coupon!",
+								icon: "error",
+								confirmButtonText: "continue",
+							}).then(function () {
+								location.reload()
+                               
+							});
+                        } 
+                       else if(response.couponDeleted){
+							Swal.fire({
+								title: "Coupon no longer exist!",
+								icon: "error",
+								confirmButtonText: "continue",
+							}).then(function () {
+								location.reload()
+							});
+						}
+                        else if(response.coupon){
+                            Swal.fire({
+                                title:"Coupon already used!",
+                                icon :"error",
+                                confirmButtonText: "continue",
+                            }).then(function () {
+                                location.reload()
+                            });
+                        }
+                    
+                    // if (resposnse.success) {
+                    //     location.href = "/orderSuccess";
+                    // }else{
+                    //     location.href = "/viewCart";
+                    // }
+
+
                 }
+
+
             })
         })
     </script>
