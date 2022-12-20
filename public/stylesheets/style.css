@@ -3,12 +3,6 @@ html,body{
     overflow-x: hidden;
 }
 .navbar{
-    background-color: blueviolet;
+    background: transparent;
 
-}
-.middle{
-    width: 100%;
-    height: 15vh;
-
-    background-color: rgb(128, 72, 197);
 }

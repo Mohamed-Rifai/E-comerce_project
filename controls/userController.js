@@ -7,17 +7,25 @@ const order = require('../model/order-schema')
 const categories = require('../model/category-schema')
 const wishlist = require('../model/wishlist')
 const coupon = require('../model/coupon')
+const otp    = require('../model/otp')
 const mongoose = require('mongoose')
 const moment = require('moment')
 moment().format();
 
-let name;
-let email;
-let phone;
-let password;
+
 let countInCart;
 let countWishlist;
 
+//  async function findUserOtp(email){
+
+//     const userfound = await otp.findOne({email: email})
+//     if(!userfound){
+//       console.log('userNot found');
+//     }else{
+//       console.log('functon else workding');
+//       return userfound;
+//     }
+// }
 
 function checkCoupon(data,id){
   return new Promise((resolve)=>{
@@ -41,6 +49,7 @@ function checkCoupon(data,id){
         }
       })
     }else{
+      console.log('No more coupon');
       resolve(false)
     }
   })
@@ -51,6 +60,8 @@ module.exports={
 
 
 gethome:async(req,res)=>{ 
+
+  try{
     const session = req.session.user
     const product = await products.find({delete:false}).populate('category')
 if(session){
@@ -59,6 +70,13 @@ if(session){
     customer = false
 }  
   res.render('user/home',{customer,product,countInCart,session,countWishlist})
+
+
+  }catch{
+    console.log(error);
+    res.render('user/error')
+  }
+   
 },
 
  getlogin:(req,res)=>{
@@ -71,53 +89,124 @@ if(session){
 
 
  postsignup: async(req,res)=>{
- 
+
+  try{
+
     const hash = await bcrypt.hash(req.body.password,10)
 
-    name = req.body.name
-    email = req.body.email
-    phone = req.body.phone
-    password = hash
+   const name =req.body.name
+   const email =req.body.email
+   const phone =req.body.phone
+   const password =hash
 
+    const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
     const mailDetails = {
         from : 'rifaeeckm@gmail.com',
         to : email,
         subject : 'Otp for cadbury',
-        html: `<p>Your OTP for registering in Cadbury is ${mailer.OTP}</p>`,
+        html: `<p>Your OTP for registering in Cadbury is ${OTP}</p>`,
     }
     const userData = await user.findOne({email : email})
 
     if(userData){
         res.render('user/signup',{err_message: 'User already exists'})
     }else{
-        mailer.mailTransporter.sendMail(mailDetails,function(err){
+
+      const User = {
+        name :name,
+        email:email,
+        phone:phone,
+        password:password
+      }
+        mailer.mailTransporter.sendMail(mailDetails, async function(err){
             if(err){
                 console.log(err);
             }else{
-                res.redirect('/otpPage')
+
+           const userFound = await otp.findOne({email:email})
+
+           if(userFound){
+
+            otp.deleteOne({email:email}).then(()=>{
+
+              otp.create({
+                email:email,
+                otp:OTP
+              }).then(()=>{
+               
+                res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`);
+
+              })
+
+            })
+           }else{
+
+            otp.create({
+              email:email,
+              otp:OTP
+            }).then(()=>{
+             
+              res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`);
+
+            })
+
+           }
+
+             
+               
             }
         })
     }
+
+  }catch{
+    res.render('user/error')
+  }
+ 
+   
  
 },
   getOtpPage : (req,res)=>{
-        res.render('user/otp')
+    let userData = req.query
+        res.render('user/otp',{userData})
   },
 
-  postOtp: (req,res)=>{
- const otp = req.body.otp
-   if(mailer.OTP === otp){
-     user.create({
-        name: name,
-        phone: phone,
-        email: email,
-        password: password
-     }).then(()=>{
-        res.redirect('/login')
-     })
-   }else{
-    res.render('user/otp',{invalid:'invalid otp'})
-   }
+  postOtp:async(req,res)=>{
+
+    try{
+
+      const body = req.body
+      const userData = {
+        name:body.name,
+        email:body.email,
+        phone:body.phone,
+        password:body.password
+      }
+      console.log(body);
+       otp.findOne({email:body.email.trim() }).then(async(sendOtp)=>{
+    
+        if(req.body.otp == sendOtp.otp){
+
+          res.redirect('/login')
+     
+          await user.create({
+            name:body.name,
+            phone:body.phone,
+            email:body.email,
+            password:body.password
+          })
+
+      
+         }else{
+          res.render('user/otp',{invalid:'invalid otp',userData})
+         }
+       })
+
+   
+
+    }catch{
+      res.render('user/error')
+    }
+ 
 
   },
 
@@ -154,7 +243,6 @@ if(session){
  getShopPage:async(req,res)=>{
     let category = await categories.find()
     let product = await products.find({delete: false}).populate('category')
-
       res.render('user/shop',{product,countInCart,category,countWishlist})
  },
 
@@ -163,8 +251,6 @@ if(session){
   const id = req.params.id
   const category = await categories.find()
   const product = await products.find({category : id}).populate('category')
-  console.log(category);
-  console.log('hello this is your bonbm');
   console.log(product);
   res.render('user/shop',{product,category,countInCart,countWishlist})
  },
@@ -374,8 +460,7 @@ console.log('create collection');
     },0)
 
 countInCart = productData.length
-console.log(sum);
-console.log(productData);
+console.log(countInCart);
 res.render('user/cart',{productData,sum,countInCart,countWishlist})
  
 },
@@ -402,7 +487,6 @@ removeProduct: async (req, res) => {
   },
   changeQuantity : (req,res,next)=>{   
     const data = req.body
-    console.log(data);
     const objId = mongoose.Types.ObjectId(data.product)
 
     if(data.count == -1 && data.quantity == 1){
@@ -609,7 +693,7 @@ removeProduct: async (req, res) => {
     if(invalid?.delete == true){
 
       couponDeleted =true
-    } 
+    }  
   }else{
     invalid = 0;
   }
@@ -627,9 +711,97 @@ removeProduct: async (req, res) => {
     const discount = await checkCoupon(data,objId)
     console.log('hello this is your discount information');
     console.log(discount);
-    console.log('again you find your coupen data')
     if(discount == true){
       res.json({ coupon : true})
+    }
+    else{
+
+      if (cartData) {
+        const productData = await cart
+          .aggregate([
+            {
+              $match: { userId: userData.id },
+            },
+            {
+              $unwind: "$product",
+            },
+            {
+              $project: {
+                productItem: "$product.productId",
+                productQuantity: "$product.quantity",
+              },
+            },
+            {
+              $lookup: {
+                from: "products",
+                localField: "productItem",
+                foreignField: "_id",
+                as: "productDetail",
+              },
+            },
+            {
+              $project: {
+                productItem: 1,
+                productQuantity: 1,
+                productDetail: { $arrayElemAt: ["$productDetail", 0] },
+              },
+            },
+            {
+              $addFields: {
+                productPrice: {
+                  $multiply: ["$productQuantity", "$productDetail.price"]
+                }
+              }
+            }
+          ])
+          .exec();
+        const sum = productData.reduce((accumulator, object) => {
+          return accumulator + object.productPrice;
+        }, 0);
+
+        if (discount == false){
+           var total = sum;
+        }
+        else{
+          var dis = sum * discount[0].discount
+          if(dis > discount[0].maxLimit){
+            total = sum-100;
+
+          }else{
+            total = dis;
+          }
+        }
+
+        const orderData = await order.create({
+          userId: userData._id,
+          name: userData.name,
+          phonenumber: userData.phone,
+          address: req.body.address,
+          orderItems: cartData.product,
+          totalAmount: total,
+          paymentMethod: req.body.paymentMethod,
+          orderDate: moment().format("MMM Do YY"),
+          deliveryDate: moment().add(3, "days").format("MMM Do YY")
+        })
+  
+        // const amount = orderData.totalAmount * 100
+        const orderId = orderData._id
+        await cart.deleteOne({ userId: userData._id });
+        
+        if (req.body.paymentMethod === "COD") {
+         await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})
+         
+         res.json({ success: true})
+         coupon.updateOne(
+          {couponName:data.coupon},
+          {$push:{users: {userId : objId}}}
+         ).then((updated)=>{
+          console.log(updated);
+         })
+        }
+  
+      }
+
     }
    
 
@@ -637,74 +809,9 @@ removeProduct: async (req, res) => {
   }
 
 
-    const status = req.body.paymentMethod === "COD" ? "placed" : "pending";
+   
 
-    if (cartData) {
-      const productData = await cart
-        .aggregate([
-          {
-            $match: { userId: userData._id },
-          },
-          {
-            $unwind: "$product",
-          },
-          {
-            $project: {
-              productItem: "$product.productId",
-              productQuantity: "$product.quantity",
-            },
-          },
-          {
-            $lookup: {
-              from: "products",
-              localField: "productItem",
-              foreignField: "_id",
-              as: "productDetail",
-            },
-          },
-          {
-            $project: {
-              productItem: 1,
-              productQuantity: 1,
-              productDetail: { $arrayElemAt: ["$productDetail", 0] },
-            },
-          },
-          {
-            $addFields: {
-              productPrice: {
-                $multiply: ["$productQuantity", "$productDetail.price"]
-              }
-            }
-          }
-        ])
-        .exec();
-      const sum = productData.reduce((accumulator, object) => {
-        return accumulator + object.productPrice;
-      }, 0);
-
-      const orderData = await order.create({
-        userId: userData._id,
-        name: userData.name,
-        phonenumber: userData.phone,
-        address: req.body.address,
-        orderItems: cartData.product,
-        totalAmount: sum,
-        paymentMethod: req.body.paymentMethod,
-        orderStatus: status,
-        orderDate: moment().format("MMM Do YY"),
-        deliveryDate: moment().add(3, "days").format("MMM Do YY")
-      })
-
-
-      await cart.deleteOne({ userId: userData._id });
-      if (req.body.paymentMethod === "COD") {
-        // res.json({ success: true });
-      }
-
-    } else {
-
-      res.redirect("/viewCart");
-    }
+    
 
 
   },

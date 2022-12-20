@@ -21,6 +21,12 @@
             
             <h6 class="mobile-text mt-3">Enter the otp received in yout email</h6>
             <div class="d-flex flex-row mt-4">
+                 <% if (locals.userData) { %>
+                  <input type="hidden" name="name" id="name" class="form-control" value="<%= userData.name %> ">
+                  <input type="hidden" name="email" id="email" class="form-control" value="<%= userData.email %> ">
+                  <input type="hidden" name="phone" id="phone" class="form-control" value="<%= userData.phone %> ">
+                  <input type="hidden" name="password" id="password" class="form-control" value="<%= userData.password %> ">
+                 <% } %> 
                 <input type="text" name="otp" id="otp" class="form-control" />
             </div>
         <% if(locals.invalid){ %>

@@ -9,7 +9,6 @@ adminRoutes.use(express.urlencoded({ extended: true }));
  
   
 adminRoutes.get('/',adminController.getAdminLogin)
-adminRoutes.get('/home',adminController.getAdminHome)
 adminRoutes.post('/login',adminController.postAdminLogin)
 adminRoutes.get('/logout',adminController.adminLogout)
 adminRoutes.get('/userDetails',verifyLogin.verifyLoginAdmin,adminController.getAllUsers)
