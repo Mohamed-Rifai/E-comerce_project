@@ -16,16 +16,7 @@ moment().format();
 let countInCart;
 let countWishlist;
 
-//  async function findUserOtp(email){
 
-//     const userfound = await otp.findOne({email: email})
-//     if(!userfound){
-//       console.log('userNot found');
-//     }else{
-//       console.log('functon else workding');
-//       return userfound;
-//     }
-// }
 
 function checkCoupon(data,id){
   return new Promise((resolve)=>{
@@ -709,8 +700,7 @@ removeProduct: async (req, res) => {
   else{
 
     const discount = await checkCoupon(data,objId)
-    console.log('hello this is your discount information');
-    console.log(discount);
+
     if(discount == true){
       res.json({ coupon : true})
     }
@@ -765,10 +755,10 @@ removeProduct: async (req, res) => {
         else{
           var dis = sum * discount[0].discount
           if(dis > discount[0].maxLimit){
-            total = sum-100;
+            total = sum-discount[0].maxLimit;
 
           }else{
-            total = dis;
+            total = sum-dis;
           }
         }
 
@@ -799,20 +789,9 @@ removeProduct: async (req, res) => {
           console.log(updated);
          })
         }
-  
       }
-
-    }
-   
-
-    
+    } 
   }
-
-
-   
-
-    
-
 
   },
   orderSuccess :(req,res)=>{
@@ -870,17 +849,17 @@ removeProduct: async (req, res) => {
               productDetail: { $arrayElemAt: ["$productDetail", 0] },
             }
           },
-          // {
-          //   $lookup: {
-          //     from: 'categories',
-          //     localField: 'productDetail.category',
-          //     foreignField: "_id",
-          //     as: "category_name"
-          //   }
-          // },
-          // {
-          //   $unwind: "$category_name"
-          // },
+          {
+            $lookup: {
+              from: 'categories',
+              localField: 'productDetail.category',
+              foreignField: "_id",
+              as: "category_name"
+            }
+          },
+          {
+            $unwind: "$category_name"
+          },
            
     ])
     console.log(productData);

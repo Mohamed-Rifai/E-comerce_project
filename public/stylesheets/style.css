@@ -1,8 +1,32 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
 html,body{
     max-width: 100%;
     overflow-x: hidden;
 }
-.navbar{
-    background: transparent;
 
+
+
+.nav-item a{
+    margin-right: 15px;
+    margin-left: 15px;
+    color: black;
+    text-transform: uppercase;
+    font-family: sans-serif;
 }
+.nav-item a:hover{
+    color: rgb(231, 41, 120);
+}
+
+.icon{
+    color: rgb(231, 41, 120);
+    font-size: 1.1rem;
+   
+}
+
+

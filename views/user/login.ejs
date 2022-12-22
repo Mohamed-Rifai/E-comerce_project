@@ -2,10 +2,10 @@
   <%- include('../layout/layout') %>             
 
     <section class="vh-100" style="background-color: #f1f1f1fb;">
-        <div class="container py-5 h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-              <div class="card" style="border-radius: 1rem;">
+        <div class="container py-5 h-50 ">
+          <div class="row d-flex justify-content-center align-items-center h-75">
+            <div class="col col-xl-10 ">
+              <div class="card m-5" style="border-radius: 1rem;height: 70vh;">
                 <div class="row g-0">
                   <div class="col-md-6 col-lg-5 d-none d-md-block">
                     <div class="imgBg">
@@ -18,12 +18,12 @@
       
                       <form action="/login" method="post">
       
-                        <div class="d-flex align-items-center mb-3 pb-1">
+                        <div class="d-flex align-items-center mb-1 ">
                            
-                          <span class="h1 fw-bold mb-0">Logo</span>
+                          <span class="h1 fw-bold ">Logo</span>
                         </div>
       
-                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                        <h5 class="fw-normal mb-2 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
       
                         <div class="form-outline mb-4">
                         <% if(locals.blocked){%>
@@ -33,7 +33,7 @@
                           <input type="email" id="email" name="email" class="form-control form-control-lg"  />
                         </div>
       
-                        <div class="form-outline mb-4">
+                        <div class="form-outline mb-3">
                           <label class="form-label" for="form2Example27">Password</label>
                           <input type="password" id="password" name="password" class="form-control form-control-lg">
                           <% if(locals.invalid){%>
@@ -41,14 +41,14 @@
                         <%}%>
                         </div>
       
-                        <div class="pt-1 mb-4">
+                        <div class="pt-1 mb-1">
                           <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                         </div>
       
                         <a class="small text-muted" href="#!">Forgot password?</a>
-                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup"
+                        <p class=" pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup"
                             style="color: #393f81;">Register here</a></p>
-                        <a href="#!" class="small text-muted">Terms of use.</a>
+                        <a href="#!" class="small text-muted ">Terms of use.</a>
                         <a href="#!" class="small text-muted">Privacy policy</a>
                       </form>
       

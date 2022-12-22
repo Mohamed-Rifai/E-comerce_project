@@ -10,6 +10,9 @@ adminRoutes.use(express.urlencoded({ extended: true }));
   
 adminRoutes.get('/',adminController.getAdminLogin)
 adminRoutes.post('/login',adminController.postAdminLogin)
+adminRoutes.get('/salesReport',verifyLogin.verifyLoginAdmin,adminController.salesReport)
+adminRoutes.get('/dailyReport',verifyLogin.verifyLoginAdmin,adminController.dailyReport)
+adminRoutes.get('/monthlyReport',verifyLogin.verifyLoginAdmin,adminController.monthlyReport)
 adminRoutes.get('/logout',adminController.adminLogout)
 adminRoutes.get('/userDetails',verifyLogin.verifyLoginAdmin,adminController.getAllUsers)
 adminRoutes.get('/blockUser/:id',adminController.blockUser)

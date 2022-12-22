@@ -440,7 +440,7 @@ console.log(couponData);
             }
 
         ])
-        console.log(productData);
+                            
         res.render('admin/ordered-product',{productData}) 
 
     },
@@ -458,6 +458,90 @@ console.log(couponData);
             }
          )
          res.redirect('/admin//orders')
+    },
+
+    salesReport :async(req,res)=>{
+      try{
+
+        const allOrderDetails = await order.find({
+            paymentStatus:"paid",
+            orderStatus:"delivered"
+        })
+
+        res.render('admin/sales-report',{allOrderDetails})
+
+      }
+      catch{
+        res.render('user/error')
+      }
+       
+    },
+
+    dailyReport:async(req,res)=>{
+
+        try{
+
+            const start = new Date();
+            start.setHours(0,0,0,0);
+            
+            const end = new Date();
+            end.setHours(23,59,59,999);
+
+            const allOrderDetails = await order.find({
+                $and:
+                [   
+                    { paymentStatus:"paid", orderStatus:"delivered"},
+                    {  
+                        createdAt: {$gte: start, $lt: end}  } 
+
+                ]
+            });
+            console.log(allOrderDetails);
+            res.render('admin/sales-report',{allOrderDetails})
+        //     order
+        //     .find({
+        //          $and:
+        //           [ 
+        //             {  paymentStatus:"paid",  orderStatus:"delivered" },
+        //       {  orderDate:moment().format("MM Do YY")  } 
+        //     ] 
+        // } ).then((allOrderDetails)=>{
+        //         console.log(allOrderDetails);
+        //         res.render('admin/sales-report',{allOrderDetails})
+        //     })
+
+        
+
+        }catch{
+         res.render('user/error')
+        }
+    },
+    monthlyReport:(req,res)=>{
+        try{
+
+            const start = moment().startOf('month');
+            const end   = moment().endOf('month')
+
+            order.
+            find({
+                $and:[
+                    { paymentStatus:"paid",  orderStatus:"delivered" },
+                    {
+                        createdAt:{
+                            $gte:start,
+                            $lte:end,
+                        },
+                    },
+                ],
+
+            }).then((allOrderDetails)=>{
+                console.log(allOrderDetails);
+                res.render('admin/sales-report',{allOrderDetails})
+            })
+
+        }catch{
+            res.render('user/error')
+        }
     }
 
    

@@ -1,7 +1,7 @@
 
 
 <%- include('../partials/user-header') %>
-
+<link rel="stylesheet" href="/public/stylesheets/u-home.css">
 
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false" >
   <div class="carousel-indicators">
@@ -11,23 +11,26 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="/images/dairymilkminister.jpg" class="d-block w-100" alt="...">
+      <img src="/images/4.jpg" class="d-block w-100" alt="..." style="height: 75vh;width: 100vw;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
+        <h3>First slide label</h5>
+        <button class="btn bg-light border-5 ">Shop Now</button>
         <p>Some representative placeholder content for the first slide.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
+      <img src="/images/1qw23.jpg" class="d-block w-100" alt="..." style="height: 75vh;width: 100vw;">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
+        <h3>Second slide label</h3>
+        <button class="btn bg-light border-5">Shop Now</button>
         <p>Some representative placeholder content for the second slide.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
+      <img src="/images/Ginger-cake-Landscape-1.jpg" class="d-block w-100" alt="..." style="height: 75vh;width: 100vw;">
       <div class="carousel-caption d-none d-md-block">
         <h5>Third slide label</h5>
+        <button class="btn bg-light border-5">Shop Now</button>
         <p>Some representative placeholder content for the third slide.</p>
       </div>
     </div>
@@ -41,85 +44,109 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-    <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="margin-top: 72px;">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img class="d-block " src="/images/dairymilk1.jpg" alt="First slide" style="width:100vw;height:75vh;">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block"  src="/images/dairymilk2.jpg" alt="Second slide" style="width:100vw;height:75vh;" >
-        </div>
-        <div class="carousel-item">
-          <img class="d-block"  src="/images/dairymilkminister.jpg" alt="Second slide" style="width:100vw;height:75vh;" >
-        </div>
-        <div class="carousel-item">
-          <img class="d-block"  src="/images/diarybesttheme.jpg" alt="Second slide" style="width:100vw;height:75vh;" >
-        </div>
-        <div class="carousel-item">
-          <img class="d-block w-100" src="/images/dairymilk4.jpg"  style="width:100vw;height:75vh;">
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    <div class="row">
-    <div class="middle">
-       <h1 class=" text-center p-3 text-white ">Enjoyi!! with us</h1>
-    </div>
-  </div> -->
+    
+<!-- -------------------------------------------------------------------------- -->
     
   
-     
-     <section style="background-color: #eee;">
-      <div class="text-center container py-5">
-        <h4 class="mt-4 mb-5"><strong>Bestsellers</strong></h4>
-    
-        <div class="row">
-          <% product.forEach((products)=>{ %>
-          <div class="col-lg-4 col-md-12 mb-4">
-            <div class="card m-5" style="width: 20rem;height: auto;">
-              <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                data-mdb-ripple-color="light">
-                <img src="/admin-images/<%=products?._id%>.jpg"
-                  class="w-100" />
-                <a href="#!">
-                  <div class="mask">
-                    <div class="d-flex justify-content-start align-items-end h-100">
-                      <h5><span class="badge bg-primary ms-2">New</span></h5>
-                    </div>
-                  </div>
-                  <div class="hover-overlay">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                  </div>
-                </a>
+
+  <section class="next py-5">
+    <div class="container-fluid py-5">
+      <div class="row">
+
+        <div class="col-lg-4">
+          <div class="card zoom-n-rotate">
+            <img src="/images/cake-y.jpg" alt="" class="img-fluid">
+            <a href="/category-wise/63999de9c100c5b4294a4aea"><button class="btnc">Shop for more</button></a>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card zoom-n-rotate">
+            <img src="/images/AssortedCupcakes1-gree.webp" alt="" class="img-fluid">
+            <a href="/category-wise/63999e00c100c5b4294a4aef"><button class="btnc">Shop for more</button></a>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card zoom-n-rotate">
+            <img src="/images/2nd - desset.webp" alt="" class="img-fluid">
+            <a href="/category-wise/63999e15c100c5b4294a4af3"><button class="btnc">Shop for more</button></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------------- -->
+
+
+  <section class="product py-5">
+    <div class="container py-5">
+      <h1>Our products</h1>
+      <div class="row pt-5">
+        <% product.forEach((products)=>{ %>
+        <div class="col-lg-3">
+          <div class="card border-0">
+            <% if (customer) { %>
+             <a href="/product-view/<%= products._id %>"> <div class="card-body py-5 bg-light">
+                <img src="/admin-images/<%=products?._id%>.jpg" alt="" class="img-fluid">
+              </div></a>
+              <% }else{ %>
+           <a href="/login"> <div class="card-body py-5 bg-light">
+              <img src="/admin-images/<%=products?._id%>.jpg" alt="" class="img-fluid">
+            </div></a>
+            <% } %> 
+            <% if (products.price>500) { %>
+              <div class="discount">
+                -23%
               </div>
-              <div class="card-body">
-                <a href="" class="text-reset">
-                  <h5 class="card-title mb-3"><%= products?.name %></h5>
-                </a>
-                <a href="" class="text-reset">
-                  <p><%= products?.category?.category_name %></p>
-                </a>
-                <h6 class="mb-3">₹<%= products.price %></h6>
-                <% if(customer){ %>
-                  <a href="/product-view/<%= products?._id %>" class="btn btn-primary">Buy now</a>
-                  <a class="btn btn-danger" href="/add-to-wishlist/<%= products?._id %> "><i class='fa fa-heart'> <sub>+</sub></i></a>
-                  <% }else{ %>
-                    <a href="/login" class="btn btn-danger">Buy now</a>
-                    <% } %>
-              </div>
+            <% } %>
+           
+            <div class="card-footer border-0 text-center bg-white">
+              <h5><%= products?.name %></h5>
+              <p class="m-0">₹<%= products.price %></p>
             </div>
           </div>
-          <% }) %>
-         
+        </div>
+        <% }) %>
       </div>
-    </section>
+    </div>
+  </section>
+<!-- -------------------------------------------------------------------------- -->
+
+<section class="iconic py-5">
+  <div class="container text-center py-5">
+    <div class="row pb-5">
+      <div class="col-lg-4">
+        <span><i class="fas fa-truck icone"></i></span>
+        <h3 class="py-3">Free shipping</h3>
+        <p class="text-center">Divided face for bearing the divide on to seed 
+          winged divided light Forth the bearing</p>
+      </div>
+
+      <div class="col-lg-4">
+        <span><i class="fas fa-address-card icone"></i></span>
+        <h3 class="py-3">Free shipping</h3>
+        <p class="text-center">Divided face for bearing the divide on to seed 
+          winged divided light Forth the bearing</p>
+      </div>
+
+      <div class="col-lg-4">
+        <span><i class="fas fa-calendar-alt icone"></i></span>
+        <h3 class="py-3">Free shipping</h3>
+        <p class="text-center">Divided face for bearing the divide on to seed 
+          winged divided light Forth the bearing</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+     
+    
 
 
      
