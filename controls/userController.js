@@ -7,6 +7,7 @@ const order = require('../model/order-schema')
 const categories = require('../model/category-schema')
 const wishlist = require('../model/wishlist')
 const coupon = require('../model/coupon')
+const banner = require('../model/banner')
 const otp    = require('../model/otp')
 const mongoose = require('mongoose')
 const moment = require('moment')
@@ -26,21 +27,18 @@ function checkCoupon(data,id){
         {users: { $elemMatch : { userId:id}}}
       )
       .then((exist)=>{
-        console.log(exist);
+    
         if(exist[0].users.length){
-          console.log('inside if function');
-          console.log(exist[0].users.length);
+       
           resolve(true)
 
         }else{
-          console.log('else working check coupon');
           coupon.find({ couponName: data.coupon}).then((discount)=>{
             resolve(discount)
           })
         }
       })
     }else{
-      console.log('No more coupon');
       resolve(false)
     }
   })
@@ -55,12 +53,14 @@ gethome:async(req,res)=>{
   try{
     const session = req.session.user
     const product = await products.find({delete:false}).populate('category')
-if(session){
+ if(session){
   customer = true
-}else{
+ }else{
     customer = false
-}  
-  res.render('user/home',{customer,product,countInCart,session,countWishlist})
+ }  
+  const bannerData = await banner.find({ isDeleted:false }).sort({createdAt: -1}).limit(1)
+ 
+  res.render('user/home',{customer,product,countInCart,countWishlist,bannerData})
 
 
   }catch{
@@ -290,7 +290,7 @@ console.log('create collection');
     ]
   });
   newWishlist.save().then(()=>{
-    console.log('whishlist created');
+
     res.redirect('/viewWishList')
   })
  }
@@ -451,7 +451,7 @@ console.log('create collection');
     },0)
 
 countInCart = productData.length
-console.log(countInCart);
+
 res.render('user/cart',{productData,sum,countInCart,countWishlist})
  
 },
@@ -460,13 +460,6 @@ res.render('user/cart',{productData,sum,countInCart,countWishlist})
 
 removeProduct: async (req, res) => {
     const data = req.body;
-    // const objId = mongoose.Types.ObjectId(data.product);
-    // console.log(objId);
-    // await cart.aggregate([
-    //   {
-    //     $unwind: "$product"
-    //   }
-    // ])
     await cart
       .updateOne(
         { _id: data.cart, "product.productId": data.product },
@@ -774,7 +767,6 @@ removeProduct: async (req, res) => {
           deliveryDate: moment().add(3, "days").format("MMM Do YY")
         })
   
-        // const amount = orderData.totalAmount * 100
         const orderId = orderData._id
         await cart.deleteOne({ userId: userData._id });
         
@@ -862,7 +854,7 @@ removeProduct: async (req, res) => {
           },
            
     ])
-    console.log(productData);
+ 
     res.render('user/orderd-product',{productData,countInCart})
   },
 

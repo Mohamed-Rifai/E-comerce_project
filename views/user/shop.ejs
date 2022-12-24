@@ -6,41 +6,16 @@
     <h1>shop with us</h1>
     <div class="row mr-2 mt-3">
         <div class="col-6 col-md-3 " >
-    <!-- <table class="table table-striped table-hover text-center">
-        <thead>
-            <tr>
-              
-             <h6> <th scope="col">Items</th></h6>
-             
-            </tr>
-          </thead>
-          <tbody>
-            <a href="#"><tr>
-             
-              
-              <td>* All</td>
-            </tr></a>
-            <tr>
-              
-              
-              <td>@fat</td>
-            </tr>
-            <tr>
-             
-             
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-      </table> -->
+    
 
-      <div style="width: 300px;height:300px;  background-color: aqua;">
+      <div style="width: 200px;height:300px;  background-color: rgb(246, 246, 246);">
 
-        <div style="width: 100%;height: 40px;padding:5px; background-color: rgb(79, 73, 73);">
+        <div style="width: 100%;height: 40px;padding:5px; background-color: rgb(103, 102, 102);">
                <h5 class="text-center text-white ">Items</h3>
 
                <ul class="pt-5">
                         <% category.forEach(category => { %>
-                            <a href="/category-wise/<%= category._id %> " style="text-decoration: none;"><li class="" > <h5><%= category.category_name %> </h6></li></a>
+                            <a href="/category-wise/<%= category._id %> " style="text-decoration: none;"><li class="text-black" > <h5><%= category.category_name %> </h6></li></a>
                         <% }) %> 
              
                </ul>

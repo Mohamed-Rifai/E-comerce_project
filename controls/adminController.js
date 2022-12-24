@@ -3,6 +3,7 @@ const products = require('../model/product-schema')
 const categories = require('../model/category-schema')
 const order = require('../model/order-schema')
 const coupon= require('../model/coupon')
+const banner= require('../model/banner')
 const mongoose = require('mongoose')
 const moment = require('moment')
 moment().format();
@@ -498,18 +499,7 @@ console.log(couponData);
             });
             console.log(allOrderDetails);
             res.render('admin/sales-report',{allOrderDetails})
-        //     order
-        //     .find({
-        //          $and:
-        //           [ 
-        //             {  paymentStatus:"paid",  orderStatus:"delivered" },
-        //       {  orderDate:moment().format("MM Do YY")  } 
-        //     ] 
-        // } ).then((allOrderDetails)=>{
-        //         console.log(allOrderDetails);
-        //         res.render('admin/sales-report',{allOrderDetails})
-        //     })
-
+        
         
 
         }catch{
@@ -542,6 +532,108 @@ console.log(couponData);
         }catch{
             res.render('user/error')
         }
+    },
+
+    getBanner:async(req,res)=>{
+  try{
+    const banners = await banner.find()
+
+    res.render('admin/banner',{banners})
+
+  }catch{
+
+    res.render('user/error')
+  }
+        
+    },
+
+    addBanner :async(req,res)=>{
+
+        try{
+         const body = req.body
+
+         await banner.create({
+            offerType: body.offerType,
+            bannerText: body.bannerText,
+            couponName: body.couponName
+         })
+  
+       res.redirect('/admin/getBanner')
+         
+
+        }catch(err){
+         console.log(err)
+
+         res.render('user/error')
+
+        }
+    },
+
+    editBanner:async(req,res)=>{
+       
+   try{
+
+      const bannerId = req.params.id
+      await banner.updateOne(
+        {  _id:bannerId },
+        {
+            $set:{
+                offerType:req.body.offerType,
+                bannerText:req.body.bannerText,
+                couponName:req.body.couponName
+            }
+        }
+
+      )
+      res.redirect('/admin/getBanner')
+
+   }catch(err){
+    console.log(err);
+    res.render('user/error')
+   }
+       
+    },
+
+    deleteBanner:async(req,res)=>{
+
+        try{
+
+            const bannerId = req.params.id
+            await banner.updateOne(
+                {_id:bannerId },
+                {$set:{
+                    isDeleted:true
+                }}
+               
+            )
+            res.redirect('/admin/getBanner')
+
+            
+        }catch(err){
+            console.log(err)
+            res.render('user/error')
+        }
+    },
+
+    restoreBanner:async(req,res)=>{
+        console.log('restore');
+        try{
+            const bannerId = req.params.id
+            console.log( bannerId);
+            await banner.updateOne(
+                {_id:bannerId},
+                {$set:{
+                    isDeleted:false
+                }}
+            )
+
+            res.redirect('/admin/getBanner')
+
+        }catch(err){
+            console.log(err);
+            res.render('user/error')
+        }
+
     }
 
    
