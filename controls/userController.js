@@ -63,8 +63,8 @@ gethome:async(req,res)=>{
   res.render('user/home',{customer,product,countInCart,countWishlist,bannerData})
 
 
-  }catch{
-    console.log(error);
+  }catch(err){
+    console.log(err);
     res.render('user/error')
   }
    
@@ -443,7 +443,18 @@ console.log('create collection');
                 $multiply: ["$productQuantity", "$productDetail.price"]
               }
             }
-      }
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'productDetail.category',
+          foreignField: "_id",
+          as: "category_name"
+        }
+      },
+      {
+        $unwind: "$category_name"
+      },
     ])
     .exec();
     const sum = productData.reduce((accumulator, object )=>{
@@ -451,7 +462,7 @@ console.log('create collection');
     },0)
 
 countInCart = productData.length
-
+console.log(productData);
 res.render('user/cart',{productData,sum,countInCart,countWishlist})
  
 },
@@ -661,7 +672,9 @@ removeProduct: async (req, res) => {
 
    placeOrder :async (req,res)=>{
      
-    let invalid;
+try{
+
+  let invalid;
     let couponDeleted;
     const data = req.body
 
@@ -774,16 +787,25 @@ removeProduct: async (req, res) => {
          await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})
          
          res.json({ success: true})
-         coupon.updateOne(
+          await coupon.updateOne(
           {couponName:data.coupon},
           {$push:{users: {userId : objId}}}
-         ).then((updated)=>{
-          console.log(updated);
-         })
+         )
+        // .then((updated)=>{
+        //   console.log(updated);
+        //  })
+
         }
       }
     } 
   }
+
+}catch(err){
+  console.log(err);
+  res.render('user/error')
+}
+
+  
 
   },
   orderSuccess :(req,res)=>{

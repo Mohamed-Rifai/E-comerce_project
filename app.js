@@ -1,4 +1,5 @@
 const express = require('express')
+const app = express()
 const path = require('path')
 const session = require('express-session')
 const userRoutes = require('./routes/user')
@@ -7,22 +8,29 @@ const fileUpload = require('express-fileupload')
 require('dotenv').config()
 require('./config/database-connetion')
 
-// express app
-const app = express()
+
+
  
-//view engine setup
-app.set("view engine", "ejs");
+
 app.set('views');  
-// to access public files
+app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname,'public')))
 app.use(express.static(__dirname))
+
+
 app.use(session({
     secret: "thisismysecretkey",  
     saveUninitialized: true,
     cookie: { maxAge: 6000000 },
     resave: false,
 }))
+
+
 app.use(fileUpload())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+
+
 //to privent store cache
 app.use((req, res, next) => {
     res.set(
@@ -31,11 +39,13 @@ app.use((req, res, next) => {
     );
     next()
 })
+
+
 // routes
 app.use('/',userRoutes)
 app.use('/admin',adminRoutes)
    
+
 // port setting
-app.listen(3000,(req,res)=>{ 
-    console.log('Server listening to port 3000');
-})  
+app.listen(process.env.PORT,()=>
+ console.log('Server listening to port '))  

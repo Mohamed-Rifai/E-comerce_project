@@ -79,6 +79,24 @@ li {
 
 }
 
+
+figure.zoom {
+        background-position: 50% 50%;
+        position: relative;
+        width: 450px;
+        overflow: hidden;
+        cursor: zoom-in;
+  }
+ figure.zoom img:hover {
+        opacity: 0;
+  }
+ figure.zoom img {
+        transition: opacity .5s;
+        display: block;
+        width: 100%;
+    }
+
+
 @media screen and (max-width: 620px) {
     .container {
         width: 98%;

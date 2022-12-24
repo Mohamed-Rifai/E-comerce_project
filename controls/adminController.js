@@ -22,10 +22,16 @@ module.exports={
                     return accumulator + object.totalAmount
                 },0)
 
+                const startD = new Date();
+                startD.setHours(0,0,0,0);
+
+                const endD = new Date();
+                endD.setHours(23,59,59,999);
+
                 const todayOrder = await order.find({
-                    orderDate:moment().format("MM Do YY")
+                    createdAt: {$gte: startD, $lt: endD},
+                    orderStatus: { $ne: "cancelled" }
                 })
-                
                 const todayRevenue = todayOrder.reduce((accumulator, object)=>{
                     return accumulator + object.totalAmount
                 },0)
@@ -40,7 +46,7 @@ module.exports={
                     return accumulator + object.totalAmount
                 },0)
 
-                const allOrders = orderData.length
+                const allOrders = await order.find().count();
 
                 const pending = await order.find({ orderStatus: "pending" }).count();
 
@@ -58,7 +64,6 @@ module.exports={
 
                 const product = await products.find({ delete: false }).count();
 
-                const allOrderDetails = await order.find({ paymentStatus: "paid" }, { orderStatus: "delivered" })
 
                 res.render('admin/home',
 
@@ -83,23 +88,32 @@ module.exports={
              res.render('admin/login')   
             }
         
-        }catch{
-            console.log(error);
+        }catch(err){
+            console.log(err);
+           res.render('user/error')
         }
       
     },
 
     postAdminLogin:(req,res)=>{ 
-        if(req.body.email ===  process.env.ADMIN_EMAIL  && req.body.password === process.env.ADMIN_PASSWORD){
-            req.session.admin = process.env.ADMIN_EMAIL
-            res.redirect('/admin')
-        }else if(!req.body.email){
-            res.render('admin/login',{notEmail:"Email required!!!"})
-        }else if(!req.body.password){
-            res.render('admin/login',{invalid:"Password required!!!"})
-        }else{
-            res.render('admin/login',{invalid:'Invali email or password!!!'})
+
+        try{
+
+            if(
+                req.body.email ===  process.env.ADMIN_EMAIL 
+             && req.body.password === process.env.ADMIN_PASSWORD){
+                req.session.admin = process.env.ADMIN_EMAIL
+                res.redirect('/admin')
+                       
+            }else{
+                res.render('admin/login',{invalid:'Invali email or password!!!'})
+            }
+            
+        }catch(err){
+            console.log(err);
+            res.render('user/error')
         }
+     
 
     },
     adminLogout:(req,res)=>{

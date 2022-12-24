@@ -249,7 +249,7 @@
                 </div> 1
               </div> -->
 
-            <div class="col-lg-4">
+            <!-- <div class="col-lg-4">
                 <div class="order-details-wrap" >    
                     <table class="order-details">
                         <thead>
@@ -289,7 +289,43 @@
                     </table>
 
                 </div>
-            </div>
+            </div> -->
+
+
+            <div class="col-md-4">
+                <div class="card mb-4">
+                  <div class="card-header py-3">
+                    <h5 class="mb-0">Your order Details</h5>
+                  </div>
+                  <% productData.forEach((product)=>{%>
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                        <%= product.productDetail.name %> (<%= product.productQuantity%>kg)
+
+                        <% var a=product.productDetail.price%>
+                        <% var b=product.productQuantity%>
+                            <% var c=a*b %>
+                        <span id="">₹<%= c %></span>
+                      </li>
+                      <% }) %>
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                        <div>
+                          <strong>Total amount</strong>
+                         
+                        </div>
+                        <span id="netamount"><strong> ₹ <%= sum %> </strong></span>
+                      </li>
+                    </ul>
+        
+                  
+                  </div>
+                  
+                </div>
+              </div>
+
         </div>
     </div>
 </div>

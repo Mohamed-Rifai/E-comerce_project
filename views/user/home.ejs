@@ -46,7 +46,11 @@
 </div>
     
 <!-- -------------------------------------------------------------------------- -->
-    
+    <!-- shop banner -->
+	
+  
+   
+    <!-- end shop banner -->
   
 
   <section class="next py-5">
@@ -78,6 +82,17 @@
     </div>
   </section>
 
+  <% if(bannerData.length){ %> 
+  <section class="banner">
+    <div class="container">
+
+      <h4 class="p-3 text-white"><%= bannerData[0].bannerText %> <br> Order on <span class="caketext">CAKE...</span></h4>
+      <div class="text-center"><span class="text-white"><h6>Use the code...<br></h6></span><strong class="caketext"><%=bannerData[0].couponName%></strong>&nbsp<span>to get <br> discount.</span></div>
+      <a href="/shop" class="btn btn-danger">Shop Now</a>
+
+    </div>
+  </section>
+  <% } %> 
   <!------------------------------------------------------------------------>
 
 

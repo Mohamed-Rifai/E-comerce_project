@@ -69,3 +69,16 @@
    font-size: 2.5rem;
 
 }
+.banner{
+
+    width: 100%;
+    height: 250px;
+    background: rgb(238, 235, 235);
+    background-image: url('/images/Mini\ Christmas\ Cakes\ WEB\ RES\ landscape-4.webp');
+ 
+    
+}
+.caketext{
+    color:  rgb(238, 11, 105);
+
+}

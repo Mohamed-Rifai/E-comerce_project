@@ -3,137 +3,6 @@
 
  <% if (countInCart !== 0) { %>
   
- 
-<section class="bg-light " style="margin-top: 100px;">
-    <div class="container p-3 ">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-                <div class="breadcrumb-text">
-                    <p>Fresh and Organic </p>
-                    <h1>Cart</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- end breadcrumb section -->
-
-<!-- cart -->
-<div class="container bg-light" >
-
-   
-        <div class="row">
-            <div class=" col-md-8 col-lg-12 ">
-                <div class="cart-table-wrap">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr class="table-head-row">
-                                <th class="product-remove">Remove</th>
-                                <th class="product-image">Product Image</th>
-                                <th class="product-name">Name</th>
-                                <th class="product-price">Price/kg</th>
-                                <th class="product-quantity">Quantity in kg</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <% productData.forEach((product)=>{ %>
-
-                           
-                                <tr class="table">
-                                    <td class="product-remove " ><button class="my-5 btn"
-                                            onclick="removeProduct('<%=product._id%>','<%=product.productDetail._id%>')"><img src="/images/cancel.png" alt="" style="width: 40px;"></button>
-                                    </td>
-                                    <td class="product-image" >
-                                        <div class="mt-3" style="width: 10vw;height:10vh;"><img
-                                            src="/admin-images/<%=product.productDetail._id%>.jpg"  class="img-fluid" alt="" ></div></td>
-                                    <td class="product-name">
-                                      <h6 class="my-5">  <%= product.productDetail.name %> </h6>
-                                    </td>
-                                    <td class="product-price">
-                                      <h6 class="my-5"> <%= product.productDetail.price%> ₹ </h6>
-                                    </td>
-                                    <td class="product-quantity">
-                                        <div class="container d-flex">
-                                                                     
-                                            <button
-                                                class="cart-item-count  mr-2 my-5 btn" 
-                                                onclick="changeQuantity('<%=product._id%>','<%=product.productDetail._id%>',-1)"><img src="/images/icons8-minus-48.png" alt="" style="width: 21px;"></button>
-                                                
-                                          <strong>  <p class="mt-5" id="<%= product.productDetail._id %>" min="0" name="quantity"><%= product.productQuantity%></p></strong>
-                                            
-                                            <button class="cart-item-count ml-2 mr-3 my-5 btn"
-                                                onclick="changeQuantity('<%=product._id%>','<%=product.productDetail._id%>',1)"><img src="/images/icons8-plus-67.png" alt="" style="width: 20px;"></button>
-                                        </div>
-                                    </td>
-                              
-                                               
-                                </tr>
-                          <%  }) %>  
-                        </tbody>
-                     </table>
-                 </div>
-             </div>
-         </div>
-    
- </div>
-            
-         <div class="container-fluid bg-light " style="height: 75vh;">
-            
-            <div class="card" style="width: 18rem; margin: 10%; margin-right: 10%;">
-            <div class="col-lg-12">
-                <!-- <h4 class="text-warning "> place order</h4><br> -->     
-                <div class="total-section ">
-                    
-                    <table class="total-table">
-                        
-                        <thead class="total-table-head">
-                            
-                            <tr class="table-total-row">
-                              
-                                <th>Total</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="total-data">
-                                <td><strong>Subtotal: </strong></td>
-                               
-                                    <td>
-                                        <p id="sum">₹ <%= sum %> </p>
-                                    </td>
-                                    
-                            </tr>
-                            <tr class="total-data">
-                                <td><strong>Shipping: </strong></td>
-                                <td>0 (free delivary)</td>
-                               
-                            </tr>
-                            <tr class="total-data">
-                                <td><strong>Total: </strong> </td>
-                               
-                                    <td>
-                                        <p id="netamount"> ₹ <%= sum %>   </p>
-                                    </td>
-                               
-                                   
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="cart-buttons">
-                        <a href="/checkout" class="btn btn-primary ml-5 mt-5">Go to Check Out</a>
-                    </div>
-                </div>
-
-               
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 
 <section class="h-100 gradient-custom">
     <div class="container py-5">
@@ -141,7 +10,7 @@
         <div class="col-md-8">
           <div class="card mb-4">
             <div class="card-header py-3">
-              <h5 class="mb-0">Cart - 2 items</h5>
+              <h5 class="mb-0">Cart - <%= countInCart %>  items</h5>
             </div>
             <% productData.forEach((product)=>{ %>
             <div class="card-body">
@@ -162,34 +31,31 @@
   
                 <div class="col-lg-5 col-md-6 mb-5 mb-lg-0">
                   <!-- Data -->
-                  <p><strong><%= product.productDetail.name %></strong></p>
+                  <p class="ml-5"><strong><%= product.productDetail.name %></strong></p>
                   
-                  <p><%= product.productQuantity%> (kg)</p>
-                  <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                    title="Remove item"  onclick="removeProduct('<%=product._id%>','<%=product.productDetail._id%>')">
+                 <p class="m-5"><strong>Category:</strong><%= product.category_name.category_name %> </p>
+                  <button type="button" class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                    title="Remove item"  onclick="removeProduct('<%=product._id%>','<%=product.productDetail._id%>')" >
                     <i class="fas fa-trash"></i>
                   </button>
-                  <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                    title="Move to the wish list">
-                    <i class="fas fa-heart"></i>
-                  </button>
+                
                   <!-- Data -->
                 </div>
   
                 <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                   <!-- Quantity -->
                   <div class="d-flex mb-4" style="max-width: 300px">
-                    <button class="btn btn-primary px-3 me-2"
-                    onclick="changeQuantity('<%=product._id%>','<%=product.productDetail._id%>',-1)">
+                    <button class="btn btn-primary px-3 me-2 mt-5"
+                    onclick="changeQuantity('<%=product._id%>','<%=product.productDetail._id%>',-1)" style="width: 50px;height: 50px;">
                       <i class="fas fa-minus"></i>
                     </button>
   
                     <div class="form-outline">
-                        <strong>  <p class="mt-5" id="<%= product.productDetail._id %>" min="0" name="quantity"><%= product.productQuantity%></p></strong>                      <label class="form-label" for="form1">Quantity</label>
+                        <strong>  <p class="mt-5 ml-3" id="<%= product.productDetail._id %>" min="0" name="quantity"><%= product.productQuantity%></p></strong>    <label class="form-label" for="form1">Quantity/kg</label>
                     </div>
   
-                    <button class="btn btn-primary px-3 ms-2"
-                    onclick="changeQuantity('<%=product._id%>','<%=product.productDetail._id%>',1)">
+                    <button class="btn btn-primary px-3 ms-1 mt-5"
+                    onclick="changeQuantity('<%=product._id%>','<%=product.productDetail._id%>',1)" style="width: 50px;height: 50px;">
                       <i class="fas fa-plus"></i>
                     </button>
                   </div>
@@ -211,7 +77,7 @@
           <div class="card mb-4">
             <div class="card-body">
               <p><strong>Expected shipping delivery</strong></p>
-              <p class="mb-0">12.10.2020 - 14.10.2020</p>
+              <p class="mb-0">Within 3 or 4 days</p>
             </div>
           </div>
           <div class="card mb-4 mb-lg-0">
@@ -242,11 +108,14 @@
                 <li
                   class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                   Products
-                  <span>$53.98</span>
+                  <span id="sum">₹ <%= sum %></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                   Shipping
-                  <span>Gratis</span>
+                 
+                    <span>Free delivery</span>
+                 
+                  
                 </li>
                 <li
                   class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
@@ -256,7 +125,7 @@
                       <p class="mb-0">(including VAT)</p>
                     </strong>
                   </div>
-                  <span><strong>$53.98</strong></span>
+                  <span id="netamount"><strong> ₹ <%= sum %> </strong></span>
                 </li>
               </ul>
   

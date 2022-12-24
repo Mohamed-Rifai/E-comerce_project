@@ -1,6 +1,9 @@
 <%- include('../partials/user-header') %>
 <link rel="stylesheet" href="/public/stylesheets/product-view.css"> 
 
+
+
+
 <div class="container py-4 my-4 mx-auto d-flex flex-column" ">
     <div class="header" style="margin-top: 50px;">
         <div class="row r1">
@@ -27,7 +30,16 @@
                 </ul>
                 
             </div>
-            <div class="col-md-7"> <img src="/admin-images/<%= product._id %>.jpg" width="50%" > </div>
+            <div class="col-md-7">
+                <figure id="zoomer" class="zoom" onmousemove="zoom(event)"
+                style="background-image: url(/admin-images/<%=product._id%>.jpg) ;width: 50%;">
+                 <img src="/admin-images/<%= product._id %>.jpg" width="50%" >
+
+                </figure>
+
+
+
+                 </div>
         </div>
     </div>
     <div class="footer d-flex flex-column mt-5">
@@ -40,7 +52,20 @@
     </div>
 </div>
 
-
+<script>
+    function offZoom(e) {
+        img.style.transformOrigin = `center center`;
+        img.style.transform = "scale(1)";
+    }
+    function zoom(e) {
+        var zoomer = e.currentTarget;
+        e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+        e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+        x = offsetX / zoomer.offsetWidth * 100
+        y = offsetY / zoomer.offsetHeight * 100
+        zoomer.style.backgroundPosition = x + '% ' + y + '%';
+    }
+</script>
 
 
 <%- include('../partials/user-footer') %>

@@ -3,9 +3,6 @@ const adminRoutes = express()
 const adminController = require('../controls/adminController')
 const verifyLogin = require('../middleware/session')
 
-// middleware
-adminRoutes.use(express.json());
-adminRoutes.use(express.urlencoded({ extended: true }));
  
   
 adminRoutes.get('/',adminController.getAdminLogin)
