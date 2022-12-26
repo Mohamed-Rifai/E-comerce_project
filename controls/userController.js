@@ -226,10 +226,132 @@ gethome:async(req,res)=>{
         console.log(error);
     }
  },
+
+ forgotPassword:(req,res)=>{  
+
+  res.render('user/forgot-password')
+    
+ }, 
+ 
+ postForgotPassword:async(req,res)=>{
+
+  try{
+    const email = req.body.email
+    const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
+      const mailDetails = {
+          from : 'rifaeeckm@gmail.com',
+          to : email,
+          subject : 'Otp for cadbury',
+          html: `<p>Your OTP for reset password in Cadbury is ${OTP}</p>`,
+      }
+
+    const userData = await user.findOne( {email: email} )
+    if(userData){
+     
+      mailer.mailTransporter.sendMail(mailDetails,async function(err){
+        if(err){
+            console.log(err);
+        }else{
+
+            otp.findOne({email: email}).then(async(userFound)=>{
+
+              if(userFound){
+
+                await otp.deleteOne({email:email})
+              }
+
+            })
+         
+
+   
+   
+
+           otp.create({
+            email:email,
+            otp:OTP
+          }).then(()=>{
+            res.render('user/forgot-otp-page',{email})
+          })
+
+        }
+      })
+
+    }else{
+      res.render('user/forgot-password',{invalid : 'Email not exists' })  
+    }
+
+  }catch(err){
+    console.log(err);
+    res.render('user/error')
+  }
+
+ },
+ 
+ forgotOtpPage:(req,res)=>{
+    res.render('user/forgot-otp-page')
+ },
+
+ postForgetOtp:async(req,res)=>{
+   try{
+    
+    const body = req.body
+    const email = req.body.email
+    const userOtp = await otp.findOne({email: body.email})
+   
+      if(body.otp == userOtp.otp){
+          
+        res.render('user/forgot-new-password',{email})
+
+      }else{
+        res.render('user/forgot-otp-page',{email,invalid:'Incorrect otp'})
+      }
+    
+
+   } catch(err){
+    console.log(err);
+    res.render('user/error')
+   }
+
+   
+ },
+
+
+ forgotNewPassword:async(req,res)=>{
+
+  try{
+
+    const email = req.body.email
+    const password   = req.body.password
+    const hash = await bcrypt.hash(password,10)
+    if(password === req.body.conPassword){
+
+       await user.findOneAndUpdate(
+        { email: email },
+        { $set:{ password:hash }})
+
+     res.render('user/login')
+
+    }else{
+     
+      res.render('user/forgot-new-password',{email,invalid:'Password must be same'})
+    }
+    
+
+  }catch(err){
+    console.log(err);
+    res.render('user/error')
+  }
+
+ },
+
+
  userLogout: (req,res)=>{
     req.session.destroy()
     res.redirect('/')
  },
+
+
+
   
  getShopPage:async(req,res)=>{
     let category = await categories.find()
@@ -598,6 +720,49 @@ removeProduct: async (req, res) => {
       },
       ) 
       res.redirect('/viewProfile')
+  },
+
+  getChangePassword:(req,res)=>{
+      
+  res.render('user/changePassword')
+
+  },
+
+  postChangePassword:async(req,res)=>{
+     try{
+
+    const data = req.body
+    const session = req.session.user
+
+    if(data.newPassword === data.conNewPassword){
+
+      const userData = await user.findOne({email:session})
+      const passwordMatch = await bcrypt.compare(data.currentPassword,userData.password)
+
+    if(passwordMatch){ 
+       
+      const hashPassword = await bcrypt.hash(data.newPassword,10)
+      
+      user.updateOne({ email: session }, { $set: { password: hashPassword }}).then(()=>{
+
+        req.session.destroy();
+        res.redirect('/')
+      })
+
+      }else{
+        res.render('user/changePassword',{invalid: "Incorrect password"})
+      }
+
+    }else{
+      res.render('user/changePassword',{ invalid: "Password must be same"})
+    }
+
+
+
+     }catch(err){
+      console.log(err);
+      res.render('user/error')
+     }
   },
 
    getCheckOutPage:async(req,res)=>{

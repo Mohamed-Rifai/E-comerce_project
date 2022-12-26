@@ -18,7 +18,17 @@ router.get('/otpPage',userController.getOtpPage)
 
 router.post('/otp',userController.postOtp) 
 
-router.post('/login',userController.postlogin)
+router.post('/login',userController.postlogin) 
+
+router.get('/forgot-password',userController.forgotPassword)
+
+router.post('/post-forgot-password',userController.postForgotPassword)
+
+router.get('/forgot-otp-page',userController.forgotOtpPage)
+
+router.post('/post-forgot-otp',userController.postForgetOtp)
+
+router.post('/forgot-new-password',userController.forgotNewPassword)
 
 router.get('/logout',userController.userLogout) 
 
@@ -47,6 +57,10 @@ router.get('/viewProfile',verifyLogin.verifyLoginUser ,userController.viewProfil
 router.get('/editProfile',verifyLogin.verifyLoginUser,userController.editProfile) 
 
 router.post('/postEditProfile',verifyLogin.verifyLoginUser,userController.postEditProfile)
+
+router.get('/changePassword',verifyLogin.verifyLoginUser,userController.getChangePassword)
+
+router.post('/postChangePassword',verifyLogin.verifyLoginUser,userController.postChangePassword)
 
 router.get('/checkout',verifyLogin.verifyLoginUser,userController.getCheckOutPage)
 

@@ -124,8 +124,7 @@ module.exports={
         
             const users =await user.find()
             res.render('admin/userDetails',{users})
-       
-       
+         
     },
     blockUser:async(req,res)=>{
      const id = req.params.id
