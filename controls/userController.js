@@ -8,9 +8,11 @@ const categories = require('../model/category-schema')
 const wishlist = require('../model/wishlist')
 const coupon = require('../model/coupon')
 const banner = require('../model/banner')
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
 const otp    = require('../model/otp')
 const mongoose = require('mongoose')
 const moment = require('moment')
+const { json } = require('body-parser')
 moment().format();
 
 
@@ -839,7 +841,7 @@ removeProduct: async (req, res) => {
      
 try{
 
-  let invalid;
+    let invalid;
     let couponDeleted;
     const data = req.body
 
@@ -944,21 +946,45 @@ try{
           orderDate: moment().format("MMM Do YY"),
           deliveryDate: moment().add(3, "days").format("MMM Do YY")
         })
-  
+      
         const orderId = orderData._id
-        await cart.deleteOne({ userId: userData._id });
-        
+         
         if (req.body.paymentMethod === "COD") {
          await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})
          
+         
+         await cart.deleteOne({ userId: userData._id });
+
          res.json({ success: true})
           await coupon.updateOne(
           {couponName:data.coupon},
           {$push:{users: {userId : objId}}}
          )
-        // .then((updated)=>{
-        //   console.log(updated);
-        //  })
+        
+        }else{
+          const session = await stripe.checkout.sessions.create({ 
+            payment_method_types: ["card"], 
+            line_items:
+              productData.map((ele) => {
+                return { 
+                  price_data: { 
+                    currency: "inr", 
+                    product_data: { 
+                      name: ele.productDetail.name, 
+                    }, 
+                    unit_amount:ele.productDetail.price * 100, 
+                  }, 
+                  quantity: ele.productQuantity, 
+                }
+              }), 
+            mode: "payment", 
+            success_url: `${process.env.SERVER_URL}/orderSuccess`,
+            cancel_url: `${process.env.SERVER_URL}/checkout` 
+          }); 
+        
+          console.log('its working');
+          console.log(session);
+          res.json({ url: session.url}) 
 
         }
       }

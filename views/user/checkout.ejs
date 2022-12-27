@@ -376,8 +376,13 @@
                             });
                         }
                     else if (response.success) {
-                        console.log('success aaayii mwone');
+                     
                         location.href = "/orderSuccess";
+
+                    }else if(response.url){
+                        window.location =response.url
+                     
+
                     }
                     
 
