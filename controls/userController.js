@@ -494,11 +494,7 @@ console.log('create collection');
     ); 
     
     if(proExist != -1){
-        // await cart.aggregate([
-        //     { 
-        //         $unwind: "$product"
-        //     },
-        // ]);
+      
         await cart.updateOne(
             {userId : userData._id, "product.productId":objId},
             {$inc : { "product.$.quantity": 1 } }  
@@ -687,14 +683,14 @@ removeProduct: async (req, res) => {
 
     const session = req.session.user
     let userData = await user.findOne({ email : session})
-   res.render('user/profile',{userData,countInCart,customer})
+   res.render('user/profile',{userData,countInCart,customer,countWishlist})
  },
 
   editProfile:async (req,res)=>{
 
     const session = req.session.user
     let userData = await user.findOne({ email : session})
-    res.render('user/edit-profile',{userData,countInCart})
+    res.render('user/edit-profile',{userData,countInCart,countWishlist})
   },
 
   postEditProfile:async (req,res)=>{
@@ -726,7 +722,7 @@ removeProduct: async (req, res) => {
 
   getChangePassword:(req,res)=>{
       
-  res.render('user/changePassword')
+  res.render('user/changePassword',{countWishlist,countInCart})
 
   },
 
@@ -813,7 +809,7 @@ removeProduct: async (req, res) => {
     }, 0);
 
 
-    res.render("user/checkout", { productData, sum, countInCart, userData });
+    res.render("user/checkout", { productData, sum, countInCart, userData,countWishlist });
 
 
    },
@@ -982,7 +978,7 @@ try{
             cancel_url: `${process.env.SERVER_URL}/checkout` 
           }); 
         
-          console.log('its working');
+         
           console.log(session);
           res.json({ url: session.url}) 
 
@@ -1000,7 +996,7 @@ try{
 
   },
   orderSuccess :(req,res)=>{
-    res.render('user/order-success',{countInCart})
+    res.render('user/order-success',{countInCart,countWishlist})
   },
 
   orderDetails: async (req, res) => {
@@ -1009,7 +1005,7 @@ try{
     const userData = await user.findOne({ email: session });
     order.find({ userId: userData._id }).sort({ createdAt: -1 }).then((orderDetails) => {
       const orderLength = orderDetails.length
-      res.render('user/order-details', { orderLength,orderDetails, countInCart })
+      res.render('user/order-details', { orderLength,orderDetails, countInCart,countWishlist })
     })
 
 
@@ -1068,7 +1064,7 @@ try{
            
     ])
  
-    res.render('user/orderd-product',{productData,countInCart})
+    res.render('user/orderd-product',{productData,countInCart,countWishlist})
   },
 
   cancelOrder:async (req,res)=>{  
@@ -1077,10 +1073,5 @@ try{
     res.redirect('/orderDetails')
   }
 
-
-
-   
-
-  
 
 }
