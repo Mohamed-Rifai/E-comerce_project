@@ -22,6 +22,8 @@
     color: white;
     transition: all 0.4s;
 }
+
+
 .zoom-n-rotate{
     border-radius: 0;
     outline: none;
@@ -69,16 +71,83 @@
    font-size: 2.5rem;
 
 }
-.banner{
 
-    width: 100%;
-    height: 250px;
-    background: rgb(238, 235, 235);
-    background-image: url('/images/Mini\ Christmas\ Cakes\ WEB\ RES\ landscape-4.webp');
- 
-    
-}
 .caketext{
-    color:  rgb(238, 11, 105);
+    color:  rgb(227, 102, 154);
 
 }
+
+/* =Jumbotron Main
+-------------------------------------------------------------- */
+.jumbotron.jumbotron-main { 
+    height: 100%;
+	width: 100%;
+	font-family: 'Roboto', sans-serif;
+	color: #fff;
+	padding-top: 0;
+	padding-bottom: 0;
+	position: relative;
+	margin:0;
+}
+
+#particles-js {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+	background: #6819e8; /* Old browsers */
+	background: -moz-linear-gradient(left,  #6819e8 0%, #7437d0 35%, #615fde 68%, #6980f2 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #6819e8 0%,#7437d0 35%,#615fde 68%,#6980f2 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #6819e8 0%,#7437d0 35%,#615fde 68%,#6980f2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6819e8', endColorstr='#6980f2',GradientType=1 ); /* IE6-9 */
+}
+
+.jumbotron.jumbotron-main hr {
+	border-width: 1px 0px;
+    border-style: dotted none;
+    border-color: rgba(255, 255, 255, 0.35);
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    width: 49px;
+    height: 4px;
+    text-align: center;
+    position: relative;
+    clear: both;
+}
+
+.jumbotron.jumbotron-main a {
+    color: #fff;
+}
+
+.center-vertically {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.center-vertically-holder { 
+	display: table;
+	height: 100%;
+}
+
+.scroll-indicator {
+	padding-top:6px;
+    display: inline-block;
+    width: 50px;
+}
+
+.arrow-scroll-indicator {
+	font-size: 10px;
+	color: rgba(255, 255, 255, 0.60);
+}
+
+.parallax-window {
+    background: transparent;
+}
+

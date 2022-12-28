@@ -1,68 +1,48 @@
-
-  <%- include('../layout/layout') %>             
-
-    <section class="vh-100" style="background-color: #f1f1f1fb;">
-        <div class="container py-5 h-50 ">
-          <div class="row d-flex justify-content-center align-items-center h-75">
-            <div class="col col-xl-10 ">
-              <div class="card m-5" style="border-radius: 1rem;height: 70vh;">
-                <div class="row g-0">
-                  <div class="col-md-6 col-lg-5 d-none d-md-block">
-                    <div class="imgBg">
-                    <img src="/images/cadbury-logo_2x.webp"
-                      alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                    <div class="card-body p-4 p-lg-5 text-black">
-      
-                      <form action="/login" method="post">
-      
-                        <div class="d-flex align-items-center mb-1 ">
-                           
-                          <span class="h1 fw-bold ">Logo</span>
-                        </div>
-      
-                        <h5 class="fw-normal mb-2 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-      
-                        <div class="form-outline mb-4">
-                        <% if(locals.blocked){%>
-                          <p class="text-danger"><%=blocked%></p>
-                        <%}%>
-                          <label class="form-label" for="form2Example17">Email address</label>
-                          <input type="email" id="email" name="email" class="form-control form-control-lg"  />
-                        </div>
-      
-                        <div class="form-outline mb-3">
-                          <label class="form-label" for="form2Example27">Password</label>
-                          <input type="password" id="password" name="password" class="form-control form-control-lg">
-                          <% if(locals.invalid){%>
-                            <small class="text-danger"><%=invalid%></small>
-                        <%}%>
-                        </div>
-      
-                        <div class="pt-1 mb-1">
-                          <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                        </div>
-      
-                        <a class="small text-muted" href="/forgot-password">Forgot password?</a>
-
-                     
-
-                        <p class=" pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup"
-                            style="color: #393f81;">Register here</a></p>
-                        <a href="#!" class="small text-muted ">Terms of use.</a>
-                        <a href="#!" class="small text-muted">Privacy policy</a>
-                      </form>
-      
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
     
+ <!-- ------------------------------------------------------- -->
+
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/public/stylesheets/login.css">
+  <title>Login Page</title>
+ </head>
+ <body>
+  <div class="box">
+    <div class="form">
+  <h2>Sign in</h2>
+  <% if(locals.invalid){%>
+    <p><%=invalid%></p>
+    <%}%>
+    <h2 class="" style="z-index: 999;"></h2>
  
+    <form action="/login" method="post">
+  <div class="inputBox">
+    <input type="email" name="email" id="email" required="required">
+    
+      <span>Username</span>
+      
+    <i></i>
+  </div>
+  <div class="inputBox">
+    <input type="password" id="password" name="password" required="required">
+  
+      <span>Password</span>
+     
+<i></i>
+
+  </div>
+  <div class="links">
+<a href="/forgot-password">Forgot Password</a>
+<a href="/signup">Signup</a>
+  </div>
+  <input type="submit" value="Login">
+</form>
+    </div>
+  </div>
+ </body>
+ </html>

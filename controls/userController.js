@@ -216,13 +216,13 @@ gethome:async(req,res)=>{
                 req.session.user = req.body.email
                 res.redirect('/')
             }else{
-                res.render('user/login',{invalid:'Invalid password or email'})
+                res.render('user/login',{invalid:'Invalid password or email!!'})
             }
         }else{
-            res.render('user/login',{blocked:"You can't login!!! "})
+            res.render('user/login',{invalid:"You can't login!! "})
         }
         }else{
-            res.render('user/login',{invalid:'Invalid password or email'})
+            res.render('user/login',{invalid:'Invalid password or email!!'})
         }
     }catch(error){
         console.log(error);
@@ -582,7 +582,7 @@ console.log('create collection');
     },0)
 
 countInCart = productData.length
-console.log(productData);
+
 res.render('user/cart',{productData,sum,countInCart,countWishlist})
  
 },
@@ -925,9 +925,11 @@ try{
           var dis = sum * discount[0].discount
           if(dis > discount[0].maxLimit){
             total = sum-discount[0].maxLimit;
-
+            var totalDiscount=discount[0].maxLimit
+           
           }else{
             total = sum-dis;
+            totalDiscount = dis
           }
         }
 
@@ -974,12 +976,14 @@ try{
                 }
               }), 
             mode: "payment", 
-            success_url: `${process.env.SERVER_URL}/orderSuccess`,
+            // total_details: { amount_discount:100*100, amount_shipping:0, amount_tax: 0},
+            // res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`);
+            success_url: `${process.env.SERVER_URL}/orderSuccess?cartId=${userData._id}&orderId=${orderId}`,
             cancel_url: `${process.env.SERVER_URL}/checkout` 
           }); 
         
          
-          console.log(session);
+         
           res.json({ url: session.url}) 
 
         }
@@ -995,7 +999,10 @@ try{
   
 
   },
-  orderSuccess :(req,res)=>{
+  orderSuccess :async(req,res)=>{
+    const userId= req.query
+    await cart.deleteOne({ userId: userId.cartId });
+    await order.updateOne({_id:userId.orderId},{$set:{orderStatus:'placed',paymentStatus:'paid'}})
     res.render('user/order-success',{countInCart,countWishlist})
   },
 
