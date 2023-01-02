@@ -1,66 +1,92 @@
 
 
 <%- include('../partials/user-header') %>
+<link rel="stylesheet" href="/public/stylesheets/ordered-prod.css">
 
-<section class="bg-light " style="height: 100vh;margin-top: 100px;"">
+<section class="bg-light pt-5" style="height: 75vh;">
+<div class="container-fluid ">
  
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-12">
-          <div class="bg-white m-5" style="height: 30vh;width: 30vw; ">
-<h4 class=" ml-5"><b>Order Details</b></h4>
-<h6 class="text-decoration-underline ml-3 "><strong> Delivery address for this order</strong></h6>
-<% let phone='Ph:' %>
-<div class="ml-3">
-    <p><%=productData[0].name %>,<br><%=productData[0].address %>,<br><%=phone %> <%=productData[0].phonenumber %></p>
-</div>
-          </div>
-            </div> 
-
-        </div>
-        <table class="table bg-white">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Product name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Ordered quantity</th>
-                <th scope="col">Price/kg</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-                <% productData.forEach((order)=>{ %>
-                    <tr>
-                        <td><img style="height: 10vh; width:auto;" src="/public/admin-images/<%=order.productDetail._id %>.jpg"
-                            class="img-fluid" alt="" /></td>
-                        <td>
-                            <%= order.productDetail.name %>
-                        </td>
-                        <td>
-                            <%= order.category_name.category_name%>
-                        </td>
-                        <td>
-                            <%= order.productQuantity %> kg
-                        </td>
-                        
-                        <% var a=order.productQuantity%>
-                        <% var b=order.productDetail.price%>
-                          <% var c=a*b %>
-                            
-                              <td>
-                                <%=order.productDetail.price%> ₹
-                              </td>
-                              <td>
-                                <%=c %> ₹ ( for <%= order.productQuantity%> kg )
-                              </td>
-                      </tr>
-              <%  }) %> 
-                
-            </tbody>
-          </table><tr>
+  <div class="container ">
+    <!-- Title -->
+    <div class="d-flex justify-content-between align-items-center py-3">
+      <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #16123222</h2>
     </div>
-   
+  
+    <!-- Main content -->
+    <div class="row">
+      <div class="col-lg-8">
+        <!-- Details -->
+       
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="mb-3 d-flex justify-content-between">
+              <div>
+                <span class="me-3">22-11-2021</span>
+                <span class="me-3">#16123222</span>
+                <span class="me-3">Visa -1234</span>
+                <span class="badge rounded-pill bg-info">SHIPPING</span>
+              </div>
+             
+            </div>
+           
+            <table class="table table-borderless">
+              <tbody>
+                <% productData.forEach((order)=>{ %>
+                <tr>
+                  <td>
+                    <div class="d-flex mb-2">
+                      <div class="flex-shrink-0">
+                        <img src="/public/admin-images/<%=order.productDetail._id %>.jpg" alt="" width="35" class="img-fluid">
+                      </div>
+                      <div class="flex-lg-grow-1 ms-3">
+                        <h6 class="small mb-0"><a href="#" class="text-reset"> <%= order.productDetail.name %></a></h6>
+                        <span class="small">Category:  <%= order.category_name.category_name%> </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>  <%= order.productQuantity %> kg</td>
 
-</section>
+                  <% var a=order.productQuantity%>
+                  <% var b=order.productDetail.price%>
+                    <% var c=a*b %>
+                      
+                  <td class="text-end"> <%=c %> ₹ ( for <%= order.productQuantity%> kg )</td>
+                </tr>
+                <% }) %>
+              </tbody>
+            
+            </table>
+           
+          </div>
+        </div>
+        
+        <!-- Payment -->
+       
+      </div>
+      <div class="col-lg-4">
+        <!-- Customer Notes -->
+     
+        <div class="card mb-4">
+          <!-- Shipping information -->
+          <div class="card-body">
+            <h3 class="h6">Shipping Information</h3>
+            
+            <hr>
+            <h3 class="h6">Address</h3>
+            <address>
+              <strong><p><%=productData[0].name %></strong><br>
+                <%=productData[0].address %><br>
+              
+              <abbr >Ph:</abbr> (+91)<%=productData[0].phonenumber %>
+            </address>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
 <%- include('../partials/user-footer')%> 
+

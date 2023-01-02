@@ -149,7 +149,7 @@ module.exports={
     productDetails:async(req,res)=>{
 
             let product = await products.find().populate('category')
-            res.render("admin/productdetails", { product })
+            res.render("admin/productDetails", { product })
        
     },
    

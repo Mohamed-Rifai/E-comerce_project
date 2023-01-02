@@ -73,11 +73,23 @@ gethome:async(req,res)=>{
 },
 
  getlogin:(req,res)=>{
+  const session = req.session.user
+  if(session){
+    res.redirect('/')
+  }else{
     res.render('user/login')
+  }
+    
 },
 
  getsignup:(req,res)=>{
+  const session = req.session.user
+  if(session){
+    res.redirect('/')
+  }else{
     res.render('user/signup')
+  }
+   
 },
 
 
@@ -807,7 +819,10 @@ removeProduct: async (req, res) => {
     const sum = productData.reduce((accumulator, object) => {
       return accumulator + object.productPrice;
     }, 0);
-
+     
+   const query = req.query
+   console.log(query);
+   await order.updateOne({_id:query.orderId},{$set:{orderStatus:'cancelled'}})
 
     res.render("user/checkout", { productData, sum, countInCart, userData,countWishlist });
 
@@ -933,7 +948,7 @@ try{
           }
         }
 
-        const orderData = await order.create({
+       const orderData= new order({
           userId: userData._id,
           name: userData.name,
           phonenumber: userData.phone,
@@ -945,11 +960,14 @@ try{
           deliveryDate: moment().add(3, "days").format("MMM Do YY")
         })
       
-        const orderId = orderData._id
+       
          
         if (req.body.paymentMethod === "COD") {
+
+         const orderDatas = await  orderData.save()
+         const orderId = orderDatas._id
+
          await order.updateOne({_id:orderId},{$set:{orderStatus:'placed'}})
-         
          
          await cart.deleteOne({ userId: userData._id });
 
@@ -960,6 +978,9 @@ try{
          )
         
         }else{
+          const orderDatas = await  orderData.save()
+          const orderId = orderDatas._id
+
           const session = await stripe.checkout.sessions.create({ 
             payment_method_types: ["card"], 
             line_items:
@@ -977,9 +998,8 @@ try{
               }), 
             mode: "payment", 
             // total_details: { amount_discount:100*100, amount_shipping:0, amount_tax: 0},
-            // res.redirect(`/otpPage?name=${User.name}&email=${User.email}&phone=${User.phone}&password=${User.password}`);
             success_url: `${process.env.SERVER_URL}/orderSuccess?cartId=${userData._id}&orderId=${orderId}`,
-            cancel_url: `${process.env.SERVER_URL}/checkout` 
+            cancel_url: `${process.env.SERVER_URL}/checkout?orderId=${orderId}` 
           }); 
         
          
@@ -1000,10 +1020,13 @@ try{
 
   },
   orderSuccess :async(req,res)=>{
-    const userId= req.query
-    await cart.deleteOne({ userId: userId.cartId });
-    await order.updateOne({_id:userId.orderId},{$set:{orderStatus:'placed',paymentStatus:'paid'}})
-    res.render('user/order-success',{countInCart,countWishlist})
+    const query= req.query
+    const orderId = query.orderId
+   
+    await cart.deleteOne({ userId: query.cartId });
+
+    await order.updateOne({_id:orderId},{$set:{orderStatus:'placed',paymentStatus:'paid'}})
+     res.render('user/order-success',{countInCart,countWishlist})
   },
 
   orderDetails: async (req, res) => {
@@ -1070,7 +1093,7 @@ try{
           },
            
     ])
- 
+
     res.render('user/orderd-product',{productData,countInCart,countWishlist})
   },
 
