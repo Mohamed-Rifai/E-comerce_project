@@ -821,9 +821,9 @@ removeProduct: async (req, res) => {
     }, 0);
      
    const query = req.query
-   console.log(query);
-   await order.updateOne({_id:query.orderId},{$set:{orderStatus:'cancelled'}})
-
+   
+   await order.deleteOne({_id: query.orderId})
+  
     res.render("user/checkout", { productData, sum, countInCart, userData,countWishlist });
 
 
