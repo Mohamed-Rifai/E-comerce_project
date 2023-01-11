@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 app.use('/',userRoutes)
 app.use('/admin',adminRoutes)
    
-
+ 
 // port setting
 app.listen(process.env.PORT,()=>
  console.log('Server listening to port '))  
