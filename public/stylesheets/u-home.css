@@ -47,8 +47,12 @@
    
     background: rgb(246, 243, 243);
 }
-.card-pr:hover{
-    transform: scale(1.1);
+
+div.card-pr:hover{
+  
+box-shadow: 0 9px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+    transform: scale(1.03);
+
 }
 
 .discount{
