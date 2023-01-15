@@ -75,7 +75,7 @@
     	<div class="center-vertically">
     		<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 text-center">
     			<h1 class="scaleReveal" data-sr-id="46" style=" visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">
-    				<%= bannerData[0].bannerText %> <br>Order on <strong class="caketext">Cake</strong>...
+    				<%= bannerData[0].bannerText %> <br>Order on <strong class="caketext">Cake cafe</strong>...
     			</h1>
     			<hr class="bottomReveal" data-sr-id="1" style=" visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">
     			<p class="bottomReveal" data-sr-id="2" style=" visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">
@@ -114,12 +114,7 @@
               <img src="/admin-images/<%=products?._id%>.jpg" alt="" class="img-fluid">
             </div></a>
             <% } %> 
-            <% if (products.price>500) { %>
-              <div class="discount">
-                -23%
-              </div>
-            <% } %>
-           
+               
             <div class="card-footer border-0 text-center bg-white">
               <h5><%= products?.name %></h5>
               <p class="m-0">₹<%= products.price %></p>
