@@ -12,7 +12,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const otp    = require('../model/otp')
 const mongoose = require('mongoose')
 const moment = require('moment')
-const { json } = require('body-parser')
+const { json } = require('body-parser') 
 moment().format();
 
 
@@ -94,9 +94,10 @@ gethome:async(req,res)=>{
 
 
  postsignup: async(req,res)=>{
-
+  
   try{
 
+    const cakecafe = process.env.EMAIL_ME;
     const hash = await bcrypt.hash(req.body.password,10)
 
    const name =req.body.name
@@ -106,11 +107,12 @@ gethome:async(req,res)=>{
 
     const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
     const mailDetails = {
-        from : 'rifaeeckm@gmail.com',
-        to : email,
-        subject : 'Otp for cadbury',
-        html: `<p>Your OTP for registering in Cadbury is ${OTP}</p>`,
-    }
+      from: cakecafe,
+      to: email,
+      subject: "Otp for Cakecafe",
+      html: `<h4>Your OTP for registering in Cakecafe </h4> <h2>${OTP}</h2>`,
+     
+    };
     const userData = await user.findOne({email : email})
 
     if(userData){
@@ -156,9 +158,7 @@ gethome:async(req,res)=>{
             })
 
            }
-
-             
-               
+              
             }
         })
     }
@@ -170,6 +170,7 @@ gethome:async(req,res)=>{
    
  
 },
+
   getOtpPage : (req,res)=>{
     let userData = req.query
         res.render('user/otp',{userData})
@@ -250,14 +251,15 @@ gethome:async(req,res)=>{
  postForgotPassword:async(req,res)=>{
 
   try{
+    const cakecafe = process.env.EMAIL_ME;
     const email = req.body.email
     const OTP = `${Math.floor(1000 + Math.random() * 9000)}`
       const mailDetails = {
-          from : 'rifaeeckm@gmail.com',
-          to : email,
-          subject : 'Otp for cadbury',
-          html: `<p>Your OTP for reset password in Cadbury is ${OTP}</p>`,
-      }
+        from: cakecafe,
+        to: email,
+        subject: "Otp for Cakecafe",
+        html: `<h4>Your OTP for reset password in Cakecafe </h4> <h2>${OTP}</h4>`,
+      };
 
     const userData = await user.findOne( {email: email} )
     if(userData){
@@ -685,6 +687,7 @@ removeProduct: async (req, res) => {
         },
       },
     ]).exec();
+    console.log(productData);
     res.json({ status: true, productData });
   },
 

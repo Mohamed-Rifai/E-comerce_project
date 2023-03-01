@@ -9,7 +9,7 @@ const confirmPassword= document.getElementById('conPassword')
 form.addEventListener('submit',(e)=>{
     let flag = 0
 
-    const nameValue = nam.value.trim()
+    const nameValue = nam.value
     const phoneValue = phone.value.trim()
     const emailValue = email.value.trim()
     const passwordValue = password.value.trim()
@@ -27,7 +27,7 @@ form.addEventListener('submit',(e)=>{
     }
 
     if(phoneValue === ""){
-        setError(phone,'Phone number ','phoneError')
+        setError(phone, "Field empty!!! ", "phoneError");
         flag = 1
     }else if(phoneValue.toString().length !== 10 || isNaN(Number(phoneValue))){
         setError(phone,'Phone number is not valid','phoneError')
@@ -57,20 +57,21 @@ form.addEventListener('submit',(e)=>{
         setError(password,'Password length cant exceed 15 characters','passwordError')
         flag = 1
     }else{
-        setSuccess(password,'passwordError')
+        setSuccess(password,'passwordError') 
            flag = 0 
     }
     
     if(conPasswordValue === ""){
         setError(confirmPassword,'Field empty!!!','conpasswordError')
         flag = 1
-    }else if(conPasswordValue.length < 8){
-        setError(password,'','conpasswordError')
-        flag = 1
-    }else if(conPasswordValue.length > 14){
-        setError(password,'','conpasswordError')
-        flag = 1
-    }else if(conPasswordValue !== passwordValue ){
+    // }else if(conPasswordValue.length < 8){
+    //     setError(password,'','conpasswordError')
+    //     flag = 1
+    // }else if(conPasswordValue.length > 14){
+    //     setError(password,'','conpasswordError')
+    //     flag = 1
+   }
+    else if(conPasswordValue !== passwordValue ){
         setError(confirmPassword,'Password do not match','conpasswordError')
         flag = 1 
     }else{ 
@@ -103,7 +104,7 @@ function setSuccess(element,id){
 }
 
 function onlyLetter(str){
-    return /^[a-zA-Z]+$/.test(str)
+    return /^[a-zA-Z\s]+$/.test(str);
 }
 
 function emailValidation(email){
