@@ -1,48 +1,50 @@
-    
- <!-- ------------------------------------------------------- -->
+<!-- ------------------------------------------------------- -->
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/stylesheets/login.css" />
+    <title>Cake Cafe</title>
+  </head>
+  <body>
+    <div class="box">
+      <div class="form">
+        <h2>Sign in</h2>
+        <% if(locals.invalid){%>
+        <p><%=invalid%></p>
+        <%}%>
+        <h2 class="" style="z-index: 999"></h2>
 
- <!DOCTYPE html>
- <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/public/stylesheets/login.css">
-  <title>Cake Cafe</title>
- </head>
- <body>
-  <div class="box">
-    <div class="form">
-  <h2>Sign in</h2>
-  <% if(locals.invalid){%>
-    <p><%=invalid%></p>
-    <%}%>
-    <h2 class="" style="z-index: 999;"></h2>
- 
-    <form action="/login" method="post">
-  <div class="inputBox">
-    <input type="email" name="email" id="email" required="required">
-    
-      <span>Username</span>
-      
-    <i></i>
-  </div>
-  <div class="inputBox">
-    <input type="password" id="password" name="password" required="required">
-  
-      <span>Password</span>
-     
-<i></i>
+        <form action="/login" method="post">
+          <div class="inputBox">
+            <input type="email" name="email" id="email" required="required" />
 
-  </div>
-  <div class="links">
-<a href="/forgot-password">Forgot Password</a>
-<a href="/signup">Signup</a>
-  </div>
-  <input type="submit" value="Login">
-</form>
+            <span>Email</span>
+
+            <i></i>
+          </div>
+          <div class="inputBox">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required="required"
+            />
+
+            <span>Password</span>
+
+            <i></i>
+          </div>
+          <div class="links">
+            <a href="/forgot-password">Forgot Password</a>
+            <a href="/signup">Signup</a>
+          </div>
+          <input type="submit" value="Login" />
+        </form>
+      </div>
     </div>
-  </div>
- </body>
- </html>
+  </body>
+</html>

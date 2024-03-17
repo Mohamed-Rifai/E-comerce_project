@@ -106,7 +106,7 @@ module.exports={
                 res.redirect('/admin')
                        
             }else{
-                res.render('admin/login',{invalid:'Invali email or password!!!'})
+                res.render('admin/login',{invalid:'Invalid email or password!!!'})
             }
             
         }catch(err){

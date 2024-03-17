@@ -66,7 +66,7 @@ router.get('/checkout',verifyLogin.verifyLoginUser,userController.getCheckOutPag
 
 router.post('/addNewAddress',verifyLogin.verifyLoginUser,userController.addNewAddress)
 
-router.post('/placeOrder',verifyLogin.verifyLoginUser,userController.placeOrder)
+router.post('/placeOrder',verifyLogin.verifyLoginUser,userController.placeOrder)  
 
 router.get('/orderSuccess',verifyLogin.verifyLoginUser,userController.orderSuccess)
 
