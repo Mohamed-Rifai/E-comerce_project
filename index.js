@@ -8,7 +8,7 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 require("dotenv").config();
 require("./config/database-connetion");
-
+ 
 app.set("views");
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
